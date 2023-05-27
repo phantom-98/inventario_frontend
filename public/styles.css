@@ -1,0 +1,15 @@
+.alert{
+    font-size: 10px;
+    padding: 5px 10px;
+}
+thead{
+    display: contents!important;
+}
+
+.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.MuiTablePagination-toolbar.tss-1dccma1-MUIDataTablePagination-toolbar.css-1e7c2qr-MuiToolbar-root-MuiTablePagination-toolbar{
+    width: 200px;
+}
+
+.tss-djbknv-MUIDataTablePagination-navContainer{
+    display: block!important;
+}
