@@ -19,13 +19,13 @@ function SignIn() {
 
   const cargando = useSelector(state => state.user.loading)
   const error = useSelector(state => state.user.error)
-  
+  const user = useSelector(state => state.user.user)
 
   const loginUser = (user)=> dispatch(loginAction(user))
   
   const submitLogin = e =>{
       e.preventDefault();
-      console.log("asd");
+   
 
       if(email.trim() === '' ||  password.trim() === ''){
           return;
@@ -35,8 +35,12 @@ function SignIn() {
           email,
           password
       });
-
+      console.log(user);
+      //TODO check token for go dashboard
       navigate("/dashboard");
+      /*if(user.token){
+        
+      }*/
   }
 
 

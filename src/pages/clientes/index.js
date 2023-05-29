@@ -22,11 +22,11 @@ import ListHeader from "components/ListHeader"
 
 function Clientes() {
 
-  const [dataRow, setDataRow] = useState([]) 
+  const [clients, setClients] = useState([]) 
 
   const getData = async()=>{
-    const data = await clienteAxios.get('product/');
-    setDataRow(data.data)
+    const data = await clienteAxios.get('client/');
+    setClients(data.data)
   }
     
   useEffect(()=>{
@@ -36,7 +36,7 @@ function Clientes() {
   const navigate = useNavigate();
 
   const edit = (item)=> {
-	  navigate(`/productos/edit/${item.uid}`);
+	  navigate(`/clientes/edit/${item.uid}`);
 	}
 
   return (
@@ -45,9 +45,9 @@ function Clientes() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
-            <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +" />
+            <ListHeader url="/clientes/create" label="Listado Clientes" buttonText="Agregar +" />
             <SoftBox>
-              <DataTableComponent rowsData={dataRow} />
+              <DataTableComponent rowsData={clients} />
             </SoftBox>
           </Card>
         </SoftBox>

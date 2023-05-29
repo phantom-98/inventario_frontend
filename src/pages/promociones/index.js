@@ -25,7 +25,7 @@ function Clientes() {
   const [dataRow, setDataRow] = useState([]) 
 
   const getData = async()=>{
-    const data = await clienteAxios.get('product/');
+    const data = await clienteAxios.get('promotions/');
     setDataRow(data.data)
   }
     
@@ -36,7 +36,7 @@ function Clientes() {
   const navigate = useNavigate();
 
   const edit = (item)=> {
-	  navigate(`/productos/edit/${item.uid}`);
+	  navigate(`/promociones/edit/${item.uid}`);
 	}
 
   return (
@@ -45,7 +45,7 @@ function Clientes() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
-            <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +" />
+            <ListHeader url="/promociones/create" label="Listado Promociones" buttonText="Agregar +" />
             <SoftBox>
               <DataTableComponent rowsData={dataRow} />
             </SoftBox>

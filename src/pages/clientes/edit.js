@@ -28,15 +28,15 @@ function EditClientes() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const onSubmit = data => {
-        clienteAxios.put('stores/'+id, data)
-            .then(resp =>{
-                succesSwal()
-                navigate(`/tiendas`);
-            })
-            .catch((e)=>{
-                console.log(e);
-                errorSwal()
-            });
+      clienteAxios.put('stores/'+id, data)
+          .then(resp =>{
+              succesSwal()
+              navigate(`/tiendas`);
+          })
+          .catch((e)=>{
+              console.log(e);
+              errorSwal()
+          });
     };
 
     return (

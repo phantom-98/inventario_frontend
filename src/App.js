@@ -7,7 +7,8 @@ import Sidenav from "examples/Sidenav";
 import theme from "assets/theme";
 import routes from "routes";
 import { useSoftUIController, setMiniSidenav } from "context";
-import brand from "assets/images/logo-full.svg";
+import brand from "assets/images/logo.jpeg";
+import "./styles.css"
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();

@@ -12,12 +12,27 @@ import Office from "examples/Icons/Office";
 import Document from "examples/Icons/Document";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
-import EditTienda from "pages/tiendas/edit"
-import Tiendas from './pages/tiendas'
-import CreateTienda from "pages/tiendas/create";
-import Products from "pages/products";
+
 import EditProduct from "pages/products/edit";
+import EditTienda from "pages/tiendas/edit"
+import EditClientes from "pages/clientes/edit";
+import EditFacturas from "pages/facturas/edit";
+import EditPromociones from "pages/promociones/edit";
+import EditVentas from "pages/ventas/edit";
+
+
+import CreateTienda from "pages/tiendas/create";
 import CreateProduct from "pages/products/create";
+import CreateClientes from "pages/clientes/create";
+import CreateFacturas from "pages/facturas/create";
+import CreatePromociones from "pages/promociones/create";
+import CreateVentas from "pages/ventas/create";
+
+import Tiendas from './pages/tiendas'
+import Products from "pages/products";
+import Ventas from './pages/ventas'
+import Clientes from './pages/clientes'
+import Factura from './pages/facturas'
 
 const routes = [
   {
@@ -49,11 +64,29 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Ventas",
+    key: "venta",
+    route: "/ventas",
+    icon: <Office size="12px" />,
+    component: <Billing />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Clientes",
+    key: "clientes",
+    route: "/clientes",
+    icon: <Office size="12px" />,
+    component: <Clientes />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
     name: "Facturas",
     key: "factura",
     route: "/facturas",
     icon: <Office size="12px" />,
-    component: <Tables />,
+    component: <Factura />,
     noCollapse: true,
   },
   {
@@ -126,6 +159,78 @@ const routes = [
     route: "/productos/create",
     icon: <Shop size="12px" />,
     component: <CreateProduct />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditClientes",
+    key: "dashboard",
+    route: "/clientes/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditClientes />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CreateClientes",
+    key: "dashboard",
+    route: "/clientes/create",
+    icon: <Shop size="12px" />,
+    component: <CreateClientes/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditFacturas",
+    key: "dashboard",
+    route: "/facturas/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditFacturas />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CreateFacturas",
+    key: "dashboard",
+    route: "/facturas/create",
+    icon: <Shop size="12px" />,
+    component: <CreateFacturas/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditPromociones",
+    key: "dashboard",
+    route: "/promociones/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditPromociones />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CreatePromociones",
+    key: "dashboard",
+    route: "/promociones/create",
+    icon: <Shop size="12px" />,
+    component: <CreatePromociones/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditVentas",
+    key: "dashboard",
+    route: "/ventas/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditVentas />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CreateVentas",
+    key: "dashboard",
+    route: "/ventas/create",
+    icon: <Shop size="12px" />,
+    component: <CreateVentas/>,
     noCollapse: true,
   },
   
