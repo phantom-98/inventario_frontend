@@ -7,7 +7,7 @@ thead{
     display: contents!important;
 }
 .MuiFormLabel-root{
-    z-index: 99999;
+    z-index: 9;
     margin-left: 10px;
     font-size: 1.0rem!important;
 }
@@ -24,7 +24,7 @@ select{
     margin-top: 18px;
 }
 td{
-    font-size:11px!important;
+    font-size:12px!important;
     padding: 0.3rem 0.5rem!important;
 }
 th {
@@ -32,4 +32,14 @@ th {
 }
 th button{
     padding: 10px!important;
+}
+
+.selectWM{
+    margin-top: 0px;
+}
+#facturaCard label{
+    top:-5px
+}
+#facturaCard label+.css-11dh2is-MuiInputBase-root-MuiInput-root{
+    margin-top: 0px!important;
 }

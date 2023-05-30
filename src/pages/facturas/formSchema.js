@@ -12,25 +12,7 @@ export const formSchema = [
             {value:39, label:"Boleta"},
         ]
     },
-    {
-        label: "Cliente",
-        value:"type", 
-        type:"select", 
-        options:[
-            {value:"", label:"Seleccione cliente"},
-            {value:true, label:"Cliente"},
-            {value:false, label:"Proovedor"},
-        ]
-    },
-    {
-        label: "Producto",
-        value:"type", 
-        type:"select", 
-        options:[
-            {value:"", label:"Seleccione producto"},
-            
-        ]
-    },
+    
     
     
 ]
