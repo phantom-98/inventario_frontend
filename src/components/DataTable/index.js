@@ -13,8 +13,9 @@ const paginationComponentOptions = {
 function DataTableComponent(rowsData) {
     let columns = []
     let data = []
-    if(rowsData.rowsData[0]){
-        columns = Object.keys(rowsData.rowsData[0])
+    console.log(rowsData.rowsData)
+    if(rowsData.rowsData){
+        columns = Object.keys(rowsData.rowsData)
         data = rowsData.rowsData.map( d => Object.values(d));
     }
     

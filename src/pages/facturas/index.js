@@ -20,13 +20,25 @@ import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 
+import MUIDataTable from "mui-datatables";
+
 function Clientes() {
 
   const [dataRow, setDataRow] = useState([]) 
-
+  const [rows, setRows] = useState([])
+  const columns = ["Fecha", "Tipo", "Cliente Rut", "Total", "Link"];
+  
   const getData = async()=>{
     const data = await clienteAxios.get('factura/');
-    setDataRow(data.data)
+    let respData = data.data
+    let tempRows = respData.map(r=>{
+      return[r.createdAt, r.type, r.client.RUTRecep, r.totals.MntTotal, r.url]
+    })
+
+    setRows(tempRows)
+    console.log(tempRows)
+    
+    //setDataRow(data.data)
   }
     
   useEffect(()=>{
@@ -39,6 +51,11 @@ function Clientes() {
 	  navigate(`/facturas/edit/${item.uid}`);
 	}
 
+  const options = {
+    filterType: 'checkbox',
+  };
+
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -47,7 +64,13 @@ function Clientes() {
           <Card>
             <ListHeader url="/facturas/create" label="Listado Factura" buttonText="Agregar +" />
             <SoftBox>
-              <DataTableComponent rowsData={dataRow} />
+            <MUIDataTable
+              
+                data={rows}
+                columns={columns}
+                options={options}
+            />
+            
             </SoftBox>
           </Card>
         </SoftBox>
