@@ -25,7 +25,7 @@ function FormComponent({schema, onSubmit}) {
                                     
                                 :  <>
 
-                                    <TextField  fullWidth label={f.label} variant="standard" 
+                                    <TextField InputProps={{ readOnly: f.readOnly}}  fullWidth label={f.label} variant="standard" value={f.value}
                                     {...register(f.value, { required: true })} aria-invalid={errors[`${f.value}`] ? "true" : "false"} 
                                     style={{paddingTop:"0.15rem"}}/>
                                     {errors[`${f.value}`]?.type === 'required' && <small className="alert alert-danger" role="alert">{f.label} es requerido</small>}

@@ -13,6 +13,7 @@ import Document from "examples/Icons/Document";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 
+
 import EditProduct from "pages/products/edit";
 import EditTienda from "pages/tiendas/edit"
 import EditClientes from "pages/clientes/edit";
@@ -33,6 +34,10 @@ import Products from "pages/products";
 import Ventas from './pages/ventas'
 import Clientes from './pages/clientes'
 import Factura from './pages/facturas'
+import SpaceShip from './examples/Icons/SpaceShip';
+
+import Settings from './examples/Icons/Settings';
+import Cube from "examples/Icons/Cube";
 
 const routes = [
   {
@@ -46,29 +51,21 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tiendas",
-    key: "tiendas",
-    route: "/tiendas",
-    icon: <Shop size="12px" />,
+    name: "Abastecimiento",
+    key: "abastecimiento",
+    route: "/abastecimiento",
+    icon: <Cube size="12px" />,
     component: <Tiendas />,
     noCollapse: true,
   },
+
   {
     type: "collapse",
-    name: "Productos",
-    key: "productos",
-    route: "/productos",
-    icon: <Shop size="12px" />,
+    name: "Inventario",
+    key: "inventario",
+    route: "/inventario",
+    icon: <SpaceShip size="12px" />,
     component: <Products />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Ventas",
-    key: "venta",
-    route: "/ventas",
-    icon: <Office size="12px" />,
-    component: <Billing />,
     noCollapse: true,
   },
   {
@@ -76,21 +73,40 @@ const routes = [
     name: "Clientes",
     key: "clientes",
     route: "/clientes",
+    icon: <CustomerSupport size="12px" />,
+    component: <Clientes />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Descuentos y Convenios",
+    key: "convenios",
+    route: "/convenios",
     icon: <Office size="12px" />,
     component: <Clientes />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Facturas",
+    name: "Reportes",
+    key: "reports",
+    route: "/reportes",
+    icon: <Document size="12px" />,
+    component: <Billing />,
+    noCollapse: true,
+  },
+  
+  {
+    type: "collapse",
+    name: "Contabilidad",
     key: "factura",
-    route: "/facturas",
-    icon: <Office size="12px" />,
+    route: "/contabilidad",
+    icon: <CreditCard size="12px" />,
     component: <Factura />,
     noCollapse: true,
   },
   {
-    type: "collapse",
+    type: "nooocollapse",
     name: "Tables",
     key: "tables",
     route: "/tables",
@@ -99,7 +115,7 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "collapse",
+    type: "nooocollapse",
     name: "Billing",
     key: "billing",
     route: "/billing",
@@ -109,11 +125,20 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Profile",
+    name: "Sistema",
     key: "profile",
-    route: "/profile",
-    icon: <CustomerSupport size="12px" />,
+    route: "/sistema",
+    icon: <Settings size="12px" />,
     component: <Profile />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Tiendas",
+    key: "tiendas",
+    route: "/tiendas",
+    icon: <Shop size="12px" />,
+    component: <Tiendas />,
     noCollapse: true,
   },
   {

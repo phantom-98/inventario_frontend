@@ -16,28 +16,38 @@ import { useEffect, useState } from "react";
 import { getTiendas } from "../../actions/storeActions"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import DataTableComponent from "components/DataTable"
+import { muiOptions,  columnsFunc } from "components/DataTable/options"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
+import MUIDataTable from "mui-datatables";
 
 function Clientes() {
-
-  const [dataRow, setDataRow] = useState([]) 
-
+ 
+  const [rows, setRows] = useState([])
+  
   const getData = async()=>{
     const data = await clienteAxios.get('product/');
-    setDataRow(data.data)
+    let respData = data.data
+    let tempRows = respData.map(r=>{
+      return[r.sku, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+    })
+
+    setRows(tempRows)
   }
     
   useEffect(()=>{
     getData()
   },[])
+
+
   
   const navigate = useNavigate();
 
   const edit = (item)=> {
-	  navigate(`/productos/edit/${item.uid}`);
+    
+	  navigate(`/productos/edit/${item}`);
 	}
+  const columns = columnsFunc(["Sku", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
 
   return (
     <DashboardLayout>
@@ -47,7 +57,12 @@ function Clientes() {
           <Card>
             <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +" />
             <SoftBox>
-              <DataTableComponent rowsData={dataRow} />
+              <MUIDataTable
+                
+                data={rows}
+                columns={columns}
+                options={muiOptions}
+              />
             </SoftBox>
           </Card>
         </SoftBox>

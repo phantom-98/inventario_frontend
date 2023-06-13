@@ -1,78 +1,35 @@
 export const formSchema = [
+   
     {
-        label: "Tipo Cliente",
-        value:"type", 
-        type:"select", 
-        options:[
-            {value:"", label:"Seleccione Tipo cliente"},
-            {value:true, label:"Cliente"},
-            {value:false, label:"Proovedor"},
-        ]
-    },
-    {
-        label: "Rut",
-        value:"rut", 
-        type:"text"
-    },
-    {
-        label: "Razon Social",
-        value:"razonsocial", 
-        type:"text"
-    },
-    {
-        label: "Giro",
-        value:"giro", 
-        type:"text"
+        label: "Sku",
+        value:"sku", 
+        type:"text",
+        readOnly:true
     },
     {
         label: "Nombre",
-        value:"name",
+        value:"nombre", 
         type:"text"
     },
     {
-        label: "Apellido",
-        value:"lastName", 
+        label: "Laboratorio",
+        value:"laboratorio", 
         type:"text"
     },
     {
-        label: "Email",
-        value:"email", 
-        type:"email"
+        label: "Stock",
+        value:"stock", 
+        type:"number"
     },
     {
-        label: "Telefono",
-        value:"phone", 
-        type:"text"
+        label: "Precio",
+        value:"precio", 
+        type:"number"
     },
     {
-        label: "Direccion",
-        value:"address", 
-        type:"text"
-    },
-    {
-        label: "Ciudad",
-        value:"Ciudad", 
-        type:"text"
-    },
-    {
-        label: "Comuna",
-        value:"comuna", 
-        type:"text"
-    },
-    {
-        label: "Nota",
-        value:"nota", 
-        type:"text"
-    },
-    {
-        label: "Con credito?",
-        value:"withCredit", 
-        type:"select", 
-        options:[
-            {value:"", label:"Seleccione Con credito?"},
-            {value:true, label:"Si"},
-            {value:false, label:"No"},
-        ]
-    },
+        label: "Precio Oferta",
+        value:"precioOferta", 
+        type:"number"
+    }
     
 ]
