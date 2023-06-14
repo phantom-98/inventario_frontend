@@ -30,6 +30,11 @@ export const formSchema = [
         label: "Precio Oferta",
         value:"precioOferta", 
         type:"number"
+    },
+    {
+        label: "Codigo de Barra",
+        value:"codigoBarra", 
+        type:"number"
     }
     
 ]

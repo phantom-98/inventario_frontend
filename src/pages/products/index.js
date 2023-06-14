@@ -29,7 +29,7 @@ function Clientes() {
     const data = await clienteAxios.get('product/');
     let respData = data.data
     let tempRows = respData.map(r=>{
-      return[r.sku, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
     })
 
     setRows(tempRows)
@@ -47,7 +47,7 @@ function Clientes() {
     
 	  navigate(`/productos/edit/${item}`);
 	}
-  const columns = columnsFunc(["Sku", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
+  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
 
   return (
     <DashboardLayout>
