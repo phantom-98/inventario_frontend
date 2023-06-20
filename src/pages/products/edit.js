@@ -146,7 +146,7 @@ function EditClientes() {
                       <SoftBox mb={2}>
                         <TextField 
                           type="precio"
-                          name="stock"
+                          name="precio"
                           fullWidth label="Precio" InputLabelProps={{ shrink: true }} variant="standard" 
                           value={product.precio || 0} 
                           onChange={(e)=>handleChange(e)}
