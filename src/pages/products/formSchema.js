@@ -22,6 +22,11 @@ export const formSchema = [
         type:"number"
     },
     {
+        label: "Codigo de Barra",
+        value:"codigoBarra", 
+        type:"text"
+    },
+    {
         label: "Precio",
         value:"precio", 
         type:"number"
