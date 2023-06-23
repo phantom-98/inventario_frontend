@@ -34,6 +34,8 @@ import Products from "pages/products";
 import Ventas from './pages/ventas'
 import Clientes from './pages/clientes'
 import Factura from './pages/facturas'
+import Abastecimiento from './pages/abastecimiento'
+
 import SpaceShip from './examples/Icons/SpaceShip';
 
 import Settings from './examples/Icons/Settings';
@@ -55,7 +57,7 @@ const routes = [
     key: "abastecimiento",
     route: "/abastecimiento",
     icon: <Cube size="12px" />,
-    component: <Tiendas />,
+    component: <Abastecimiento />,
     noCollapse: true,
   },
 

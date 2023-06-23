@@ -22,6 +22,7 @@ export function loginAction(user){
               )
             dispatch( loginExito(data.data) )
             localStorage.setItem("token", respdata.token)
+           return respdata
         } catch (error) {
             console.log(error)
             

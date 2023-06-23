@@ -8,7 +8,7 @@ import curved9 from "assets/images/curved-images/curved-6.jpg";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "../../actions/userActions"
 import { useDispatch, useSelector } from "react-redux";
-
+import Swal from 'sweetalert2';
 
 function SignIn() {
   const navigate = useNavigate();
@@ -17,30 +17,23 @@ function SignIn() {
 
   const dispatch = useDispatch();
 
-  const cargando = useSelector(state => state.user.loading)
-  const error = useSelector(state => state.user.error)
-  const user = useSelector(state => state.user.user)
-
   const loginUser = (user)=> dispatch(loginAction(user))
   
-  const submitLogin = e =>{
+  const submitLogin = async e =>{
       e.preventDefault();
-   
-
       if(email.trim() === '' ||  password.trim() === ''){
           return;
       }
-      
-      loginUser({
-          email,
-          password
-      });
-      console.log(user);
-      //TODO check token for go dashboard
-      navigate("/dashboard");
-      /*if(user.token){
-        
-      }*/
+      const userRes = await loginUser({ email, password });
+      if(userRes && userRes.token){
+        navigate("/dashboard");  
+      }else{
+        Swal.fire(
+          '',
+          'Nombre de usuario o password incorrecto!',
+          'error'
+        )
+      }
   }
 
 
