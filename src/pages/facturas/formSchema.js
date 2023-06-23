@@ -12,7 +12,6 @@ export const formSchema = [
             {value:39, label:"Boleta"},
         ]
     },
-    
-    
+
     
 ]

@@ -8,7 +8,9 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTiendas } from "../../actions/storeActions"
 import clienteAxios from 'config/axios';
+import { formSchema } from "./formSchema";
 
+import { useForm } from "react-hook-form";
 import {succesSwal, errorSwal} from 'config/helpers.js'
 import { useNavigate } from "react-router-dom";
 import FormComponent from "components/Form"
@@ -38,6 +40,7 @@ function EditClientes() {
                 errorSwal()
             });
     };
+    
 
     return (
         <DashboardLayout>
@@ -45,7 +48,7 @@ function EditClientes() {
         <SoftBox py={3}>
           <SoftBox mb={3}>
             <Card>
-                <ListHeader url="/clientes" label="Editar Cliente" buttonText="Regresar" />
+                <ListHeader url="/clientes" label="Editar Factura" buttonText="Regresar" />
                 <FormComponent schema={formSchema} onSubmit={onSubmit}/>
             </Card>
           </SoftBox>
