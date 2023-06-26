@@ -55,23 +55,18 @@ function Abastecimiento() {
     let card;
     if (showCard == "orderCompra") {
         card =  <Card>
-                    <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +" />
+                    <ListHeader url="/productos/create" label="Listado Orden de Compra" buttonText="Agregar +" />
                     <SoftBox>
-                    <MUIDataTable
-                        data={rows}
-                        columns={columns}
-                        options={muiOptions}
-                    />
+                    
                     </SoftBox>
                 </Card>
     } else if(showCard == "recepcion") {
         card = "";
     }else if(showCard == "provider"){
-        <Card>
+        card = <Card>
             <ListHeader url="/productos/create" label="Listado Provedores" buttonText="Agregar +" />
             <SoftBox>
                 <MUIDataTable
-                    
                     data={rowsProvider}
                     columns={columnsProvider}
                     options={muiOptions}
@@ -84,7 +79,7 @@ function Abastecimiento() {
   return (
     <DashboardLayout>
      
-      <Header />
+      <Header setShowCard={setShowCard} />
       <SoftBox py={3}>
         <SoftBox mb={3}>
             {card}
