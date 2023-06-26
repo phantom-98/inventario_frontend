@@ -67,7 +67,6 @@ function Abastecimiento() {
             <ListHeader url="/productos/create" label="Listado Provedores" buttonText="Agregar +" />
             <SoftBox>
                 <MUIDataTable
-                    
                     data={rowsProvider}
                     columns={columnsProvider}
                     options={muiOptions}
