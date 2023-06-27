@@ -1,40 +1,27 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useEffect } from "react";
-
-// react-router-dom components
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-
-// prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
-
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
-
-// Soft UI Dashboard React context
 import { useSoftUIController, setLayout } from "context";
-
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useSelector } from "react-redux";
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav } = controller;
   const { pathname } = useLocation();
 
+
+
+  const open = useSelector(state => state.helper.loading)
+
   useEffect(() => {
     setLayout(dispatch, "dashboard");
   }, [pathname]);
+
+
+
+
 
   return (
     <SoftBox
@@ -51,6 +38,9 @@ function DashboardLayout({ children }) {
         },
       })}
     >
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {children}
     </SoftBox>
   );

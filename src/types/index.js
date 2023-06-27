@@ -13,4 +13,6 @@ export const TIENDAS = 'TIENDAS';
 export const TIENDAS_EXITO = 'TIENDAS_EXITO'; 
 export const TIENDAS_FAIL = 'TIENDAS_FAIL'; 
 
+export const LOADING = 'LOADING'; 
+
 export const apiUrl = "http://localhost:4000/v1/"

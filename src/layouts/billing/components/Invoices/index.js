@@ -24,14 +24,31 @@ import SoftButton from "components/SoftButton";
 // Billing page components
 import Invoice from "layouts/billing/components/Invoice";
 
+//TODO ANDRES copiar funcion para loading
+import { loadingAction } from './../../../../actions/helperActions';
+import { useDispatch } from "react-redux";
+
 function Invoices() {
+  
+  const dispatch = useDispatch();
+
+  const test = ()=>{
+    
+    /*
+    Una vez crea true
+    dispatch(loadingAction())
+    Otra vez crea false
+    dispatch(loadingAction())
+    */
+
+  }
   return (
     <Card id="delete-account" sx={{ height: "100%" }}>
       <SoftBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
         <SoftTypography variant="h6" fontWeight="medium">
           Invoices
         </SoftTypography>
-        <SoftButton variant="outlined" color="info" size="small">
+        <SoftButton variant="outlined" color="info" size="small" onClick={()=>test()}>
           view all
         </SoftButton>
       </SoftBox>
