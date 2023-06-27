@@ -20,6 +20,8 @@ import EditClientes from "pages/clientes/edit";
 import EditFacturas from "pages/facturas/edit";
 import EditPromociones from "pages/promociones/edit";
 import EditVentas from "pages/ventas/edit";
+import EditProvider from "pages/provider/edit"
+
 
 
 import CreateTienda from "pages/tiendas/create";
@@ -28,6 +30,7 @@ import CreateClientes from "pages/clientes/create";
 import CreateFacturas from "pages/facturas/create";
 import CreatePromociones from "pages/promociones/create";
 import CreateVentas from "pages/ventas/create";
+import CreateProvider from "pages/provider/create"
 
 import Tiendas from './pages/tiendas'
 import Products from "pages/products";
@@ -258,6 +261,24 @@ const routes = [
     route: "/ventas/create",
     icon: <Shop size="12px" />,
     component: <CreateVentas/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "ProviderCreate",
+    key: "dashboard",
+    route: "/provider/create",
+    icon: <Shop size="12px" />,
+    component: <CreateProvider/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditProvider",
+    key: "dashboard",
+    route: "/provider/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditProvider/>,
     noCollapse: true,
   },
   

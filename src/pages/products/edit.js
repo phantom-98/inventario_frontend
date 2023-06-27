@@ -35,7 +35,7 @@ function EditClientes() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const getData = async()=>{
-      const data = await clienteAxios.get('product/sku/'+id);
+      const data = await clienteAxios.get('product/sku/'+name);
       let respData = data.data
       setProduct(respData)
   
@@ -93,7 +93,7 @@ function EditClientes() {
         <SoftBox py={3}>
           <SoftBox mb={3}>
             <Card>
-                <ListHeader url="/inventario" label="Editar Cliente" buttonText="Regresar" />
+              <ListHeader url="/inventario" label="Editar Cliente" buttonText="Regresar" />
                 <SoftBox p={2} component="form" role="form" onSubmit={handleSubmit(onSubmit)}>
                   <Grid container spacing={2}>
                     <Grid   item xs={12} md={6} xl={6}>

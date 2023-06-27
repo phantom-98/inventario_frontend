@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { getTiendas } from "../../actions/storeActions"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { loadingAction } from "actions/helperActions";
 
 
 function Tiendas() {
@@ -28,6 +28,7 @@ function Tiendas() {
     let  stores = [];
     
     useEffect(()=>{
+      
         dispatch(getTiendas());
     },[])
   

@@ -19,17 +19,24 @@ import { useNavigate } from "react-router-dom";
 import { muiOptions,  columnsFunc } from "components/DataTable/options"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
-import MUIDataTable from "mui-datatables";
+import MUIDataTable from "mui-datatables"
+import NestedModal from "components/modal/modalExel";
+import { loadingAction } from "actions/helperActions";
+
+
 
 function Clientes() {
- 
+  const dispatch = useDispatch();
   const [rows, setRows] = useState([])
   
   const getData = async()=>{
+    dispatch(loadingAction())
     const data = await clienteAxios.get('product/');
+    dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
       return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+     
     })
 
     setRows(tempRows)
@@ -38,8 +45,6 @@ function Clientes() {
   useEffect(()=>{
     getData()
   },[])
-
-
   
   const navigate = useNavigate();
 
@@ -55,7 +60,10 @@ function Clientes() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
-            <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +" />
+            
+            <ListHeader url="/productos/create" label="Listado Productos" buttonText="Agregar +"  mode="excelModal"/>
+            
+            
             <SoftBox>
               <MUIDataTable
                 

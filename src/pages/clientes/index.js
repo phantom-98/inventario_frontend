@@ -19,13 +19,16 @@ import { useNavigate } from "react-router-dom";
 import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
+import { loadingAction } from "actions/helperActions";
 
 function Clientes() {
-
+  const dispatch = useDispatch();
   const [clients, setClients] = useState([]) 
 
   const getData = async()=>{
+    dispatch(loadingAction())
     const data = await clienteAxios.get('client/');
+    dispatch(loadingAction())
     setClients(data.data)
   }
     

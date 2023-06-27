@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
+import { loadingAction } from "actions/helperActions";
 
 import MUIDataTable from "mui-datatables";
 
@@ -71,12 +72,14 @@ columns.push({
     }
   }
 })
-    
+const dispatch = useDispatch();
 
 
   
   const getData = async()=>{
+    dispatch(loadingAction())
     const data = await clienteAxios.get('factura/');
+    dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
       return[r.createdAt, r.type, r.client.RUTRecep, r.totals.MntTotal, r.url, r.uid]
