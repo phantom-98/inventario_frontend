@@ -4,6 +4,11 @@ import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
 import borders from 'assets/theme/base/borders';
+import input from './../../assets/theme/components/form/input';
+import clienteAxios from '../../config/axios';
+import { useDispatch } from "react-redux";
+import {succesSwal, errorSwal} from 'config/helpers.js'
+import { loadingAction } from "actions/helperActions";
 
 const style = {
   position: 'absolute',
@@ -57,40 +62,49 @@ const BotonCargar={
 }
 
 export default function NestedModal() {
+  const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleFileUpload = (event) => {
+    handleClose()
+    dispatch(loadingAction())
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+
+    clienteAxios.post('product/import', formData, {headers:{ "Content-Type":"multipart/form-data"}}).then(resp =>{
+        console.log(resp)
+        dispatch(loadingAction())
+        succesSwal()
+        
+    })
+    .catch((e)=>{
+        dispatch(loadingAction())
+        console.log(e);
+    });
+  }
+
   const handleOpen = () => {
     setOpen(true);
   };
+  
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
-      <Button style={BotonExel} onClick={handleOpen}><strong>Excel</strong></Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-      >
-        <Box sx={{ ...style, width: 700, height: 200 }}>
-          <h2 style={TitleModal} id="parent-modal-title">Carga un Excel</h2>
-          <TextField type='file' fullWidth label="fullWidth" id="fullWidth" color="success" InputLabelProps={{ shrink: true }}/>
-          <div style={Botones} >
+      <Button style={BotonExel} onClick={handleOpen}><strong>Carga Masiva</strong></Button>
 
-          <Button
-            style={BotonCargar}
-           onClick={() => setOpen(false)}>
-              Cargar
-            </Button>
-            <Button
-             
-              style={BotonCancelar}
-              onClick={() => setOpen(false)}
-            >
-              Cancelar
-            </Button>
+      <Modal open={open} onClose={handleClose} aria-labelledby="parent-modal-title" aria-describedby="parent-modal-description">
+        <Box sx={{ ...style, width: 700, height: 280 }}>
+          <h2 style={TitleModal} id="parent-modal-title">Carga un Excel</h2>
+          <br/>
+          <input type="file" className='form-control' onChange={(e) => setFile(e.target.files[0])}/>
+          <br/>
+          <div style={Botones} >
+            <Button style={BotonCargar} onClick={(e) => handleFileUpload(e)}> Cargar </Button>
           </div>
         </Box>
       </Modal>

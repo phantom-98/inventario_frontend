@@ -7,21 +7,16 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector } from "react-redux";
 function DashboardLayout({ children }) {
+
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav } = controller;
   const { pathname } = useLocation();
-
-
 
   const open = useSelector(state => state.helper.loading)
 
   useEffect(() => {
     setLayout(dispatch, "dashboard");
   }, [pathname]);
-
-
-
-
 
   return (
     <SoftBox
