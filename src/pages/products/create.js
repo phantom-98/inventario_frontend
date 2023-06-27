@@ -16,11 +16,6 @@ import ListHeader from "components/ListHeader"
 
 function CreateClientes() {
     const navigate = useNavigate();
-    
-    
-
-   
-    
     const onSubmit = data => {
         console.log(data);
         clienteAxios.post('client', data)

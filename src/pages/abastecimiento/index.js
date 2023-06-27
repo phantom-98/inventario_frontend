@@ -9,16 +9,20 @@ import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import MUIDataTable from "mui-datatables";
 import Header from "./components/Header";
-
+import { loadingAction } from "actions/helperActions";
+import { useDispatch } from "react-redux";
 
 function Abastecimiento() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [rows, setRows] = useState([])
     const [rowsProvider, setrowsProvider] = useState([])
     const [showCard, setShowCard] = useState("orderCompra")
     
     const getData = async()=>{
+        //dispatch(loadingAction())
         const data = await clienteAxios.get('product/');
+        //dispatch(loadingAction())
         let respData = data.data
         let tempRows = respData.map(r=>{
         return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
@@ -27,7 +31,9 @@ function Abastecimiento() {
         setRows(tempRows)
     }
     const getProvider = async()=>{
+        dispatch(loadingAction())
         const data = await clienteAxios.get('provider/');
+        dispatch(loadingAction())
         let respData = data.data
         let tempRows = respData.map(r=>{
             return[r.name, r.RUTRecep, r.email, r.uid]
