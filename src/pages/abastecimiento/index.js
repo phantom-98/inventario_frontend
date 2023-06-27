@@ -4,7 +4,7 @@ import SoftBox from "components/SoftBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { muiOptions,  columnsFunc } from "components/DataTable/options"
+import { muiOptions,  columnsFunc, columnsFunc2 } from "components/DataTable/options"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import MUIDataTable from "mui-datatables";
@@ -47,10 +47,22 @@ function Abastecimiento() {
         
         navigate(`/productos/edit/${item}`);
     }
-    
+    const editProvider = (id)=> {
+        navigate(`/provider/edit/${id}`);
+    }
+
+    const onDelete = (id) => {
+        clienteAxios.delete(`/provider/${id}`)
+            .then(() => {
+            getProvider();
+        })
+        
+    }
+
+
     const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
 
-    const columnsProvider = columnsFunc(["Nombre", "Rut", "Email"], edit);
+    const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email"], editProvider, 3, onDelete);
     
     let card;
     if (showCard == "orderCompra") {
@@ -64,7 +76,7 @@ function Abastecimiento() {
         card = "";
     }else if(showCard == "provider"){
         card = <Card>
-            <ListHeader url="/productos/create" label="Listado Provedores" buttonText="Agregar +" />
+            <ListHeader url="/provider/create" label="Listado Provedores" buttonText="Agregar +" />
             <SoftBox>
                 <MUIDataTable
                     

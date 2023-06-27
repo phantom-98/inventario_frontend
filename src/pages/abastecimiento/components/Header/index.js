@@ -72,12 +72,12 @@ function Header({setShowCard}) {
           px: 2,
         }}
       >
-        <Grid container spacing={3} alignItems="center">
+        <Grid container spacing={1} alignItems="center">
           
         
 
 
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+          <Grid item xs={12} md={6} sx={{ ml: "auto" }}>
             <AppBar position="static">
               <Tabs
                 orientation={tabsOrientation}
