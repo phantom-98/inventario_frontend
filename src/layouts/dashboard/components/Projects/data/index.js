@@ -47,138 +47,180 @@ export default function data() {
 
   return {
     columns: [
-      { name: "companies", align: "left" },
-      { name: "members", align: "left" },
-      { name: "budget", align: "center" },
-      { name: "completion", align: "center" },
+      { name: "Producto", align: "left" },
+      { name: "Tipo_De_Pago", align: "left" },
+      { name: "Precio", align: "center" },
+      { name: "Cantidad", align: "center" },
+      { name: "Total", align: "center"}
     ],
 
     rows: [
       {
         companies: [logoXD, "Soft UI XD Version"],
-        members: (
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team2, "Romina Hadid"],
-              [team3, "Alexander Smith"],
-              [team4, "Jessica Doe"],
-            ])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={60} color="info" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
       {
-        companies: [logoAtlassian, "Add Progress Track"],
-        members: (
+        companies: [logoXD, "Soft UI XD Version"],
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([
-              [team2, "Romina Hadid"],
-              [team4, "Jessica Doe"],
-            ])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $3,000
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={10} color="info" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
       {
-        companies: [logoSlack, "Fix Platform Errors"],
-        members: (
+        companies: [logoXD, "Soft UI XD Version"],
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team3, "Alexander Smith"],
-            ])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Not set
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={100} color="success" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
       {
-        companies: [logoSpotify, "Launch our Mobile App"],
-        members: (
+        companies: [logoXD, "Soft UI XD Version"],
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([
-              [team4, "Jessica Doe"],
-              [team3, "Alexander Smith"],
-              [team2, "Romina Hadid"],
-              [team1, "Ryan Tompson"],
-            ])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $20,500
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={100} color="success" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
       {
-        companies: [logoJira, "Add the New Pricing Page"],
-        members: (
+        companies: [logoXD, "Soft UI XD Version"],
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe"]])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $500
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={25} color="info" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
       {
-        companies: [logoInvesion, "Redesign New Online Shop"],
-        members: (
+        companies: [logoXD, "Soft UI XD Version"],
+        Producto: (
           <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team4, "Jessica Doe"],
-            ])}
+            ACOTOL
           </SoftBox>
         ),
-        budget: (
+        Tipo_De_Pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $2,000
+            Debito
           </SoftTypography>
         ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={40} color="info" variant="gradient" label={false} />
-          </SoftBox>
+        Precio: (
+          <SoftTypography variant="caption" color="text" fontWeight="medium">
+            $15,640
+          </SoftTypography>
+        ),
+        Cantidad: (
+          <SoftTypography width="8rem" textAlign="center">
+            4
+          </SoftTypography>
+        ),
+        Total: (
+          <SoftTypography width="8rem" textAlign="center">
+            $62,560
+          </SoftTypography>
         ),
       },
     ],
