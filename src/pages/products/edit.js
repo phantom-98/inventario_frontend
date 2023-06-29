@@ -35,11 +35,9 @@ function EditClientes() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const getData = async()=>{
-      const data = await clienteAxios.get('product/sku/'+name);
+      const data = await clienteAxios.get('product/sku/'+id);
       let respData = data.data
       setProduct(respData)
-  
-      
     }
 
     
@@ -52,13 +50,13 @@ function EditClientes() {
       handleOpen()
         clienteAxios.put('product/sku/'+id, product)
             .then(resp =>{
+                handleClose()
                 console.log(resp)
                 succesSwal()
-                handleClose()
                 navigate(`/inventario`);
             })
             .catch((e)=>{
-              handleClose()
+                handleClose()
                 console.log(e);
                 errorSwal()
             });
