@@ -86,8 +86,8 @@ function HeaderVentas({setShowCard}) {
                 sx={{ background: "transparent" }}
               >
              
-                <Tab label="Web" icon={<Document />}  onClick={()=>setShowCard("Web")} />
-                <Tab label="Pos" icon={<Settings />}  onClick={()=>setShowCard("Pos")} />
+                <Tab label="Web" icon={<Document />}  onClick={()=>setShowCard("web")} />
+                <Tab label="Pos" icon={<Settings />}  onClick={()=>setShowCard("pos")} />
               </Tabs>
             </AppBar>
           </Grid>
