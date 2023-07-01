@@ -41,49 +41,57 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import ListHeader from "components/ListHeader"
+import Card from "@mui/material/Card";
+import MUIDataTable from "mui-datatables";
+import { useState } from "react";
+import HeaderDashboard from "./components/Header/headerDashboard";
+import Invoices from "./components/invoices";
+import BillingInformation from "./components/BillingInformation";
 
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  const [showCard, setShowCard] = useState("orderCompra")
+  let card;
+   
+
+
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <HeaderDashboard setShowCard={setShowCard} />
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's money" }}
+                title={{ text: "Ventas del dia" }}
                 count="$53,000"
-                percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's users" }}
+                title={{ text: "ventas semanales" }}
                 count="2,300"
-                percentage={{ color: "success", text: "+3%" }}
-                icon={{ color: "info", component: "public" }}
+                icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "new clients" }}
+                title={{ text: "ventas mensuales" }}
                 count="+3,462"
-                percentage={{ color: "error", text: "-2%" }}
-                icon={{ color: "info", component: "emoji_events" }}
+                icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "sales" }}
+                title={{ text: "ventas anuales" }}
                 count="$103,430"
-                percentage={{ color: "success", text: "+5%" }}
                 icon={{
                   color: "info",
-                  component: "shopping_cart",
+                  component: "paid",
                 }}
               />
             </Grid>
@@ -92,30 +100,15 @@ function Dashboard() {
         
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
-              <ReportsBarChart
-                title="active users"
-                description={
-                  <>
-                    (<strong>+23%</strong>) than last week
-                  </>
-                }
-                chart={chart}
-                items={items}
-              />
-            </Grid>
             <Grid item xs={12} lg={7}>
               <GradientLineChart
-                title="Sales Overview"
+                title="Resumen De Ventas"
                 description={
                   <SoftBox display="flex" alignItems="center">
                     <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
-                      <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
                     <SoftTypography variant="button" color="text" fontWeight="medium">
-                      4% more{" "}
                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                        in 2021
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>
@@ -124,14 +117,17 @@ function Dashboard() {
                 chart={gradientLineChartData}
               />
             </Grid>
+            <Grid item xs={12} lg={5}>
+              <Invoices />
+            </Grid>
           </Grid>
         </SoftBox>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={7}>
             <Projects />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <OrderOverview />
+          <Grid item xs={12} md={6} lg={5}>
+            <BillingInformation/>
           </Grid>
         </Grid>
       </SoftBox>

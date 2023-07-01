@@ -47,178 +47,178 @@ export default function data() {
 
   return {
     columns: [
-      { name: "Producto", align: "left" },
-      { name: "Tipo_De_Pago", align: "left" },
-      { name: "Precio", align: "center" },
-      { name: "Cantidad", align: "center" },
-      { name: "Total", align: "center"}
+      { name: "Fecha", align: "center" },
+      { name: "Desde", align: "center" },
+      { name: "tipo_de_pago", align: "center" },
+      { name: "total", align: "center" },
+      { name: "rut", align: "center"}
     ],
 
     rows: [
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
+        Fecha: (
           <SoftBox display="flex" py={1}>
-            ACOTOL
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        rut: (
+          <SoftTypography width="15rem"textAlign="center">
+            11
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),
       },
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
+        Fecha: (
           <SoftBox display="flex" py={1}>
-            ACOTOL
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        direccion: (
+          <SoftTypography width="15rem"textAlign="center">
+            cuidad de mexico no. 125
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),
       },
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
+        Fecha: (
           <SoftBox display="flex" py={1}>
-            ACOTOL
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        direccion: (
+          <SoftTypography width="15rem" textAlign="center">
+            cuidad de mexico no. 125
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),
       },
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
+        Fecha: (
           <SoftBox display="flex" py={1}>
-            ACOTOL
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        direccion: (
+          <SoftTypography width="15rem"textAlign="center">
+            cuidad de mexico no. 125
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),
       },
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
+        Fecha: (
           <SoftBox display="flex" py={1}>
-            ACOTOL
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        direccion: (
+          <SoftTypography width="15rem" textAlign="center">
+            cuidad de mexico no. 125
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),
       },
       {
         companies: [logoXD, "Soft UI XD Version"],
-        Producto: (
-          <SoftBox display="flex" py={1}>
-            ACOTOL
+        Fecha: (
+          <SoftBox  display="flex" py={1}>
+            2/07/23
           </SoftBox>
         ),
-        Tipo_De_Pago: (
+        Desde: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Debito
+            web
           </SoftTypography>
         ),
-        Precio: (
+        tipo_de_pago: (
           <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $15,640
+            debito
           </SoftTypography>
         ),
-        Cantidad: (
-          <SoftTypography width="8rem" textAlign="center">
-            4
+        direccion: (
+          <SoftTypography width="15rem" textAlign="center">
+            cuidad de mexico no. 125
           </SoftTypography>
         ),
-        Total: (
-          <SoftTypography width="8rem" textAlign="center">
+        total: (
+          <SoftTypography textAlign="center">
             $62,560
           </SoftTypography>
         ),

@@ -19,41 +19,62 @@ import { useNavigate } from "react-router-dom";
 import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
+import HeaderVentas from "./Header/headerVentas";
+import Projects from "./Projects";
+import MUIDataTable from "mui-datatables";
+import { muiOptions,  columnsFunc, columnsFunc2 } from "components/DataTable/options"
+import {insertarPuntos} from "../../config/helpers"
 
-function Clientes() {
 
-  const [clients, setClients] = useState([]) 
+function Ventas() {
+    const dispatch = useDispatch();
+    const [dataRow, setDataRow] = useState([]) 
+    const [dataRowF, setDataRowF] = useState([]) 
 
-  const getData = async()=>{
-    const data = await clienteAxios.get('client/');
-    setClients(data.data)
-  }
+    const getData = async()=>{
+        const data = await clienteAxios.get('sale/');
+        let respData = data.data
+        let tempRows = respData.map(r=>{
+            return[r.createdAt, r.payType, `$ ${insertarPuntos(r.total)}`, r.clientRut, r.uid]
+        })
+
+        setDataRow(tempRows)
+    }
+
+
     
-  useEffect(()=>{
-    getData()
-  },[])
-  
-  const navigate = useNavigate();
+    useEffect(()=>{
+        getData()
+        //getFactura()
+    },[])
+    
+    const navigate = useNavigate();
 
-  const edit = (item)=> {
-	  navigate(`/clientes/edit/${item.uid}`);
-	}
+    const edit = (item)=> {
+        navigate(`/clientes/edit/${item.uid}`);
+        }
 
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <SoftBox py={3}>
-        <SoftBox mb={3}>
-          <Card>
-            <ListHeader url="/clientes/create" label="Listado Clientes" buttonText="Agregar +" />
-            <SoftBox>
-              <DataTableComponent rowsData={clients} />
+        const columns = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], edit);
+
+    return (
+        <DashboardLayout>
+        <HeaderVentas />
+        <SoftBox py={3}>
+            <SoftBox mb={3}>
+            <Card>
+                <ListHeader url="/Ventas/create" label="Listado ventas" buttonText="Agregar +"  mode="datePicker"/>
+                <SoftBox>
+                <MUIDataTable
+                        data={dataRow}
+                        columns={columns}
+                        options={muiOptions}
+                    />
+                </SoftBox>
+            </Card>
             </SoftBox>
-          </Card>
         </SoftBox>
-      </SoftBox>
-    </DashboardLayout>
-  );
+        </DashboardLayout>
+    );
 }
 
-export default Clientes;
+export default Ventas;

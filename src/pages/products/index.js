@@ -22,7 +22,7 @@ import ListHeader from "components/ListHeader"
 import MUIDataTable from "mui-datatables"
 import NestedModal from "components/modal/modalExel";
 import { loadingAction } from "actions/helperActions";
-
+import {insertarPuntos} from "../../config/helpers"
 
 
 function Clientes() {
@@ -30,12 +30,13 @@ function Clientes() {
   const [rows, setRows] = useState([])
   
   const getData = async()=>{
+  
     dispatch(loadingAction())
     const data = await clienteAxios.get('product/');
     dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
-      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${insertarPuntos(r.precio)}`, `$ ${insertarPuntos(r.precioOferta)}`, r.uid]
      
     })
 

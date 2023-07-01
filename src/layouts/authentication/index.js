@@ -26,7 +26,7 @@ function SignIn() {
       }
       const userRes = await loginUser({ email, password });
       if(userRes && userRes.token){
-        navigate("/dashboard");  
+        location.href = "/dashboard"
       }else{
         Swal.fire(
           '',
