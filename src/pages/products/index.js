@@ -30,6 +30,7 @@ function Clientes() {
   const [rows, setRows] = useState([])
   
   const getData = async()=>{
+  
     dispatch(loadingAction())
     const data = await clienteAxios.get('product/');
     dispatch(loadingAction())

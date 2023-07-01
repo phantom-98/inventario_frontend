@@ -19,16 +19,17 @@ import { useNavigate } from "react-router-dom";
 import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
+import HeaderVentas from "./Header/headerVentas";
+import Projects from "./Projects";
 
-function Clientes() {
 
-  const [clients, setClients] = useState([]) 
-
+function Ventas() {
+  const [dataRow, setDataRow] = useState([]) 
   const getData = async()=>{
-    const data = await clienteAxios.get('client/');
-    setClients(data.data)
+    const data = await clienteAxios.get('promotions/');
+    setDataRow(data.data)
   }
-    
+  
   useEffect(()=>{
     getData()
   },[])
@@ -41,13 +42,13 @@ function Clientes() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <HeaderVentas />
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
-            <ListHeader url="/clientes/create" label="Listado Clientes" buttonText="Agregar +" />
+            <ListHeader url="/Ventas/create" label="Listado ventas" buttonText="Agregar +"  mode="datePicker"/>
             <SoftBox>
-              <DataTableComponent rowsData={clients} />
+              <DataTableComponent rowsData={dataRow} />
             </SoftBox>
           </Card>
         </SoftBox>
@@ -56,4 +57,4 @@ function Clientes() {
   );
 }
 
-export default Clientes;
+export default Ventas;

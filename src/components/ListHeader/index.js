@@ -4,7 +4,7 @@ import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import { useNavigate } from "react-router-dom";
 import NestedModal from "components/modal/modalExel";
-
+import DatePiker from "components/DatePicker/datePiker";
 function ListHeader ({url, label, buttonText, mode}) {
 
     let extraButtons=""
@@ -12,6 +12,11 @@ function ListHeader ({url, label, buttonText, mode}) {
     if(mode == "excelModal"){
         extraButtons = <NestedModal/>
     }
+        if(mode == "datePicker"){
+        extraButtons = <DatePiker/>
+    }
+
+    
 
     const navigate = useNavigate();
     return (

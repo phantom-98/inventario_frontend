@@ -100,6 +100,15 @@ const routes = [
     component: <Billing />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Ventas",
+    key: "ventas",
+    route: "/ventas",
+    icon: <Document size="12px" />,
+    component: <Ventas />,
+    noCollapse: true,
+  },
   
   {
     type: "collapse",

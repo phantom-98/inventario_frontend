@@ -60,7 +60,6 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-     
       <HeaderDashboard setShowCard={setShowCard} />
       <SoftBox py={3}>
         <SoftBox mb={3}>
