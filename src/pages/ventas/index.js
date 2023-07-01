@@ -12,6 +12,9 @@ import MUIDataTable from "mui-datatables";
 import { muiOptions,  columnsFunc } from "components/DataTable/options"
 import {insertarPuntos, dateFormat} from "../../config/helpers"
 import { loadingAction } from "actions/helperActions";
+import { Icon } from "@mui/material";
+import SoftButton from "components/SoftButton";
+
 
 function Ventas() {
     const dispatch = useDispatch();
@@ -20,6 +23,9 @@ function Ventas() {
     const [dataRowF, setDataRowF] = useState([]) 
     const [showCard, setShowCard] = useState("web")
 
+
+
+    
     const getData = async()=>{
         dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all');
@@ -51,9 +57,35 @@ function Ventas() {
         //TODO Modal mostrar items
     }
 
-    const columns = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut", "Boleta"], view);
+
+    
+    const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
+    columns.push({
+    
+        name: "Boleta",
+        options: {
+          filter: false,
+          sort: false,
+          empty: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+        //console.log(tableMeta)
+            return (
+              <>
+                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
+                    <Icon >archiveIcon</Icon>
+                </SoftButton>
+              
+              </>
+            );
+          }
+        }
+    })
+    
+    
 
     const columnsF = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
+
+
 
     let card;
     if (showCard == "web") {
