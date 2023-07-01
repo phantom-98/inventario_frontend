@@ -25,7 +25,7 @@ function Abastecimiento() {
         //dispatch(loadingAction())
         let respData = data.data
         let tempRows = respData.map(r=>{
-        return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+            return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
         })
 
         setRows(tempRows)

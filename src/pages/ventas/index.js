@@ -21,40 +21,60 @@ import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import HeaderVentas from "./Header/headerVentas";
 import Projects from "./Projects";
+import MUIDataTable from "mui-datatables";
+import { muiOptions,  columnsFunc, columnsFunc2 } from "components/DataTable/options"
+import {insertarPuntos} from "../../config/helpers"
 
 
 function Ventas() {
-  const [dataRow, setDataRow] = useState([]) 
-  const getData = async()=>{
-    const data = await clienteAxios.get('promotions/');
-    setDataRow(data.data)
-  }
-  
-  useEffect(()=>{
-    getData()
-  },[])
-  
-  const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [dataRow, setDataRow] = useState([]) 
+    const [dataRowF, setDataRowF] = useState([]) 
 
-  const edit = (item)=> {
-	  navigate(`/clientes/edit/${item.uid}`);
-	}
+    const getData = async()=>{
+        const data = await clienteAxios.get('sale/');
+        let respData = data.data
+        let tempRows = respData.map(r=>{
+            return[r.createdAt, r.payType, `$ ${insertarPuntos(r.total)}`, r.clientRut, r.uid]
+        })
 
-  return (
-    <DashboardLayout>
-      <HeaderVentas />
-      <SoftBox py={3}>
-        <SoftBox mb={3}>
-          <Card>
-            <ListHeader url="/Ventas/create" label="Listado ventas" buttonText="Agregar +"  mode="datePicker"/>
-            <SoftBox>
-              <DataTableComponent rowsData={dataRow} />
+        setDataRow(tempRows)
+    }
+
+
+    
+    useEffect(()=>{
+        getData()
+        //getFactura()
+    },[])
+    
+    const navigate = useNavigate();
+
+    const edit = (item)=> {
+        navigate(`/clientes/edit/${item.uid}`);
+        }
+
+        const columns = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], edit);
+
+    return (
+        <DashboardLayout>
+        <HeaderVentas />
+        <SoftBox py={3}>
+            <SoftBox mb={3}>
+            <Card>
+                <ListHeader url="/Ventas/create" label="Listado ventas" buttonText="Agregar +"  mode="datePicker"/>
+                <SoftBox>
+                <MUIDataTable
+                        data={dataRow}
+                        columns={columns}
+                        options={muiOptions}
+                    />
+                </SoftBox>
+            </Card>
             </SoftBox>
-          </Card>
         </SoftBox>
-      </SoftBox>
-    </DashboardLayout>
-  );
+        </DashboardLayout>
+    );
 }
 
 export default Ventas;

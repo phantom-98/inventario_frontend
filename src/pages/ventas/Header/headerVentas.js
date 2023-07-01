@@ -85,7 +85,7 @@ function HeaderVentas({setShowCard}) {
                 onChange={handleSetTabValue}
                 sx={{ background: "transparent" }}
               >
-                <Tab label="Todas" icon={<Cube />} onClick={()=>setShowCard("Todas")} />
+             
                 <Tab label="Web" icon={<Document />}  onClick={()=>setShowCard("Web")} />
                 <Tab label="Pos" icon={<Settings />}  onClick={()=>setShowCard("Pos")} />
               </Tabs>

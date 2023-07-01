@@ -11,8 +11,7 @@ function ListHeader ({url, label, buttonText, mode}) {
 
     if(mode == "excelModal"){
         extraButtons = <NestedModal/>
-    }
-        if(mode == "datePicker"){
+    }else if(mode == "datePicker"){
         extraButtons = <DatePiker/>
     }
 
@@ -22,10 +21,7 @@ function ListHeader ({url, label, buttonText, mode}) {
     return (
         <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SoftTypography variant="h6">{label}</SoftTypography>
-
-            <SoftButton variant="outlined"  >
             {extraButtons}
-            </SoftButton>
             <SoftButton variant="outlined" onClick={()=>navigate(url)} color="info" size="small">
                 {buttonText}
             </SoftButton>

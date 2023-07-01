@@ -52,4 +52,20 @@ const succesSwal = (url) => {
       })
   }
 
-  export { succesSwal, errorSwal, deleteSwal };
+  function insertarPuntos(numero) {
+    if(!numero){
+        return 0
+    }
+    // Convertir el número a una cadena y revertirlo
+    let numeroRevertido = numero.toString().split("").reverse().join("");
+  
+    // Dividir el número en grupos de tres dígitos
+    let grupos = numeroRevertido.match(/.{1,3}/g);
+  
+    // Unir los grupos con puntos y revertir el resultado
+    let resultado = grupos.join(".").split("").reverse().join("");
+  
+    return resultado;
+  }
+
+  export { succesSwal, errorSwal, deleteSwal, insertarPuntos };
