@@ -44,16 +44,67 @@ import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData"
 import ListHeader from "components/ListHeader"
 import Card from "@mui/material/Card";
 import MUIDataTable from "mui-datatables";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderDashboard from "./components/Header/headerDashboard";
 import Invoices from "./components/invoices";
 import BillingInformation from "./components/BillingInformation";
+import { useDispatch, useSelector } from "react-redux";
+import { loadingAction } from "actions/helperActions";
+import clienteAxios from 'config/axios';
 
 function Dashboard() {
-  const { size } = typography;
-  const { chart, items } = reportsBarChartData;
-  const [showCard, setShowCard] = useState("orderCompra")
-  let card;
+    const dispatch = useDispatch();
+    const { size } = typography;
+    const { chart, items } = reportsBarChartData;
+    const [showCard, setShowCard] = useState("orderCompra")
+    let card;
+
+    const [dataGraph1, setdataGraph1] = useState({})
+
+    const getData = async()=>{
+    
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('sale/salePerMonth');
+        dispatch(loadingAction())
+        let respData = data.data
+        let dataPos = [];
+        let dataWeb = [];
+        for (let index = 0; index < 12; index++) {
+            if(respData.pos[index] && respData.pos[index].mes == index){
+                console.log(respData.pos[index].total)
+                dataPos.push(respData.pos[index].total)
+            }else {
+                dataPos.push(100)
+            }
+
+            if(respData.web[index] && respData.web[index].mes ==index){
+                dataWeb.push(respData.web[index].total)
+            }else {
+                dataWeb.push(0)
+            }
+            
+            
+        }
+        let dataTemp = dataGraph1
+        dataTemp.datasets = [
+            {
+                color:"info",
+                data: dataPos,
+                label: "Pos"
+            },
+            {
+                color:"dark",
+                data: dataWeb,
+                label: "Web"
+            },
+        ]
+        console.log(dataTemp)
+        setdataGraph1(dataTemp)
+    }
+
+    useEffect(()=>{
+        getData()
+    },[])
    
 
 
@@ -114,7 +165,7 @@ function Dashboard() {
                   </SoftBox>
                 }
                 height="20.25rem"
-                chart={gradientLineChartData}
+                chart={dataGraph1}
               />
             </Grid>
             <Grid item xs={12} lg={5}>

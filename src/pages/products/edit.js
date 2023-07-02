@@ -164,6 +164,54 @@ function EditClientes() {
                         />
                       </SoftBox>
                     </Grid>
+                    <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="cpp"
+                                    value={product.cpp} 
+                                    type="number"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Costo Promedio Ponderado" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="fechaVencimiento"
+                                    value={product.fechaVencimiento} 
+                                    type="date"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Fecha Vencimiento" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="controlLegal"
+                                    value={product.controlLegal} 
+                                    type="text"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Control Legal" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="impuestoExtra"
+                                    value={product.impuestoExtra} 
+                                    type="number"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
                   </Grid>
                   <SoftBox mt={4} mb={1}>
                       <SoftButton type="submit" variant="gradient" color="dark" style={{float:"right"}} >Guardar</SoftButton>

@@ -14,17 +14,17 @@ Coded by www.creative-tim.com
 */
 
 const gradientLineChartData = {
-  labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  labels: ["Ene", "Feb", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
   datasets: [
     {
-      label: "Mobile apps",
+      label: "Pos",
       color: "info",
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+      data: [0, 0, 50, 40, 300, 220, 500, 250, 400, 230, 500],
     },
     {
-      label: "Websites",
+      label: "Web",
       color: "dark",
-      data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+      data: [0, 0,30, 90, 40, 140, 290, 290, 340, 230, 400],
     },
   ],
 };
