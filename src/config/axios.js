@@ -16,7 +16,7 @@ clienteAxios.interceptors.response.use((response) => response, (error) => {
     if(error.response.data.msg == "error en el token"){
         location.href = "/"
     }
-  });
+});
 
 
 export default clienteAxios

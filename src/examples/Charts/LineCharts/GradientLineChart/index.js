@@ -43,6 +43,7 @@ function GradientLineChart({ title, description, height, chart }) {
   const { data, options } = chartData;
 
   useEffect(() => {
+    console.log("as")
     const chartDatasets = chart.datasets
       ? chart.datasets.map((dataset) => ({
           ...dataset,

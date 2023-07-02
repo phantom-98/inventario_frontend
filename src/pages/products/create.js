@@ -121,6 +121,10 @@ function create() {
                                 />
                                 </SoftBox>
                             </Grid>
+                            
+
+
+
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                 <TextField 
@@ -128,6 +132,50 @@ function create() {
                                     type="number"
                                     onChange={(e)=>handleChange(e)}
                                     fullWidth label="Precio Oferta" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="cpp"
+                                    type="number"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Costo Promedio Ponderado" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="fechaVencimiento"
+                                    type="date"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Fecha Vencimiento" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="controlLegal"
+                                    type="text"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Control Legal" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="impuestoExtra"
+                                    type="number"
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
                                     style={{paddingTop:"0.15rem"}}
                                 />
                                 </SoftBox>
