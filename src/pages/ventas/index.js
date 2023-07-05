@@ -14,8 +14,57 @@ import {insertarPuntos, dateFormat} from "../../config/helpers"
 import { loadingAction } from "actions/helperActions";
 import { Icon } from "@mui/material";
 import SoftButton from "components/SoftButton";
-import VentasModal from "./Modal/VentasModal";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import tableData from './../tiendas/storeTableData';
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
+  const logo = {
+    width: '480px',
+    marginTop: '5px',
+    marginBottom: '5px',
+  }
+  const tabla ={
+    width: '150%',
+    padding: '10px',
+    fontSize: '100px'   
+  }
+  const td ={
+    width: '140px'
+  }
+  const tr = {
+    borderStyle: 'solid none' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    fontSize: '13px',
+  }
+  const tablaf ={
+    width:'100%',
+    borderStyle: 'solid' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    padding: '10px',   
+  }
+  const tdf2 ={
+    fontSize: '12px',
+    paddingTop: '10px',
+  }
+  const tdf1 ={
+    textAlign: 'center',
+    paddingTop: '10px',
+    fontSize: '12px'
+  }
 
 function Ventas() {
     const dispatch = useDispatch();
@@ -23,7 +72,7 @@ function Ventas() {
     const [dataRow, setDataRow] = useState([]) 
     const [dataRowF, setDataRowF] = useState([]) 
     const [showCard, setShowCard] = useState("web")
-    const [ventas, setVentas] = useState({})
+    const [venta, setVenta] = useState({})
 
 
 
@@ -45,23 +94,22 @@ function Ventas() {
         setDataRowF(tempRows2)
         dispatch(loadingAction())
     }
-
-
-    
     useEffect(()=>{
         getData()
         //getFactura()
-    },[])
-    
-    const navigate = useNavigate();
-
-    const view = (item)=> {
-      setVentas(item)
-
+    },[])         
+    const view = async(id)=>{
+        console.log(id)
+        let resp = await clienteAxios.get("/sale/"+id)
+        console.log(resp)
+        let respData = resp.data
+        setVenta(respData)
+        handleOpen();
+        console.log(venta)
     }
-
-
-    
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
     columns.push({
     
@@ -83,7 +131,8 @@ function Ventas() {
           }
         }
     })
-    columns.push({
+    const columnsF = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
+    columnsF.push({
     
         name: "Ver",
         options: {
@@ -91,14 +140,10 @@ function Ventas() {
           sort: false,
           empty: false,
           customBodyRender: (value, tableMeta, updateValue) => {
-            
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[5])}>
-                   
-                    <VentasModal 
-                      setVentas= {setVentas}
-                    />
+                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[4])}>
+                <Icon >archiveIcon</Icon>
                 </SoftButton>
               
               </>
@@ -108,7 +153,6 @@ function Ventas() {
       })
     
 
-    const columnsF = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
 
 
 
@@ -145,6 +189,74 @@ function Ventas() {
                 {card}
             </SoftBox>
         </SoftBox>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+            <h5 className="modal-title text-center" id="exampleModalLabel">
+                <img src="/static/media/logo.dc83d23100f9c81b98d3.jpeg" style={logo}  alt="waves" />
+            </h5>
+            <table style={tabla}>
+            <tbody>
+                <tr>
+                    <td style={td}>Nombre:</td>
+                    <td><strong>Farmacias Oxfar</strong></td>
+                </tr>
+                <tr>
+                    <td style={td}>Direccion:</td>
+                    <td><strong>Antonio Bellet 147, Providencia</strong></td>
+                </tr>
+                <tr>
+                    <td style={td}>Fono:</td>
+                    <td><strong>+56 2 2437 0237</strong></td>
+                </tr>
+                <tr>
+                    <td style={td}>Fecha</td>
+                    <td><strong>{dateFormat(venta.createdAt)}</strong></td>
+                </tr>
+                <tr>
+                    <td style={td}>Forma de Pago</td>
+                    <td><strong>{venta.payType}</strong></td>
+                </tr>
+                <tr>
+                    <td>Boleta</td>
+                    <td><strong>{venta.uid}</strong></td>                                 					
+                </tr>
+            </tbody>
+            </table>
+            <table style={tablaf} >
+                <thead>
+                    <tr style={tr} >
+                        <th >Esp.</th> 
+                        <th >Cant.</th>   
+                        <th >Item</th>
+                        <th >Valor U.</th>  
+                        <th >Desc.</th>   
+                        <th >Subtotal</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        venta.items.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item.valor1}</td>
+                              <td>{item.qty}</td>
+                              <td>{item.product.nombre}</td>
+                              <td>{item.price}</td>
+                              <td>0</td>
+                              <td>{item.total}</td>
+                              {/* Agrega más <td> según sea necesario */}
+                            </tr>
+                          ))
+                    }
+                         
+                    </tbody>
+            </table>
+            </Box>
+        </Modal>
         </DashboardLayout>
     );
 }
