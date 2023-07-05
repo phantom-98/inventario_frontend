@@ -14,6 +14,7 @@ import {insertarPuntos, dateFormat} from "../../config/helpers"
 import { loadingAction } from "actions/helperActions";
 import { Icon } from "@mui/material";
 import SoftButton from "components/SoftButton";
+import VentasModal from "./Modal/VentasModal";
 
 
 function Ventas() {
@@ -22,6 +23,7 @@ function Ventas() {
     const [dataRow, setDataRow] = useState([]) 
     const [dataRowF, setDataRowF] = useState([]) 
     const [showCard, setShowCard] = useState("web")
+    const [ventas, setVentas] = useState({})
 
 
 
@@ -30,7 +32,7 @@ function Ventas() {
         dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all');
         let respData = data.data
-        console.log(respData.boletas)
+        //console.log(respData.boletas)
         let tempRows = respData.boletas.map(r=>{
             return[dateFormat(r.createdAt), 'WebPay', `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.client?.RUTRecep, r.url,r.uid]
         })
@@ -54,7 +56,8 @@ function Ventas() {
     const navigate = useNavigate();
 
     const view = (item)=> {
-        //TODO Modal mostrar items
+      setVentas(item)
+
     }
 
 
@@ -68,7 +71,7 @@ function Ventas() {
           sort: false,
           empty: false,
           customBodyRender: (value, tableMeta, updateValue) => {
-        //console.log(tableMeta)
+            
             return (
               <>
                 <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
@@ -80,7 +83,29 @@ function Ventas() {
           }
         }
     })
+    columns.push({
     
+        name: "Ver",
+        options: {
+          filter: false,
+          sort: false,
+          empty: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            
+            return (
+              <>
+                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[5])}>
+                   
+                    <VentasModal 
+                      setVentas= {setVentas}
+                    />
+                </SoftButton>
+              
+              </>
+            );
+          }
+        }
+      })
     
 
     const columnsF = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], view);

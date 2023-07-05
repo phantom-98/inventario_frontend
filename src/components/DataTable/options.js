@@ -46,7 +46,7 @@ const muiOptions = {
     }
 };
 
-const columnsFunc = (rows, edit) =>{
+const columnsFunc = (rows, edit, onDelete) =>{
     let actionTemp = {
     
         name: "Action",
@@ -60,7 +60,7 @@ const columnsFunc = (rows, edit) =>{
                 <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[0])}>
                     <Icon>edit</Icon>
                 </SoftButton>
-                <SoftButton variant="text" color="error"  >
+                <SoftButton variant="text" color="error"  onClick={(e) => onDelete(tableMeta.rowData[7])} >
                     <Icon>delete</Icon>
                 </SoftButton>
               </>
@@ -81,6 +81,7 @@ const columnsFunc2 = (rows, edit, index, onDelete) =>{
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
+          //console.log(tableMeta)
           return (
             <>
               <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[index])}>
