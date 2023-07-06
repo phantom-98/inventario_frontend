@@ -72,7 +72,7 @@ function Ventas() {
     const [dataRow, setDataRow] = useState([]) 
     const [dataRowF, setDataRowF] = useState([]) 
     const [showCard, setShowCard] = useState("web")
-    const [venta, setVenta] = useState({})
+    const [venta, setVenta] = useState({items:[]})
 
 
 
@@ -248,7 +248,6 @@ function Ventas() {
                               <td>{item.price}</td>
                               <td>0</td>
                               <td>{item.total}</td>
-                              {/* Agrega más <td> según sea necesario */}
                             </tr>
                           ))
                     }
