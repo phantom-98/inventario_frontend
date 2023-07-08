@@ -87,7 +87,14 @@ function Ventas() {
         })
 
         let tempRows2 = respData.sales.map(r=>{
-            return[dateFormat(r.createdAt), r.payType, `$ ${insertarPuntos(r.total)}`, r.clientRut, r.uid]
+            let items = r.items.map(i=>{
+                return {
+                    producto: i.productName,
+                    cantidad: i.qty,
+                    precio: i.price,
+                }
+            })
+            return[dateFormat(r.createdAt), r.payType, `$ ${insertarPuntos(r.total)}`, r.clientRut, r.uid, JSON.stringify(items)]
         })
 
         setDataRow(tempRows)
@@ -245,9 +252,9 @@ function Ventas() {
                               <td>{item.valor1}</td>
                               <td>{item.qty}</td>
                               <td>{item.product.nombre}</td>
-                              <td>{item.price}</td>
+                              <td>$ {insertarPuntos(item.price)}</td>
                               <td>0</td>
-                              <td>{item.total}</td>
+                              <td>$ {insertarPuntos(item.total)}</td>
                             </tr>
                           ))
                     }
