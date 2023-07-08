@@ -53,7 +53,14 @@ function Clientes() {
     
 	  navigate(`/productos/edit/${item}`);
 	}
-  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
+
+  const onDelete = (item) => {
+    clienteAxios.delete(`/product/${item}`)
+    .then(() => {
+    getData();
+})
+}
+  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"],edit, onDelete);
 
   return (
     <DashboardLayout>

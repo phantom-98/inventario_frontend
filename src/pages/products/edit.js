@@ -19,6 +19,42 @@ import Grid from "@mui/material/Grid";
 import { useForm } from "react-hook-form";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { Margin } from "@mui/icons-material";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import MUIDataTable from "mui-datatables";
+
+const check ={
+    display: 'flex',
+    justifyContent: 'space-around',
+    padding: 30
+
+}
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 700,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
+  
+  const headert={
+    display: 'flex',
+    padding: '10px',
+    justifyContent: 'space-between',
+    margin: '10px'
+  }
+
 
 function EditClientes() {
     const navigate = useNavigate();
@@ -33,7 +69,10 @@ function EditClientes() {
       precioOferta: 0,
     })
     const { register, handleSubmit, formState: { errors } } = useForm();
-    
+   
+    const columns = ["Fecha", "Cantidad", "Precio", ];
+    const [rows, setRows] = useState([])
+
     const getData = async()=>{
       const data = await clienteAxios.get('product/sku/'+id);
       let respData = data.data
@@ -78,6 +117,10 @@ function EditClientes() {
         setOpen(true);
     };
 
+    const options = {
+        filterType: 'checkbox',
+      };
+    
     return (
         <DashboardLayout>
            <Backdrop
@@ -188,23 +231,32 @@ function EditClientes() {
                                 />
                                 </SoftBox>
                             </Grid>
-                            <Grid   item xs={12} md={6} xl={6}>
-                                <SoftBox mb={2}>
-                                <TextField 
-                                    name="controlLegal"
-                                    value={product.controlLegal} 
-                                    type="text"
-                                    onChange={(e)=>handleChange(e)}
-                                    fullWidth label="Control Legal" InputLabelProps={{ shrink: true }} variant="standard" 
-                                    style={{paddingTop:"0.15rem"}}
-                                />
-                                </SoftBox>
+                            <Grid   item  md={6} xl={6}>
+                                <Box sx={{ minWidth: '100%' }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                        Control Legal
+                                        </InputLabel>
+                                        <NativeSelect
+                                        fullWidth
+                                        defaultValue={'ninguna'}
+                                        inputProps={{
+                                            name: 'age',
+                                            id: 'uncontrolled-native',
+                                        }}
+                                        >
+                                        <option fullWidth value={'ninguna'}>Ninguna</option>
+                                        <option fullWidth value={'sicotropico'}>Sicotropico</option>
+                                        <option fullWidth value={'estupefaciente'}>Estupefacientes</option>
+                                        </NativeSelect>
+                                    </FormControl>
+                                </Box>
                             </Grid>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                 <TextField 
+                                    placeholder="%"
                                     name="impuestoExtra"
-                                    value={product.impuestoExtra} 
                                     type="number"
                                     onChange={(e)=>handleChange(e)}
                                     fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
@@ -212,13 +264,74 @@ function EditClientes() {
                                 />
                                 </SoftBox>
                             </Grid>
+                            <Grid  style={check} xs={12} md={6} xl={6}>
+                                <SoftBox>
+                                    <FormControlLabel control={<Checkbox  />} label="Peritorio Minimo" />
+                                </SoftBox>
+                                <SoftBox >
+                                    <FormControlLabel control={<Checkbox  />} label="Refrigerado" />
+                                </SoftBox>
+                            </Grid>
                   </Grid>
                   <SoftBox mt={4} mb={1}>
                       <SoftButton type="submit" variant="gradient" color="dark" style={{float:"right"}} >Guardar</SoftButton>
                   </SoftBox>
               </SoftBox>
+                
             </Card>
           </SoftBox>
+            <SoftBox>
+            <Card >
+                <div style={headert}>
+                <h6 > Ingreso De Productos
+                </h6>
+                    <SoftButton onClick={handleOpen} variant="outlined" color="info" size="small">Agregar +</SoftButton>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Agregar Precios
+                            </Typography>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}> 
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        <TextField 
+                                            name="Canidad"
+                                            type="number"
+                                            onChange={(e)=>handleChange(e)}
+                                            fullWidth label="Canidad" InputLabelProps={{ shrink: true }} variant="standard" 
+                                            style={{paddingTop:"0.15rem"}}
+                                        />
+                                    </Typography>
+                                </SoftBox>
+                            </Grid> 
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}> 
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        <TextField 
+                                            name="Precio"
+                                            type="number"
+                                            onChange={(e)=>handleChange(e)}
+                                            fullWidth label="Precio" InputLabelProps={{ shrink: true }} variant="standard" 
+                                            style={{paddingTop:"0.15rem"}}
+                                        />
+                                    </Typography>
+                                </SoftBox>
+                            </Grid> 
+                        </Box>
+                    </Modal>
+                </div>
+                    <MUIDataTable
+                        data={rows}
+                        columns={columns}
+                        options={options}
+                        />
+            </Card>                         
+                </SoftBox>
         </SoftBox>
       </DashboardLayout>
     );

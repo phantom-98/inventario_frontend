@@ -16,6 +16,20 @@ import ListHeader from "components/ListHeader"
 import Grid from "@mui/material/Grid";
 import SoftButton from "components/SoftButton";
 import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
+const check ={
+    display: 'flex',
+    justifyContent: 'space-around',
+    padding: 30
+
+}
+
 
 function create() {
     const navigate = useNavigate();
@@ -158,26 +172,45 @@ function create() {
                                 />
                                 </SoftBox>
                             </Grid>
-                            <Grid   item xs={12} md={6} xl={6}>
-                                <SoftBox mb={2}>
-                                <TextField 
-                                    name="controlLegal"
-                                    type="text"
-                                    onChange={(e)=>handleChange(e)}
-                                    fullWidth label="Control Legal" InputLabelProps={{ shrink: true }} variant="standard" 
-                                    style={{paddingTop:"0.15rem"}}
-                                />
-                                </SoftBox>
+                            <Grid   item  md={6} xl={6}>
+                                <Box sx={{ minWidth: '100%' }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                        Control Legal
+                                        </InputLabel>
+                                        <NativeSelect
+                                        fullWidth
+                                        defaultValue={'ninguna'}
+                                        inputProps={{
+                                            name: 'age',
+                                            id: 'uncontrolled-native',
+                                        }}
+                                        >
+                                        <option fullWidth value={'ninguna'}>Ninguna</option>
+                                        <option fullWidth value={'sicotropico'}>Sicotropico</option>
+                                        <option fullWidth value={'estupefaciente'}>Estupefacientes</option>
+                                        </NativeSelect>
+                                    </FormControl>
+                                </Box>
                             </Grid>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                 <TextField 
+                                    placeholder="%"
                                     name="impuestoExtra"
                                     type="number"
                                     onChange={(e)=>handleChange(e)}
                                     fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
                                     style={{paddingTop:"0.15rem"}}
                                 />
+                                </SoftBox>
+                            </Grid>
+                            <Grid  style={check} xs={12} md={6} xl={6}>
+                                <SoftBox>
+                                    <FormControlLabel control={<Checkbox  />} label="Peritorio Minimo" />
+                                </SoftBox>
+                                <SoftBox >
+                                    <FormControlLabel control={<Checkbox  />} label="Refrigerado" />
                                 </SoftBox>
                             </Grid>
                         </Grid>
