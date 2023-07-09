@@ -7,6 +7,7 @@ import CoverLayout from "layouts/authentication/CoverLayout";
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "../../actions/userActions"
+import { getDataforDashAction } from "../../actions/helperActions"
 import { useDispatch, useSelector } from "react-redux";
 import Swal from 'sweetalert2';
 
@@ -16,6 +17,7 @@ function SignIn() {
   const [password, setPassword] = useState("")
 
   const dispatch = useDispatch();
+  dispatch(getDataforDashAction())
 
   const loginUser = (user)=> dispatch(loginAction(user))
   

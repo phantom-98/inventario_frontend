@@ -214,8 +214,8 @@ function create() {
                                         }}
                                         >
                                         <option value="">Seleccione</option>
-                                        <option value="10">Bebidas analcoholicas y minerales con edulcorante</option>
-                                        <option value="18">Bebidas analcoholicas y minerales con elevado contenido de azucares</option>
+                                        <option value="10">Bebidas analcoholicas y minerales con edulcorante 10%</option>
+                                        <option value="18">Bebidas analcoholicas y minerales con elevado contenido de azucares 18%</option>
                                     </NativeSelect>
                                     
                                 </SoftBox>

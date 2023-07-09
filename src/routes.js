@@ -21,7 +21,7 @@ import EditFacturas from "pages/facturas/edit";
 import EditPromociones from "pages/promociones/edit";
 import EditVentas from "pages/ventas/edit";
 import EditProvider from "pages/provider/edit"
-
+import ProductPrices from "pages/products/prices"
 
 
 import CreateTienda from "pages/tiendas/create";
@@ -288,6 +288,15 @@ const routes = [
     route: "/provider/edit/:id",
     icon: <Shop size="12px" />,
     component: <EditProvider/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "ProductPrices",
+    key: "dashboard",
+    route: "/inventario/precios/:id",
+    icon: <Shop size="12px" />,
+    component: <ProductPrices/>,
     noCollapse: true,
   },
   

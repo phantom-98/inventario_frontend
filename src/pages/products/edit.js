@@ -46,14 +46,14 @@ const style = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
-  };
+};
   
-  const headert={
+const headert={
     display: 'flex',
     padding: '10px',
     justifyContent: 'space-between',
     margin: '10px'
-  }
+}
 
 
 function EditClientes() {
@@ -97,22 +97,22 @@ function EditClientes() {
     },[])
 
     const onSubmitPrices = data => {
-          clienteAxios.put('product/prices/'+id, prices)
-              .then(resp =>{
-                  console.log(resp)
-                  let tempRows = resp.data.prices.map(r=>{
-                    return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
-                   
-                  })
-              
-                  setRows(tempRows)
-                  succesSwal()
-              })
-              .catch((e)=>{
-                  console.log(e);
-                  errorSwal()
-              });
-      };
+        clienteAxios.put('product/prices/'+id, prices)
+            .then(resp =>{
+                console.log(resp)
+                let tempRows = resp.data.prices.map(r=>{
+                return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
+                
+                })
+            
+                setRows(tempRows)
+                succesSwal()
+            })
+            .catch((e)=>{
+                console.log(e);
+                errorSwal()
+            });
+    };
 
     
     const onSubmit = data => {
@@ -323,8 +323,8 @@ function EditClientes() {
                                         }}
                                         >
                                         <option value="">Seleccione</option>
-                                        <option value={"10"}>Bebidas analcoholicas y minerales con edulcorante</option>
-                                        <option value={"18"}>Bebidas analcoholicas y minerales con elevado contenido de azucares</option>
+                                        <option value={"10"}>Bebidas analcoholicas y minerales con edulcorante 10%</option>
+                                        <option value={"18"}>Bebidas analcoholicas y minerales con elevado contenido de azucares 18%</option>
                                     </NativeSelect>
                                 </SoftBox>
                             </Grid>
@@ -347,8 +347,7 @@ function EditClientes() {
             <SoftBox>
             <Card >
                 <div style={headert}>
-                <h6 > Ingreso De Productos
-                </h6>
+                <h6 > Ingreso De Productos</h6>
                     <SoftButton onClick={handleOpen} variant="outlined" color="info" size="small">Agregar +</SoftButton>
                     <Modal
                         open={open}
