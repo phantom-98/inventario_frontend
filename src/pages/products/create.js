@@ -45,14 +45,7 @@ function create() {
                 //navigate(`/inventario`);
             })
             .catch((e)=>{
-         
-                if(e.response.data.msg =="Token no válido"){
-                    errorSwal(e.response.data.msg)
-                    navigate(`/`);
-
-                }else{
-                    errorSwal(e.response.data.msg)
-                }
+                errorSwal(e.response.data.msg)
             });
     };
     const handleChange=e=>{
@@ -214,8 +207,8 @@ function create() {
                                         }}
                                         >
                                         <option value="">Seleccione</option>
-                                        <option value="10">Bebidas analcoholicas y minerales con edulcorante</option>
-                                        <option value="18">Bebidas analcoholicas y minerales con elevado contenido de azucares</option>
+                                        <option value="10">Bebidas analcoholicas y minerales con edulcorante 10%</option>
+                                        <option value="18">Bebidas analcoholicas y minerales con elevado contenido de azucares 18%</option>
                                     </NativeSelect>
                                     
                                 </SoftBox>

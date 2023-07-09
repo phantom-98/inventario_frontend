@@ -37,7 +37,7 @@ import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
 import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
 import Projects from "layouts/dashboard/components/Projects";
 import OrderOverview from "layouts/dashboard/components/OrderOverview";
-
+import {insertarPuntos, dateFormat} from "../../config/helpers"
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
@@ -49,61 +49,36 @@ import HeaderDashboard from "./components/Header/headerDashboard";
 import Invoices from "./components/invoices";
 import BillingInformation from "./components/BillingInformation";
 import { useDispatch, useSelector } from "react-redux";
-import { loadingAction } from "actions/helperActions";
+import { loadingAction, getDataforDashAction } from "actions/helperActions";
 import clienteAxios from 'config/axios';
 
 function Dashboard() {
     const dispatch = useDispatch();
+    let helper = useSelector(state => state.helper)
     const { size } = typography;
-    const { chart, items } = reportsBarChartData;
-    const [showCard, setShowCard] = useState("orderCompra")
-    let card;
-
-    const [dataGraph1, setdataGraph1] = useState({})
-
-    const getData = async()=>{
+    const [ventasPos, setventasPos] = useState({})
+    const [ventasWeb, setventasWeb] = useState({})
     
-        dispatch(loadingAction())
+    
+    const getData = async()=>{
         const data = await clienteAxios.get('sale/salePerMonth');
-        dispatch(loadingAction())
-        let respData = data.data
-        let dataPos = [];
-        let dataWeb = [];
-        for (let index = 0; index < 12; index++) {
-            if(respData.pos[index] && respData.pos[index].mes == index){
-                console.log(respData.pos[index].total)
-                dataPos.push(respData.pos[index].total)
-            }else {
-                dataPos.push(100)
-            }
+        let mes = data.data.pos[data.data.pos.length-1].total
+        let year = data.data.pos.reduce((a,b)=>a + b.total,0)
+        setventasPos({ mes, year})
 
-            if(respData.web[index] && respData.web[index].mes ==index){
-                dataWeb.push(respData.web[index].total)
-            }else {
-                dataWeb.push(0)
-            }
-            
-            
-        }
-        let dataTemp = dataGraph1
-        dataTemp.datasets = [
-            {
-                color:"info",
-                data: dataPos,
-                label: "Pos"
-            },
-            {
-                color:"dark",
-                data: dataWeb,
-                label: "Web"
-            },
-        ]
-        console.log(dataTemp)
-        setdataGraph1(dataTemp)
+        mes = data.data.web[data.data.web.length-1].total
+        year = data.data.web.reduce((a,b)=>a + b.total,0)
+        setventasWeb({ mes, year})
+        
+        
     }
 
+    
+
     useEffect(()=>{
+        dispatch(getDataforDashAction())
         getData()
+        
     },[])
    
 
@@ -111,35 +86,35 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <HeaderDashboard setShowCard={setShowCard} />
+      
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas del dia" }}
-                count="$53,000"
+                title={{ text: "Ventas Mes Pos" }}
+                count={`$ ${insertarPuntos(ventasPos.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "ventas semanales" }}
-                count="2,300"
+                title={{ text: "Ventas Anuales Pos" }}
+                count={`$ ${insertarPuntos(ventasPos.year)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "ventas mensuales" }}
-                count="+3,462"
+                title={{ text: "Ventas Mes Web" }}
+                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "ventas anuales" }}
-                count="$103,430"
+                title={{ text: "Ventas Anuales Web" }}
+                count={`$ ${insertarPuntos(ventasWeb.year)}`}
                 icon={{
                   color: "info",
                   component: "paid",
@@ -165,7 +140,7 @@ function Dashboard() {
                   </SoftBox>
                 }
                 height="20.25rem"
-                chart={dataGraph1}
+                chart={helper.data ?helper.data  :gradientLineChartData}
               />
             </Grid>
             <Grid item xs={12} lg={5}>

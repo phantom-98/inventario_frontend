@@ -62,6 +62,27 @@ function insertarPuntos(numero) {
     return resultado;
 }
 
+function getCpp(inventario, stock){
+    if(!inventario){
+        return 0
+    }
+    let totalUnidades = 0;
+    let totalCostoPonderado = 0;
+
+    // Calcular el total de unidades y el costo ponderado
+    for (let i = 0; i < inventario.length; i++) {
+        const producto = inventario[i];
+        totalUnidades += producto.qty;
+        totalCostoPonderado += producto.qty * producto.price;
+    }
+
+    // Calcular el costo promedio ponderado
+    const costoPromedioPonderado = totalCostoPonderado / (totalUnidades-stock);
+
+    return costoPromedioPonderado ? costoPromedioPonderado : 0;
+
+}
+
 function dateFormat(dateInformat) {
 
     return moment(dateInformat).format("DD-MM-YYYY H:mm")
@@ -69,4 +90,4 @@ function dateFormat(dateInformat) {
 
 
 
-export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat };
+export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp };

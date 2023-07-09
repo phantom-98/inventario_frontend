@@ -21,7 +21,8 @@ import EditFacturas from "pages/facturas/edit";
 import EditPromociones from "pages/promociones/edit";
 import EditVentas from "pages/ventas/edit";
 import EditProvider from "pages/provider/edit"
-
+import ProductPrices from "pages/products/prices"
+import EditUsuario from "pages/usuario/edit";
 
 
 import CreateTienda from "pages/tiendas/create";
@@ -31,6 +32,7 @@ import CreateFacturas from "pages/facturas/create";
 import CreatePromociones from "pages/promociones/create";
 import CreateVentas from "pages/ventas/create";
 import CreateProvider from "pages/provider/create"
+import CrearUsuario from "pages/usuario/create";
 
 import Tiendas from './pages/tiendas'
 import Products from "pages/products";
@@ -38,8 +40,8 @@ import Ventas from './pages/ventas'
 import Clientes from './pages/clientes'
 import Factura from './pages/facturas'
 import Abastecimiento from './pages/abastecimiento'
-
 import SpaceShip from './examples/Icons/SpaceShip';
+import Usuarios from "pages/usuario";
 
 import Settings from './examples/Icons/Settings';
 import Cube from "examples/Icons/Cube";
@@ -107,6 +109,15 @@ const routes = [
     route: "/ventas",
     icon: <Document size="12px" />,
     component: <Ventas />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Usuarios",
+    key: "usuarios",
+    route: "/usuarios",
+    icon: <CustomerSupport size="12px" />,
+    component: <Usuarios />,
     noCollapse: true,
   },
   
@@ -200,6 +211,28 @@ const routes = [
     component: <CreateProduct />,
     noCollapse: true,
   },
+
+
+  {
+    type: "nocollapse",
+    name: "EditUsuario",
+    key: "dashboard",
+    route: "/usuario/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditUsuario />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CrearUsuario",
+    key: "dashboard",
+    route: "/usuarios/create",
+    icon: <Shop size="12px" />,
+    component: <CrearUsuario />,
+    noCollapse: true,
+  },
+  
+  
   {
     type: "nocollapse",
     name: "EditClientes",
@@ -288,6 +321,15 @@ const routes = [
     route: "/provider/edit/:id",
     icon: <Shop size="12px" />,
     component: <EditProvider/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "ProductPrices",
+    key: "dashboard",
+    route: "/inventario/precios/:id",
+    icon: <Shop size="12px" />,
+    component: <ProductPrices/>,
     noCollapse: true,
   },
   
