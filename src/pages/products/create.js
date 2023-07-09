@@ -45,14 +45,7 @@ function create() {
                 //navigate(`/inventario`);
             })
             .catch((e)=>{
-         
-                if(e.response.data.msg =="Token no válido"){
-                    errorSwal(e.response.data.msg)
-                    navigate(`/`);
-
-                }else{
-                    errorSwal(e.response.data.msg)
-                }
+                errorSwal(e.response.data.msg)
             });
     };
     const handleChange=e=>{

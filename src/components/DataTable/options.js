@@ -81,7 +81,7 @@ const columnsFunc2 = (rows, edit, index, onDelete) =>{
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          //console.log(tableMeta)
+          console.log(tableMeta)
           return (
             <>
               <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[index])}>
