@@ -56,8 +56,8 @@ function Clientes() {
 
   const onDelete = (item) => {
     clienteAxios.delete(`/product/${item}`)
-    .then(() => {
-    getData();
+      .then(() => {
+      getData();
 })
 }
   const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],edit, onDelete);
