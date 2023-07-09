@@ -30,7 +30,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import MUIDataTable from "mui-datatables";
-
+import {insertarPuntos, dateFormat} from "../../config/helpers"
 const check ={
     display: 'flex',
     justifyContent: 'space-around',
@@ -57,6 +57,7 @@ const style = {
 
 
 function EditClientes() {
+
     const navigate = useNavigate();
     const routeParams = useParams();
     const {id} = routeParams;
@@ -68,6 +69,8 @@ function EditClientes() {
       precio: 0,
       precioOferta: 0,
     })
+    const [prices, setPrices] = useState({})
+
     const { register, handleSubmit, formState: { errors } } = useForm();
    
     const columns = ["Fecha", "Cantidad", "Precio", ];
@@ -76,30 +79,66 @@ function EditClientes() {
     const getData = async()=>{
       const data = await clienteAxios.get('product/sku/'+id);
       let respData = data.data
+      let tempRows = respData.prices.map(r=>{
+        return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
+       
+      })
+  
+      setRows(tempRows)
+
       setProduct(respData)
     }
+
+  
 
     
     useEffect(()=>{
       getData()
     },[])
 
+    const onSubmitPrices = data => {
+          clienteAxios.put('product/prices/'+id, prices)
+              .then(resp =>{
+                  console.log(resp)
+                  let tempRows = resp.data.prices.map(r=>{
+                    return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
+                   
+                  })
+              
+                  setRows(tempRows)
+                  succesSwal()
+              })
+              .catch((e)=>{
+                  console.log(e);
+                  errorSwal()
+              });
+      };
+
     
     const onSubmit = data => {
-      handleOpen()
+      //handleOpen()
         clienteAxios.put('product/sku/'+id, product)
             .then(resp =>{
-                handleClose()
+                //handleClose()
                 console.log(resp)
                 succesSwal()
-                navigate(`/inventario`);
+                //navigate(`/inventario`);
             })
             .catch((e)=>{
-                handleClose()
+                //handleClose()
                 console.log(e);
                 errorSwal()
             });
     };
+    const handleChangePrices=e=>{
+
+        const {name, value}=e.target;
+        setPrices(prevState=>({
+          ...prevState,
+          [name]: value
+        }))
+      }
+
     const handleChange=e=>{
 
       const {name, value}=e.target;
@@ -134,7 +173,7 @@ function EditClientes() {
         <SoftBox py={3}>
           <SoftBox mb={3}>
             <Card>
-              <ListHeader url="/inventario" label="Editar Cliente" buttonText="Regresar" />
+              <ListHeader url="/inventario" label="Editar Producto" buttonText="Regresar" />
                 <SoftBox p={2} component="form" role="form" onSubmit={handleSubmit(onSubmit)}>
                   <Grid container spacing={2}>
                     <Grid   item xs={12} md={6} xl={6}>
@@ -182,6 +221,17 @@ function EditClientes() {
                           style={{paddingTop:"0.15rem"}}
                         />
                       </SoftBox>
+                    </Grid>
+                    <Grid   item xs={12} md={6} xl={6}>
+                        <SoftBox mb={2}>
+                        <TextField 
+                            name="codigoBarra"
+                            value={product.codigoBarra} 
+                            onChange={(e)=>handleChange(e)}
+                            fullWidth label="codigoBarra" InputLabelProps={{ shrink: true }} variant="standard" 
+                            style={{paddingTop:"0.15rem"}}
+                        />
+                        </SoftBox>
                     </Grid>
                     <Grid   item xs={12} md={6} xl={6}>
                       <SoftBox mb={2}>
@@ -238,38 +288,52 @@ function EditClientes() {
                                         Control Legal
                                         </InputLabel>
                                         <NativeSelect
+                                         onChange={(e)=>handleChange(e)}
+                                          name="controlLegal"
                                         fullWidth
                                         defaultValue={'ninguna'}
                                         inputProps={{
-                                            name: 'age',
+                                            name: 'controlLegal',
+                                            value:product.controlLegal,
                                             id: 'uncontrolled-native',
                                         }}
                                         >
-                                        <option fullWidth value={'ninguna'}>Ninguna</option>
-                                        <option fullWidth value={'sicotropico'}>Sicotropico</option>
-                                        <option fullWidth value={'estupefaciente'}>Estupefacientes</option>
+                                        <option value={'ninguna'}>Ninguna</option>
+                                        <option value={'sicotropico'}>Sicotropico</option>
+                                        <option value={'estupefaciente'}>Estupefacientes</option>
                                         </NativeSelect>
                                     </FormControl>
                                 </Box>
                             </Grid>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
-                                <TextField 
-                                    placeholder="%"
-                                    name="impuestoExtra"
-                                    type="number"
-                                    onChange={(e)=>handleChange(e)}
-                                    fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
-                                    style={{paddingTop:"0.15rem"}}
-                                />
+                                <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                    Impuesto Extra
+                                    </InputLabel>
+                                    <NativeSelect
+                                     name="impuestoExtra"
+                                     onChange={(e)=>handleChange(e)}
+                                        sx={{ input: { color: "white", width: "100%" } }}
+                                        fullWidth
+                                       
+                                        inputProps={{
+                                            name: 'impuestoExtra',
+                                            value:product.impuestoExtra,
+                                            id: 'uncontrolled-native',
+                                        }}
+                                        >
+                                        <option value="">Seleccione</option>
+                                        <option value={"10"}>Bebidas analcoholicas y minerales con edulcorante</option>
+                                        <option value={"18"}>Bebidas analcoholicas y minerales con elevado contenido de azucares</option>
+                                    </NativeSelect>
                                 </SoftBox>
                             </Grid>
                             <Grid  style={check} xs={12} md={6} xl={6}>
                                 <SoftBox>
-                                    <FormControlLabel control={<Checkbox  />} label="Peritorio Minimo" />
+                                    <input name="petitorioMin" type="checkbox" onChange={(e)=>handleChange(e)} checked={product.petitorioMin} value="1" /> Peritorio Minimo
                                 </SoftBox>
                                 <SoftBox >
-                                    <FormControlLabel control={<Checkbox  />} label="Refrigerado" />
+                                    <input name="refrigerado" type="checkbox" onChange={(e)=>handleChange(e)} checked={product.refrigerado} value="1" /> Refrigerado
                                 </SoftBox>
                             </Grid>
                   </Grid>
@@ -296,14 +360,15 @@ function EditClientes() {
                             <Typography id="modal-modal-title" variant="h6" component="h2">
                                 Agregar Precios
                             </Typography>
+                            <SoftBox p={2} component="form" role="form" onSubmit={handleSubmit(onSubmitPrices)}>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}> 
                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                         <TextField 
-                                            name="Canidad"
+                                            name="qty"
                                             type="number"
-                                            onChange={(e)=>handleChange(e)}
-                                            fullWidth label="Canidad" InputLabelProps={{ shrink: true }} variant="standard" 
+                                            onChange={(e)=>handleChangePrices(e)}
+                                            fullWidth label="Cantidad" InputLabelProps={{ shrink: true }} variant="standard" 
                                             style={{paddingTop:"0.15rem"}}
                                         />
                                     </Typography>
@@ -313,15 +378,19 @@ function EditClientes() {
                                 <SoftBox mb={2}> 
                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                         <TextField 
-                                            name="Precio"
+                                            name="price"
                                             type="number"
-                                            onChange={(e)=>handleChange(e)}
+                                            onChange={(e)=>handleChangePrices(e)}
                                             fullWidth label="Precio" InputLabelProps={{ shrink: true }} variant="standard" 
                                             style={{paddingTop:"0.15rem"}}
                                         />
                                     </Typography>
                                 </SoftBox>
                             </Grid> 
+                            <SoftBox mt={4} mb={1}>
+                                <SoftButton type="submit" variant="gradient" color="dark" style={{float:"right"}} >Guardar</SoftButton>
+                            </SoftBox>
+                            </SoftBox>
                         </Box>
                     </Modal>
                 </div>

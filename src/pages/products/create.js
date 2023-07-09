@@ -42,7 +42,7 @@ function create() {
         clienteAxios.post('product', product)
             .then(resp =>{
                 succesSwal()
-                navigate(`/inventario`);
+                //navigate(`/inventario`);
             })
             .catch((e)=>{
          
@@ -67,9 +67,10 @@ function create() {
 
     return (
         <DashboardLayout>
+            
             <DashboardNavbar />
             <SoftBox py={3}>
-            <SoftBox py={3}component="form" role="form" schema={formSchema} onSubmit={onSubmit}>
+            <SoftBox py={3}component="form" role="form" onSubmit={onSubmit}>
                     <SoftBox p={2} >
                         <Grid container spacing={2}>
                             <Grid   item xs={12} md={6} xl={6}>
@@ -172,13 +173,15 @@ function create() {
                                 />
                                 </SoftBox>
                             </Grid>
-                            <Grid   item  md={6} xl={6}>
-                                <Box sx={{ minWidth: '100%' }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                                        Control Legal
-                                        </InputLabel>
-                                        <NativeSelect
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                    Control Legal
+                                    </InputLabel>
+                                    <NativeSelect
+                                     onChange={(e)=>handleChange(e)}
+                                        name="controlLegal"
+                                        sx={{ input: { color: "white", width: "100%" } }}
                                         fullWidth
                                         defaultValue={'ninguna'}
                                         inputProps={{
@@ -186,31 +189,43 @@ function create() {
                                             id: 'uncontrolled-native',
                                         }}
                                         >
-                                        <option fullWidth value={'ninguna'}>Ninguna</option>
-                                        <option fullWidth value={'sicotropico'}>Sicotropico</option>
-                                        <option fullWidth value={'estupefaciente'}>Estupefacientes</option>
-                                        </NativeSelect>
-                                    </FormControl>
-                                </Box>
+                                             <option  value=''>Seleccione</option>
+                                            <option  value='sicotropico'>Sicotropico</option>
+                                            <option  value='estupefaciente'>Estupefacientes</option>
+                                    </NativeSelect>
+                                    
+                                </SoftBox>
                             </Grid>
+                           
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
-                                <TextField 
-                                    placeholder="%"
-                                    name="impuestoExtra"
-                                    type="number"
-                                    onChange={(e)=>handleChange(e)}
-                                    fullWidth label="Impuesto Extra" InputLabelProps={{ shrink: true }} variant="standard" 
-                                    style={{paddingTop:"0.15rem"}}
-                                />
+                                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                                    Impuesto Extra
+                                    </InputLabel>
+                                    <NativeSelect
+                                     onChange={(e)=>handleChange(e)}
+                                        name="impuestoExtra"
+                                        sx={{ input: { color: "white", width: "100%" } }}
+                                        fullWidth
+                                        defaultValue={'ninguna'}
+                                        inputProps={{
+                                            name: 'age',
+                                            id: 'uncontrolled-native',
+                                        }}
+                                        >
+                                        <option value="">Seleccione</option>
+                                        <option value="10">Bebidas analcoholicas y minerales con edulcorante</option>
+                                        <option value="18">Bebidas analcoholicas y minerales con elevado contenido de azucares</option>
+                                    </NativeSelect>
+                                    
                                 </SoftBox>
                             </Grid>
                             <Grid  style={check} xs={12} md={6} xl={6}>
                                 <SoftBox>
-                                    <FormControlLabel control={<Checkbox  />} label="Peritorio Minimo" />
+                                    <FormControlLabel   name="petitorioMin" control={<Checkbox name="petitorioMin"  onChange={(e)=>handleChange(e)}  />} label="Petitorio Minimo" />
                                 </SoftBox>
                                 <SoftBox >
-                                    <FormControlLabel control={<Checkbox  />} label="Refrigerado" />
+                                    <FormControlLabel   name="refrigerado" control={<Checkbox  name="refrigerado" onChange={(e)=>handleChange(e)} />} label="Refrigerado" />
                                 </SoftBox>
                             </Grid>
                         </Grid>
