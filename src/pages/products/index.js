@@ -23,6 +23,7 @@ import MUIDataTable from "mui-datatables"
 import NestedModal from "components/modal/modalExel";
 import { loadingAction } from "actions/helperActions";
 import {insertarPuntos, getCpp} from "../../config/helpers"
+import Icon from "@mui/material/Icon";
 
 
 function Clientes() {
@@ -60,7 +61,12 @@ function Clientes() {
       getData();
 })
 }
-  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],edit, onDelete);
+const duplicate = (item) => {
+  navigate(`/productos/duplicar/${item}`);
+}
+
+
+  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],edit, onDelete, duplicate);
 
   return (
     <DashboardLayout>
