@@ -31,6 +31,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import MUIDataTable from "mui-datatables";
 import {insertarPuntos, dateFormat} from "../../config/helpers"
+import {getCpp} from "../../config/helpers"
 const check ={
     display: 'flex',
     justifyContent: 'space-around',
@@ -261,7 +262,7 @@ function EditClientes() {
                                 <SoftBox mb={2}>
                                 <TextField 
                                     name="cpp"
-                                    value={product.cpp} 
+                                    value={getCpp(product.prices)} 
                                     type="number"
                                     onChange={(e)=>handleChange(e)}
                                     fullWidth label="Costo Promedio Ponderado" InputLabelProps={{ shrink: true }} variant="standard" 
@@ -344,62 +345,7 @@ function EditClientes() {
                 
             </Card>
           </SoftBox>
-            <SoftBox>
-            <Card >
-                <div style={headert}>
-                <h6 > Ingreso De Productos</h6>
-                    <SoftButton onClick={handleOpen} variant="outlined" color="info" size="small">Agregar +</SoftButton>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Agregar Precios
-                            </Typography>
-                            <SoftBox p={2} component="form" role="form" onSubmit={handleSubmit(onSubmitPrices)}>
-                            <Grid   item xs={12} md={6} xl={6}>
-                                <SoftBox mb={2}> 
-                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                        <TextField 
-                                            name="qty"
-                                            type="number"
-                                            onChange={(e)=>handleChangePrices(e)}
-                                            fullWidth label="Cantidad" InputLabelProps={{ shrink: true }} variant="standard" 
-                                            style={{paddingTop:"0.15rem"}}
-                                        />
-                                    </Typography>
-                                </SoftBox>
-                            </Grid> 
-                            <Grid   item xs={12} md={6} xl={6}>
-                                <SoftBox mb={2}> 
-                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                        <TextField 
-                                            name="price"
-                                            type="number"
-                                            onChange={(e)=>handleChangePrices(e)}
-                                            fullWidth label="Precio" InputLabelProps={{ shrink: true }} variant="standard" 
-                                            style={{paddingTop:"0.15rem"}}
-                                        />
-                                    </Typography>
-                                </SoftBox>
-                            </Grid> 
-                            <SoftBox mt={4} mb={1}>
-                                <SoftButton type="submit" variant="gradient" color="dark" style={{float:"right"}} >Guardar</SoftButton>
-                            </SoftBox>
-                            </SoftBox>
-                        </Box>
-                    </Modal>
-                </div>
-                    <MUIDataTable
-                        data={rows}
-                        columns={columns}
-                        options={options}
-                        />
-            </Card>                         
-                </SoftBox>
+            
         </SoftBox>
       </DashboardLayout>
     );

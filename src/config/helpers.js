@@ -72,14 +72,17 @@ function getCpp(inventario, stock){
     // Calcular el total de unidades y el costo ponderado
     for (let i = 0; i < inventario.length; i++) {
         const producto = inventario[i];
-        totalUnidades += producto.qty;
-        totalCostoPonderado += producto.qty * producto.price;
+        totalUnidades += Number(producto.qty);
+        totalCostoPonderado += Number(producto.qty) * Number(producto.price);
     }
 
-    // Calcular el costo promedio ponderado
-    const costoPromedioPonderado = totalCostoPonderado / (totalUnidades-stock);
+    console.log(totalUnidades)
+    console.log(totalCostoPonderado)
 
-    return costoPromedioPonderado ? costoPromedioPonderado : 0;
+    // Calcular el costo promedio ponderado
+    const costoPromedioPonderado = totalCostoPonderado / (totalUnidades);
+
+    return costoPromedioPonderado ? insertarPuntos(Math.round(costoPromedioPonderado)) : 0;
 
 }
 
