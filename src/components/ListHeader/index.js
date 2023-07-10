@@ -9,10 +9,14 @@ function ListHeader ({url, label, buttonText, mode}) {
 
     let extraButtons=""
 
+    
+
     if(mode == "excelModal"){
         extraButtons = <NestedModal/>
     }else if(mode == "datePicker"){
         extraButtons = <DatePiker/>
+    }else if(mode == "downloadPos"){
+        extraButtons = <SoftButton variant="outlined" onClick={()=>location.href = "http://127.0.0.1:4000/v1/sale/excelPos"} color="info" size="small">Descargar Ventas</SoftButton>
     }
 
     
