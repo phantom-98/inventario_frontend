@@ -177,7 +177,7 @@ function Ventas() {
                 </Card>
     }else if(showCard == "pos"){
         card =  <Card>
-                    <ListHeader url="/provider/create" label="Listado Ventas POS" buttonText="Agregar +" />
+                    <ListHeader url="/provider/create" label="Listado Ventas POS" buttonText="Agregar +" mode="downloadPos" />
                     <SoftBox>
                         <MUIDataTable
                             data={dataRowF}

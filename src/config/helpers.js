@@ -86,6 +86,7 @@ function getCpp(inventario, stock){
 
 }
 
+
 function dateFormat(dateInformat) {
 
     return moment(dateInformat).format("DD-MM-YYYY H:mm")
