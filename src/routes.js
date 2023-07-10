@@ -24,6 +24,7 @@ import EditProvider from "pages/provider/edit"
 import ProductPrices from "pages/products/prices"
 import EditUsuario from "pages/usuario/edit";
 
+import DuplicarProducto from "pages/products/duplicate";
 
 import CreateTienda from "pages/tiendas/create";
 import CreateProduct from "pages/products/create";
@@ -202,6 +203,18 @@ const routes = [
     component: <EditProduct />,
     noCollapse: true,
   },
+
+  {
+    type: "nocollapse",
+    name: "DuplicarProduct",
+    key: "dashboard",
+    route: "/productos/duplicar/:id",
+    icon: <Shop size="12px" />,
+    component: <DuplicarProducto />,
+    noCollapse: true,
+  },
+
+
   {
     type: "nocollapse",
     name: "CreateProduct",

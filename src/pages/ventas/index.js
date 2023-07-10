@@ -9,7 +9,7 @@ import ListHeader from "components/ListHeader"
 import HeaderVentas from "./Header/headerVentas";
 
 import MUIDataTable from "mui-datatables";
-import { muiOptions,  columnsFunc } from "components/DataTable/options"
+import { muiOptions,  columnsFunc4 } from "components/DataTable/options"
 import {insertarPuntos, dateFormat} from "../../config/helpers"
 import { loadingAction } from "actions/helperActions";
 import { Icon } from "@mui/material";
@@ -19,6 +19,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import tableData from './../tiendas/storeTableData';
+import Tooltip from '@mui/material/Tooltip';
+
 
 const style = {
     position: 'absolute',
@@ -130,7 +132,9 @@ function Ventas() {
             return (
               <>
                 <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
+                  <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
+                  </Tooltip>
                 </SoftButton>
               
               </>
@@ -138,7 +142,7 @@ function Ventas() {
           }
         }
     })
-    const columnsF = columnsFunc(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
+    const columnsF = columnsFunc4(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
     columnsF.push({
     
         name: "Ver",
@@ -150,7 +154,9 @@ function Ventas() {
             return (
               <>
                 <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[4])}>
-                <Icon >archiveIcon</Icon>
+                  <Tooltip title="boleta">
+                    <Icon >archiveIcon</Icon>
+                  </Tooltip>
                 </SoftButton>
               
               </>
