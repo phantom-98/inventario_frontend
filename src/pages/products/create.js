@@ -42,7 +42,7 @@ function create() {
         clienteAxios.post('product', product)
             .then(resp =>{
                 succesSwal()
-                //navigate(`/inventario`);
+                navigate(`/inventario`);
             })
             .catch((e)=>{
                 errorSwal(e.response.data.msg)
