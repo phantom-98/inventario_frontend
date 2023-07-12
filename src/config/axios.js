@@ -13,6 +13,10 @@ const clienteAxios = axios.create({
 })
 
 clienteAxios.interceptors.response.use((response) => response, (error) => {
+    console.log(error.code)
+    if(error.code == "ERR_BAD_REQUEST"){
+        location.href = "/"
+    }
     if(error.response.data.msg == "error en el token"){
         location.href = "/"
     }
