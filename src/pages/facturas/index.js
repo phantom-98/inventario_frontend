@@ -20,6 +20,7 @@ import DataTableComponent from "components/DataTable"
 import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import { loadingAction } from "actions/helperActions";
+import HeaderFacturas from "./Header/headerFacturas";
 
 import MUIDataTable from "mui-datatables";
 
@@ -27,6 +28,7 @@ function Clientes() {
 
   const [dataRow, setDataRow] = useState([]) 
   const [rows, setRows] = useState([])
+  const [showCard, setShowCard] = useState("Emitido")
   const columns = ["Fecha", "Tipo", "Cliente Rut", "Total"];
 
   columns.push({
@@ -106,24 +108,34 @@ const dispatch = useDispatch();
     filterType: 'checkbox',
   };
 
+  let card;
+    if (showCard == "Emitido") {
+        card =  <Card>
+                   <ListHeader url="/facturas/create" label="Listado Factura" buttonText="Agregar +" />
+                    <SoftBox>
+                        <MUIDataTable
+                        
+                            data={rows}
+                            columns={columns}
+                            options={options}
+                        />
+                    </SoftBox>
+                </Card>
+    }else if(showCard == "Recibido"){
+        card = <Card>
+            <ListHeader label="Listado Provedores" buttonText="Agregar +" />
+            <SoftBox>
+               
+            </SoftBox>
+        </Card>
+    }
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <HeaderFacturas setShowCard={setShowCard} />
       <SoftBox py={3}>
         <SoftBox mb={3}>
-          <Card>
-            <ListHeader url="/facturas/create" label="Listado Factura" buttonText="Agregar +" />
-            <SoftBox>
-            <MUIDataTable
-              
-                data={rows}
-                columns={columns}
-                options={options}
-            />
-            
-            </SoftBox>
-          </Card>
+            {card}
         </SoftBox>
       </SoftBox>
     </DashboardLayout>
