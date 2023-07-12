@@ -36,7 +36,6 @@ function ProductPrices() {
         const data = await clienteAxios.get('product/sku/'+id);
         let respData = data.data
         let tempRows = respData.prices.map(r=>{
-			console.log(r._id)
             return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`, r._id]
         })
         setRows(tempRows)
@@ -65,7 +64,7 @@ function ProductPrices() {
 		}
 
         clienteAxios.put(`/product/deletePrices/`+id, data).then((resp) => {
-            getData();
+            location.reload()
         })
     }
 

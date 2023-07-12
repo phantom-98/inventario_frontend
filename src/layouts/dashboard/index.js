@@ -152,8 +152,8 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={7}>
             <Projects />
           </Grid>
-          <Grid item xs={12} md={6} lg={5}>
-            <BillingInformation/>
+          <Grid item xs={12} md={6} lg={5} height="417px" >
+            <BillingInformation />
           </Grid>
         </Grid>
       </SoftBox>

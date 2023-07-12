@@ -59,7 +59,7 @@ const columnsFunc = (rows, edit, onDelete) =>{
             
             return (
               <>
-               <SoftButton variant="text" color="success" onClick={(e) => location.href = `/inventario/precios/${tableMeta.rowData[0]}`} >
+               <SoftButton  variant="text" color="success" onClick={(e) => location.href = `/inventario/precios/${tableMeta.rowData[0]}`} >
                     <Tooltip title="Costo Neto">
                         <AttachMoneyIcon/>
                     </Tooltip>
