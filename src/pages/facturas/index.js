@@ -28,29 +28,11 @@ function Clientes() {
 
   const [dataRow, setDataRow] = useState([]) 
   const [rows, setRows] = useState([])
+  const [rows2, setRows2] = useState([])
   const [showCard, setShowCard] = useState("Emitido")
-  const columns = ["Fecha", "Tipo", "Cliente Rut", "Total"];
+  const columns = ["Fecha", "Tipo", "Folio", "Razon Social", "Cliente Rut", "Total"];
+  const columnsB = ["Fecha", "Tipo", "Folio", "Razon Social", "Cliente Rut", "Total"];
 
-  columns.push({
-    
-    name: "Link",
-    options: {
-      filter: false,
-      sort: false,
-      empty: false,
-      customBodyRender: (value, tableMeta, updateValue) => {
-    
-        return (
-          <>
-            <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
-                <Icon >archiveIcon</Icon>
-            </SoftButton>
-          
-          </>
-        );
-      }
-    }
-})
 
 columns.push({
     
@@ -63,6 +45,10 @@ columns.push({
     
       return (
         <>
+
+          <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
+                <Icon >archiveIcon</Icon>
+            </SoftButton>
           <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[5])}>
               <Icon >edit</Icon>
           </SoftButton>
@@ -76,24 +62,67 @@ columns.push({
 })
 const dispatch = useDispatch();
 
+	const getFacturas = async()=>{
+		
+		const data = await clienteAxios.get('factura/receivedDte');
 
+		let respData = data.data
+		let tempRows = [];
+		if(!respData.error){
+			tempRows = respData
+		}else{
+			tempRows = [{
+				"RUTEmisor": 61808000,
+				"DV": "5",
+				"RznSoc": "AGUAS ANDINAS S.A.",
+				"TipoDTE": 33,
+				"Folio": 7187125,
+				"FchEmis": "2023-07-03",
+				"MntExe": null,
+				"MntNeto": 2039,
+				"IVA": 387,
+				"MntTotal": 2426,
+				"Acuses": [
+					{
+						"codEvento": "ACD",
+						"fechaEvento": "2023-07-07 13:08:16",
+						"estado": "Pendiente"
+					},
+					{
+						"codEvento": "ERM",
+						"fechaEvento": "2023-07-07 13:08:17",
+						"estado": "Registro"
+					}
+				],
+				"FmaPago": 0,
+				"TpoTranCompra": 1
+			}]
+		}
+		tempRows = tempRows.map(r=>{
+			return[r.FchEmis, r.TipoDTE,r.Folio, r.RznSoc,  r.RUTEmisor, r.MntTotal, "r.url", r.uid]
+		})
+
+		setRows2(tempRows)
+	
+	}
   
-  const getData = async()=>{
-    dispatch(loadingAction())
-    const data = await clienteAxios.get('factura/');
-    dispatch(loadingAction())
-    let respData = data.data
-    let tempRows = respData.map(r=>{
-      return[r.createdAt, r.type, r.client.RUTRecep, r.totals.MntTotal, r.url, r.uid]
-    })
+	const getData = async()=>{
+		dispatch(loadingAction())
+		const data = await clienteAxios.get('factura/');
+		dispatch(loadingAction())
+		let respData = data.data
+		let tempRows = respData.map(r=>{
+			return[r.createdAt, r.type, r.client.RUTRecep, r.totals.MntTotal, r.url, r.uid]
+		})
 
-    setRows(tempRows)
-    console.log(tempRows)
-    
-    //setDataRow(data.data)
-  }
+		setRows(tempRows)
+		console.log(tempRows)
+		
+		//setDataRow(data.data)
+	}
     
   useEffect(()=>{
+	getFacturas()
     getData()
   },[])
   
@@ -111,10 +140,9 @@ const dispatch = useDispatch();
   let card;
     if (showCard == "Emitido") {
         card =  <Card>
-                   <ListHeader url="/facturas/create" label="Listado Factura" buttonText="Agregar +" />
+                   <ListHeader url="/facturas/create" label="Emitidos" buttonText="Agregar +" />
                     <SoftBox>
                         <MUIDataTable
-                        
                             data={rows}
                             columns={columns}
                             options={options}
@@ -123,9 +151,13 @@ const dispatch = useDispatch();
                 </Card>
     }else if(showCard == "Recibido"){
         card = <Card>
-            <ListHeader label="Listado Provedores" buttonText="Agregar +" />
+            <ListHeader label="Listado Recibidos" buttonText="Agregar +" />
             <SoftBox>
-               
+                <MUIDataTable
+                    data={rows2}
+                    columns={columnsB}
+                    options={options}
+                />
             </SoftBox>
         </Card>
     }

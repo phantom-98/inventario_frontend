@@ -1,19 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -25,8 +10,21 @@ import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Tooltip from '@mui/material/Tooltip';
+import clienteAxios from 'config/axios';
+import { loadingAction } from "actions/helperActions";
+import { useDispatch } from "react-redux";
 
-function Bill({ nombre, rutEmisor, montoTotal, documento, fecha, noGutter }) {
+function Bill({ nombre, rutEmisor, montoTotal, documento, fecha, noGutter, item }) {
+  const dispatch = useDispatch();
+
+  const openPdf = async ()=>{
+    dispatch(loadingAction())
+    const data = await clienteAxios.post('factura/receivedDte', item);
+    console.log(data);
+    dispatch(loadingAction())
+    window.open(data.data.pdfUrl , '_blank');
+  }
+
   return (
     <SoftBox
       component="li"
@@ -62,7 +60,7 @@ function Bill({ nombre, rutEmisor, montoTotal, documento, fecha, noGutter }) {
             <SoftBox mr={1}>
               
             </SoftBox>
-            <SoftButton variant="text" color="dark">
+            <SoftButton variant="text" color="dark" onClick={()=>openPdf()}>
                 <Tooltip title="Ver PDF">
                     <RemoveRedEyeIcon/>
                 </Tooltip>
@@ -112,11 +110,12 @@ Bill.defaultProps = {
 // Typechecking props for the Bill
 Bill.propTypes = {
     nombre: PropTypes.string.isRequired,
-    rutEmisor: PropTypes.string.isRequired,
-    montoTotal: PropTypes.string.isRequired,
-    documento: PropTypes.string.isRequired,
-    fecha: PropTypes.bool,
-  noGutter: PropTypes.bool,
+    rutEmisor: PropTypes.number.isRequired,
+    montoTotal: PropTypes.number.isRequired,
+    documento: PropTypes.number.isRequired,
+    fecha: PropTypes.string,
+    noGutter: PropTypes.bool,
+    item: PropTypes.object
 };
 
 export default Bill;

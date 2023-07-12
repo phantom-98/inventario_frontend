@@ -1,19 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Card from "@mui/material/Card";
 
 // Soft UI Dashboard React components
@@ -33,11 +18,41 @@ function BillingInformation() {
     const [facturas, setFacturas] = useState({data:[]})
 
     const getFacturas = async()=>{
-        dispatch(loadingAction())
+      
         const data = await clienteAxios.get('factura/receivedDte');
-        dispatch(loadingAction())
+  
         let respData = data.data
-        setFacturas(respData)
+        if(!respData.error){
+            setFacturas(respData)
+        }else{
+            setFacturas({data:[{
+                "RUTEmisor": 61808000,
+                "DV": "5",
+                "RznSoc": "AGUAS ANDINAS S.A.",
+                "TipoDTE": 33,
+                "Folio": 7187125,
+                "FchEmis": "2023-07-03",
+                "MntExe": null,
+                "MntNeto": 2039,
+                "IVA": 387,
+                "MntTotal": 2426,
+                "Acuses": [
+                    {
+                        "codEvento": "ACD",
+                        "fechaEvento": "2023-07-07 13:08:16",
+                        "estado": "Pendiente"
+                    },
+                    {
+                        "codEvento": "ERM",
+                        "fechaEvento": "2023-07-07 13:08:17",
+                        "estado": "Registro"
+                    }
+                ],
+                "FmaPago": 0,
+                "TpoTranCompra": 1
+            }]})
+        }
+     
    }
 
     useEffect(()=>{
@@ -66,6 +81,7 @@ function BillingInformation() {
                             montoTotal={data.MntTotal}
                             documento={data.TipoDTE}
                             fecha={data.FchEmis}
+                            item={data}
                             noGutter
                         />
                     ))
