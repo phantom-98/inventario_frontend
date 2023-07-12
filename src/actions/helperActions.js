@@ -30,7 +30,7 @@ export function getDataforDashAction(){
 
             
             let dataTemp =  {}
-            dataTemp.labels =  ["Ene", "Feb", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
+            dataTemp.labels =  ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
             dataTemp.datasets = [
                 {
                     color:"info",

@@ -60,23 +60,23 @@ const columnsFunc = (rows, edit, onDelete) =>{
             return (
               <>
                <SoftButton variant="text" color="success" onClick={(e) => location.href = `/inventario/precios/${tableMeta.rowData[0]}`} >
-                    <Tooltip title="precios">
+                    <Tooltip title="Costo Neto">
                         <AttachMoneyIcon/>
                     </Tooltip>
                 </SoftButton>
 
                 <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[0])}>
-                    <Tooltip title="editar">
+                    <Tooltip title="Editar">
                         <Icon>edit</Icon>
                     </Tooltip>
                 </SoftButton>
                 <SoftButton variant="text" color="error"  onClick={(e) => onDelete(tableMeta.rowData[8])} >
-                    <Tooltip title="borrar">
+                    <Tooltip title="Borrar">
                         <Icon>delete</Icon>
                     </Tooltip>
                 </SoftButton>
                 <SoftButton variant="text" color="dark" onClick={(e) => location.href = `/productos/duplicar/${tableMeta.rowData[0]}`} >
-                    <Tooltip title="duplicar">
+                    <Tooltip title="Duplicar">
                         <DifferenceIcon/>
                     </Tooltip>
                 </SoftButton>
