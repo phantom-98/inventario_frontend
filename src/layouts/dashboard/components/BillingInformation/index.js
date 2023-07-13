@@ -12,6 +12,8 @@ import { loadingAction } from "actions/helperActions";
 import { useDispatch } from "react-redux";
 import clienteAxios from 'config/axios';
 
+import{mapDte} from '../../../../config/helpers'
+
 function BillingInformation() {
     
     const dispatch = useDispatch();
@@ -79,7 +81,7 @@ function BillingInformation() {
                             nombre={data.RznSoc}
                             rutEmisor={data.RUTEmisor}
                             montoTotal={data.MntTotal}
-                            documento={data.TipoDTE}
+                            documento={mapDte(data.TipoDTE)}
                             fecha={data.FchEmis}
                             item={data}
                             noGutter

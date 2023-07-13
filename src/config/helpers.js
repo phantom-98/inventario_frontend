@@ -92,6 +92,29 @@ function dateFormat(dateInformat) {
     return moment(dateInformat).format("DD-MM-YYYY H:mm")
 }
 
+function mapDte(type){
+    switch (type) {
+        case 61:
+            return "Nota de Credito"
+            break;
+        case 34:
+            return "Factura Exenta"
+            break;
+        case 33:
+            return "Factura"
+            break;
+        case 52:
+            return "Guía de Despacho"
+            break;
+        case 39:
+            return "Boleta"
+            break;
+        default:
+            return "dte?"
+            break;
+    }
+}
 
 
-export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp };
+
+export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte };
