@@ -34,6 +34,7 @@ import CreatePromociones from "pages/promociones/create";
 import CreateVentas from "pages/ventas/create";
 import CreateProvider from "pages/provider/create"
 import CrearUsuario from "pages/usuario/create";
+import OrdenDeCompra from "pages/ordenCompra/create";
 
 import Tiendas from './pages/tiendas'
 import Products from "pages/products";
@@ -262,6 +263,15 @@ const routes = [
     route: "/clientes/create",
     icon: <Shop size="12px" />,
     component: <CreateClientes/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "OrdenDeCompra",
+    key: "dashboard",
+    route: "/orden_de_compra/create",
+    icon: <Shop size="12px" />,
+    component: <OrdenDeCompra/>,
     noCollapse: true,
   },
   {

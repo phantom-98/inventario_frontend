@@ -73,9 +73,11 @@ function Abastecimiento() {
     let card;
     if (showCard == "orderCompra") {
         card =  <Card>
-                    <ListHeader url="/productos/create" label="Listado Orden de Compra" buttonText="Agregar +" />
+                    <ListHeader url="/orden_de_compra/create" label="Listado Orden de Compra" buttonText="Agregar +" />
                     <SoftBox>
-                    
+                        <MUIDataTable
+                            options={muiOptions}
+                        />
                     </SoftBox>
                 </Card>
     } else if(showCard == "recepcion") {

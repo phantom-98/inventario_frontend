@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SoftBox from "components/SoftBox";
 import SoftButton from "components/SoftButton";
 import DifferenceIcon from '@mui/icons-material/Difference';
+import styled from './../SoftBox/SoftBoxRoot';
 
 
 const muiOptions = {
@@ -46,6 +47,9 @@ const muiOptions = {
       },
     }
 };
+const color = {
+    color: '#17c1e8'
+}
 
 const columnsFunc = (rows, edit, onDelete) =>{
     let actionTemp = {
@@ -59,23 +63,23 @@ const columnsFunc = (rows, edit, onDelete) =>{
             
             return (
               <>
-               <SoftButton  variant="text" color="success" onClick={(e) => location.href = `/inventario/precios/${tableMeta.rowData[0]}`} >
+               <SoftButton  variant="text" style={color} onClick={(e) => location.href = `/inventario/precios/${tableMeta.rowData[0]}`} >
                     <Tooltip title="Costo Neto">
                         <AttachMoneyIcon/>
                     </Tooltip>
                 </SoftButton>
 
-                <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[0])}>
+                <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[0])}>
                     <Tooltip title="Editar">
                         <Icon>edit</Icon>
                     </Tooltip>
                 </SoftButton>
-                <SoftButton variant="text" color="error"  onClick={(e) => onDelete(tableMeta.rowData[8])} >
+                <SoftButton variant="text" style={color}  onClick={(e) => onDelete(tableMeta.rowData[8])} >
                     <Tooltip title="Borrar">
                         <Icon>delete</Icon>
                     </Tooltip>
                 </SoftButton>
-                <SoftButton variant="text" color="dark" onClick={(e) => location.href = `/productos/duplicar/${tableMeta.rowData[0]}`} >
+                <SoftButton variant="text" style={color} onClick={(e) => location.href = `/productos/duplicar/${tableMeta.rowData[0]}`} >
                     <Tooltip title="Duplicar">
                         <DifferenceIcon/>
                     </Tooltip>
@@ -102,12 +106,12 @@ const columnsFunc2 = (rows, edit, index, onDelete) =>{
           console.log(tableMeta)
           return (
             <>
-              <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[index])}>
+              <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[index])}>
                 <Tooltip title="editar">
                   <Icon>edit</Icon>
                 </Tooltip>
               </SoftButton>
-              <SoftButton variant="text" color="error" onClick={(e) => onDelete(tableMeta.rowData[index])} >
+              <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData[index])} >
                 <Tooltip title="eliminar">
                   <Icon>delete</Icon>
                 </Tooltip>
@@ -133,12 +137,12 @@ const columnsFunc3 = (rows, edit, index, onDelete) =>{
             console.log(tableMeta)
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData)}>
+                <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData)}>
                   <Tooltip title="editar">
                       <Icon>edit</Icon>
                     </Tooltip>
                 </SoftButton>
-                <SoftButton variant="text" color="error" onClick={(e) => onDelete(tableMeta.rowData)} >
+                <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData)} >
                   <Tooltip title="eliminar">
                       <Icon>delete</Icon>
                   </Tooltip>
@@ -164,12 +168,12 @@ const columnsFunc3 = (rows, edit, index, onDelete) =>{
             console.log(tableMeta)
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => edit(tableMeta.rowData[4])}>
+                <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[4])}>
                   <Tooltip title="editar">
                       <Icon>edit</Icon>
                     </Tooltip>
                 </SoftButton>
-                <SoftButton variant="text" color="error" onClick={(e) => onDelete(tableMeta.rowData[4])} >
+                <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData[4])} >
                   <Tooltip title="eliminar">
                       <Icon>delete</Icon>
                   </Tooltip>
