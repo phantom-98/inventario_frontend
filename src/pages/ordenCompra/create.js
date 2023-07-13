@@ -54,13 +54,14 @@ function OrdenDeCompra  () {
         const data = await clienteAxios.get('product/');
         dispatch(loadingAction())
         let respData = data.data
+        
     
         setProductos(respData)
         console.log(productos)
     }
     useEffect(() =>{
         getProductos()
-    },[]);
+    },[])
 
     useEffect(() => {
         let active = true;
@@ -121,7 +122,7 @@ function OrdenDeCompra  () {
                         </InputLabel>
                         <Autocomplete
                             id="asynchronous-demo"
-                            sx={{ width: 300 }}
+                            sx={{ input: { color: "white", width: "100%" } }}
                             open={open}
                             onOpen={() => {
                                 setOpen(true);
@@ -129,12 +130,13 @@ function OrdenDeCompra  () {
                             onClose={() => {
                                 setOpen(false);
                             }}
-                            isOptionEqualToValue={(option, nombre) => option.title === nombre.title}
-                            getOptionLabel={(option) => option.title}
+                            isOptionEqualToValue={(option, value) => option.nombre === value.nombre}
+                            getOptionLabel={(option) => option.nombre}
                             options={options}
                             loading={loading}
                             renderInput={(params) => (
                                 <TextField
+                                key={params.id}
                                 {...params}
                                 label="Asynchronous"
                                 InputProps={{
