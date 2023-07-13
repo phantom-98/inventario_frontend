@@ -62,7 +62,8 @@ columns.push({
 })
 
 const showDte = async (item)=>{
-  const data = await clienteAxios.post('factura/receivedDte', item);
+
+  const data = await clienteAxios.post('factura/receivedDte', {id:item});
   console.log(data)
 }
 
@@ -99,7 +100,7 @@ const dispatch = useDispatch();
     tempRows = respData
 		
 		tempRows = tempRows.map(r=>{
-			return[dateFormat(r.createdAt), mapDte(r.typeId),r.folio, r.emisorData?.RznSoc,  r.emisorData?.RUTEmisor, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.url, r.uid, r]
+			return[dateFormat(r.createdAt), mapDte(r.typeId),r.folio, r.emisorData?.RznSoc,  r.emisorData?.RUTEmisor, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.uid]
 		})
 
 		setRows2(tempRows)
