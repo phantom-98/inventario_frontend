@@ -62,9 +62,13 @@ columns.push({
 })
 
 const showDte = async (item)=>{
-
+	dispatch(loadingAction())
   const data = await clienteAxios.post('factura/receivedDte', {id:item});
-  console.log(data)
+  dispatch(loadingAction())
+  if(data){
+    window.open(data.data.pdfUrl , '_blank'); 
+  }
+  
 }
 
 columnsB.push({

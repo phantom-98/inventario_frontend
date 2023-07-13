@@ -13,8 +13,11 @@ import { useParams } from "react-router-dom";
 
 function OrdenDeCompra  () {
     const navigate = useNavigate();
-    const routeParams = useParams();
-    const {id} = routeParams;
+    const [productos, setProductos] = useState([])
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const [options, setOptions] = useState([]);
+    const loading = open && options.length === 0;
     const [order, setOrder] = useState({
         Proveedor: "",
         Producto: "",
@@ -57,6 +60,45 @@ function OrdenDeCompra  () {
             [name]: value
         }))
     }
+    const getProductos = async()=>{
+  
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('product/');
+        dispatch(loadingAction())
+        let respData = data.data
+        
+    
+        setProductos(respData)
+        console.log(productos)
+    }
+    useEffect(() =>{
+        getProductos()
+    },[])
+
+    useEffect(() => {
+        let active = true;
+    
+        if (!loading) {
+          return undefined;
+        }    
+        (async () => {
+            await sleep(1e3); // For demo purposes.
+      
+            if (active) {
+              setOptions([...productos]);
+            }
+          })();
+      
+          return () => {
+            active = false;
+          };
+    }, [loading]);  
+        
+        useEffect(() => {
+            if (!open) {
+              setOptions([]);
+            }
+          }, [open]);
 
     return (
         <DashboardLayout>
@@ -90,17 +132,36 @@ function OrdenDeCompra  () {
                         <InputLabel variant="standard" htmlFor="Producto">
                             Producto
                         </InputLabel>
-                            <TextField 
-                                inputProps={{
-                                    name: 'Producto', id: 'Producto',
+                        <Autocomplete
+                            id="asynchronous-demo"
+                            sx={{ input: { color: "white", width: "100%" } }}
+                            open={open}
+                            onOpen={() => {
+                                setOpen(true);
+                            }}
+                            onClose={() => {
+                                setOpen(false);
+                            }}
+                            isOptionEqualToValue={(option, value) => option.nombre === value.nombre}
+                            getOptionLabel={(option) => option.nombre}
+                            options={options}
+                            loading={loading}
+                            renderInput={(params) => (
+                                <TextField
+                                {...params}
+                                label="Asynchronous"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                    <>
+                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {params.InputProps.endAdornment}
+                                    </>
+                                    ),
                                 }}
-                                name="producto"
-                                value={order.Producto || ''} 
-                                type="text"
-                                fullWidth  InputLabelProps={{ shrink: true }} variant="standard" 
-                                style={{paddingTop:"0.15rem"}}
-                                onChange={(e)=>handleChange(e)}
-                            />
+                                />
+                            )}
+                        />
                         </SoftBox>
                     </Grid>
                     <Grid   item xs={12} md={6} xl={6}>
