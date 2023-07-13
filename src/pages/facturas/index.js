@@ -21,7 +21,7 @@ import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import { loadingAction } from "actions/helperActions";
 import HeaderFacturas from "./Header/headerFacturas";
-
+import {mapDte, dateFormat, insertarPuntos} from "../../config/helpers"
 import MUIDataTable from "mui-datatables";
 
 function Clientes() {
@@ -60,46 +60,46 @@ columns.push({
     }
   }
 })
+
+const showDte = async (item)=>{
+  const data = await clienteAxios.post('factura/receivedDte', item);
+  console.log(data)
+}
+
+columnsB.push({
+    
+  name: "Action",
+  options: {
+    filter: false,
+    sort: false,
+    empty: false,
+    customBodyRender: (value, tableMeta, updateValue) => {
+    
+      return (
+        <>
+
+          <SoftButton variant="text" color="dark" onClick={(e) => showDte(tableMeta.rowData[6])}>
+                <Icon >archiveIcon</Icon>
+            </SoftButton>
+          
+        </>
+      );
+    }
+  }
+})
 const dispatch = useDispatch();
 
 	const getFacturas = async()=>{
 		
-		const data = await clienteAxios.get('factura/receivedDte');
+		const data = await clienteAxios.get('factura/getReceivedDteforApi');
 
 		let respData = data.data
 		let tempRows = [];
-		if(!respData.error){
-			tempRows = respData
-		}else{
-			tempRows = [{
-				"RUTEmisor": 61808000,
-				"DV": "5",
-				"RznSoc": "AGUAS ANDINAS S.A.",
-				"TipoDTE": 33,
-				"Folio": 7187125,
-				"FchEmis": "2023-07-03",
-				"MntExe": null,
-				"MntNeto": 2039,
-				"IVA": 387,
-				"MntTotal": 2426,
-				"Acuses": [
-					{
-						"codEvento": "ACD",
-						"fechaEvento": "2023-07-07 13:08:16",
-						"estado": "Pendiente"
-					},
-					{
-						"codEvento": "ERM",
-						"fechaEvento": "2023-07-07 13:08:17",
-						"estado": "Registro"
-					}
-				],
-				"FmaPago": 0,
-				"TpoTranCompra": 1
-			}]
-		}
+		console.log(respData)
+    tempRows = respData
+		
 		tempRows = tempRows.map(r=>{
-			return[r.FchEmis, r.TipoDTE,r.Folio, r.RznSoc,  r.RUTEmisor, r.MntTotal, "r.url", r.uid]
+			return[dateFormat(r.createdAt), mapDte(r.typeId),r.folio, r.emisorData?.RznSoc,  r.emisorData?.RUTEmisor, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.url, r.uid, r]
 		})
 
 		setRows2(tempRows)
@@ -112,7 +112,7 @@ const dispatch = useDispatch();
 		dispatch(loadingAction())
 		let respData = data.data
 		let tempRows = respData.map(r=>{
-			return[r.createdAt, r.type, r.client.RUTRecep, r.totals.MntTotal, r.url, r.uid]
+			return[r.createdAt, mapDte(r.typeId),r.folio, r.client?.RznSoc, r.client?.RUTRecep, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.url, r.uid]
 		})
 
 		setRows(tempRows)
