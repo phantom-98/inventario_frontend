@@ -12,60 +12,22 @@ import { loadingAction } from "actions/helperActions";
 import { useDispatch } from "react-redux";
 import clienteAxios from 'config/axios';
 
-import{mapDte} from '../../../../config/helpers'
+import{mapDte, dateFormat,insertarPuntos} from '../../../../config/helpers'
 
 function BillingInformation() {
     
     const dispatch = useDispatch();
-    const [facturas, setFacturas] = useState({data:[]})
+    const [facturas, setFacturas] = useState([])
 
     const getFacturas = async()=>{
-      
-        const data = await clienteAxios.get('factura/receivedDte');
-  
+        const data = await clienteAxios.get('factura/getReceivedDteforApi2');
         let respData = data.data
-        if(!respData.error){
-            setFacturas(respData)
-        }else{
-            setFacturas({data:[{
-                "RUTEmisor": 61808000,
-                "DV": "5",
-                "RznSoc": "AGUAS ANDINAS S.A.",
-                "TipoDTE": 33,
-                "Folio": 7187125,
-                "FchEmis": "2023-07-03",
-                "MntExe": null,
-                "MntNeto": 2039,
-                "IVA": 387,
-                "MntTotal": 2426,
-                "Acuses": [
-                    {
-                        "codEvento": "ACD",
-                        "fechaEvento": "2023-07-07 13:08:16",
-                        "estado": "Pendiente"
-                    },
-                    {
-                        "codEvento": "ERM",
-                        "fechaEvento": "2023-07-07 13:08:17",
-                        "estado": "Registro"
-                    }
-                ],
-                "FmaPago": 0,
-                "TpoTranCompra": 1
-            }]})
-        }
-     
+        setFacturas(respData)
    }
 
     useEffect(()=>{
         getFacturas()
     },[])
-
-
-
-
-
-
   return (
     <Card id="delete-account"  >
         <SoftBox pt={3} px={2}>
@@ -76,13 +38,13 @@ function BillingInformation() {
         <SoftBox pt={1} pb={2} px={2}>
             <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0} overflow="scroll" height="320px"  >
                 {
-                    facturas.data.map((data, index) => (
+                    facturas.map((data, index) => (
                         <Bill key={index}
-                            nombre={data.RznSoc}
-                            rutEmisor={data.RUTEmisor}
-                            montoTotal={data.MntTotal}
-                            documento={mapDte(data.TipoDTE)}
-                            fecha={data.FchEmis}
+                            nombre={data.emisorData?.RznSoc}
+                            rutEmisor={data.emisorData?.RUTEmisor}
+                            montoTotal={`$ ${insertarPuntos(data.totals?.MntTotal)}`}
+                            documento={mapDte(data.typeId)}
+                            fecha={dateFormat(data.createdAt)}
                             item={data}
                             noGutter
                         />
