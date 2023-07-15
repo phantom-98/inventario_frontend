@@ -19,10 +19,12 @@ function Bill({ nombre, rutEmisor, montoTotal, documento, fecha, noGutter, item 
 
   const openPdf = async ()=>{
     dispatch(loadingAction())
-    const data = await clienteAxios.post('factura/receivedDte', item);
-    console.log(data);
+    const data = await clienteAxios.post('factura/receivedDte', {id:item.uid});
     dispatch(loadingAction())
-    window.open(data.data.pdfUrl , '_blank');
+    if(data){
+      window.open(data.data.pdfUrl , '_blank');
+    }
+  
   }
 
   return (
@@ -110,9 +112,9 @@ Bill.defaultProps = {
 // Typechecking props for the Bill
 Bill.propTypes = {
     nombre: PropTypes.string.isRequired,
-    rutEmisor: PropTypes.number.isRequired,
-    montoTotal: PropTypes.number.isRequired,
-    documento: PropTypes.number.isRequired,
+    rutEmisor: PropTypes.string.isRequired,
+    montoTotal: PropTypes.string.isRequired,
+    documento: PropTypes.string.isRequired,
     fecha: PropTypes.string,
     noGutter: PropTypes.bool,
     item: PropTypes.object
