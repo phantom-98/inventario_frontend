@@ -85,6 +85,7 @@ function ProductPrices() {
 			})
 			setRows(tempRows)
 			succesSwal()
+            location.reload()
 		}).catch((e)=>{
 			console.log(e);
 			errorSwal()
