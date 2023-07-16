@@ -27,40 +27,83 @@ import Invoice from "../Invoice";
 //TODO ANDRES copiar funcion para loading
 import { loadingAction } from './../../../../actions/helperActions';
 import { useDispatch } from "react-redux";
+import MUIDataTable from "mui-datatables";
+import { useState, useEffect } from "react";
+import clienteAxios from 'config/axios';
+import { muiOptions,  columnsFunc4 } from "components/DataTable/options"
+import { insertarPuntos, dateFormat } from "config/helpers";
+
+const tablaf ={
+    width:'100%',
+    borderStyle: 'solid' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    padding: '10px',   
+  }
+const tr = {
+    borderStyle: 'solid none' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    fontSize: '13px',
+}
+
+
 
 function Invoices() {
   
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const [venta, setVenta] = useState([]) 
+    const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
 
-  const test = ()=>{
-    
-    /*
-    Una vez crea true
-    dispatch(loadingAction())
-    Otra vez crea false
-    dispatch(loadingAction())
-    */
+    const getData = async()=>{
+        
+        const data = await clienteAxios.get('sale/all');
+        let respData = data.data
+        console.log(respData)
+        setVenta(respData.boletas)
+        dispatch(loadingAction())
+    }
+    useEffect(()=>{
+        getData()
+        //getFactura()
+    },[]) 
 
-  }
   return (
     <Card id="delete-account" sx={{ height: "100%" }}>
-      <SoftBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
-        <SoftTypography variant="h6" fontWeight="medium">
-          Ventas Diarias
-        </SoftTypography>
-        <SoftButton variant="outlined" color="info" size="small" onClick={()=>test()}>
-          Ver Mas +
-        </SoftButton>
-      </SoftBox>
-      <SoftBox p={2}>
-        <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Invoice date="March, 01, 2020" id="#MS-415646" price="$180" />
-          <Invoice date="February, 10, 2021" id="#RV-126749" price="$250" />
-          <Invoice date="April, 05, 2020" id="#QW-103578" price="$120" />
-          <Invoice date="June, 25, 2019" id="#MS-415646" price="$180" />
-          <Invoice date="March, 01, 2019" id="#AR-803481" price="$300" noGutter />
+        <SoftBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
+            <SoftTypography variant="h6" fontWeight="medium">
+                Ventas Web
+            </SoftTypography>
+            <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
+            Ver Mas +
+            </SoftButton>
         </SoftBox>
-      </SoftBox>
+        <SoftBox pt={2} px={2} >
+            <table style={tablaf}>
+                <thead>
+                    <tr style={tr}>
+                        <th><strong>Fecha </strong></th>
+                        <th><strong>Tipo De Pago </strong></th>
+                        <th><strong>Total </strong></th>
+                        <th><strong>Rut </strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        venta.map((item, index)=>(
+                            <tr key={index}>
+                                <td>{dateFormat(item.createdAt)}</td>
+                                <td>WebPay</td>
+                                <td>${insertarPuntos(item.totals?.MntTotal)}</td>
+                                <td>{item.client?.RUTRecep}</td>
+                            </tr>
+                        ))
+                    }
+
+                </tbody>
+            </table>
+
+        </SoftBox>
     </Card>
   );
 }

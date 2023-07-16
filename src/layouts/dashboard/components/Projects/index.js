@@ -1,93 +1,93 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState } from "react";
-
-// @mui material components
+import { useState, useEffect} from "react";
 import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-
-// Soft UI Dashboard React components
+import { useDispatch } from "react-redux";
+import { loadingAction } from './../../../../actions/helperActions';
+import clienteAxios from 'config/axios';
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
+import { insertarPuntos, dateFormat } from "config/helpers";
 
-// Soft UI Dashboard Materail-UI example components
-import Table from "examples/Tables/Table";
+import SoftButton from "components/SoftButton";
 
-// Data
-import data from "layouts/dashboard/components/Projects/data";
+const tablaf ={
+    width:'100%',
+    borderStyle: 'solid' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    padding: '10px',   
+  }
+const tr = {
+    borderStyle: 'solid none' ,
+    borderWidth: '1px',
+    borderColor: 'black',
+    fontSize: '13px',
+}
 
 function Projects() {
-  const { columns, rows } = data();
-  const [menu, setMenu] = useState(null);
+    const dispatch = useDispatch();
+    const [venta, setVenta] = useState([]) 
+    const [ventai, setVentai] = useState([]) 
 
-  const openMenu = ({ currentTarget }) => setMenu(currentTarget);
-  const closeMenu = () => setMenu(null);
 
-  const renderMenu = (
-    <Menu
-      id="simple-menu"
-      anchorEl={menu}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={Boolean(menu)}
-      onClose={closeMenu}
-    >
-      <MenuItem onClick={closeMenu}>Action</MenuItem>
-      <MenuItem onClick={closeMenu}>Another action</MenuItem>
-      <MenuItem onClick={closeMenu}>Something else</MenuItem>
-    </Menu>
-  );
+    const getData = async()=>{
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('sale/all');
+        let respData = data.data
+        setVenta(respData.sales)
+        dispatch(loadingAction())
+     
 
+    }
+    useEffect(()=>{
+        getData()
+    //getFactura()
+    },[]) 
+
+  
   return (
     <Card>
       <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-        <SoftBox>
+        
           <SoftTypography variant="h6" gutterBottom>
-            Detalle De Ventas
+            Ventas Pos
           </SoftTypography>
-          <SoftBox display="flex" alignItems="center" lineHeight={0}>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox color="text" px={2}>
-          <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
-            more_vert
-          </Icon>
-        </SoftBox>
-        {renderMenu}
+          <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
+            Ver Mas +
+            </SoftButton>
+      
       </SoftBox>
-      <SoftBox
-        sx={{
-          "& .MuiTableRow-root:not(:last-child)": {
-            "& td": {
-              borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                `${borderWidth[1]} solid ${borderColor}`,
-            },
-          },
-        }}
-      >
-        <Table columns={columns} rows={rows} />
-      </SoftBox>
+        <SoftBox pt={0} px={2} >
+            <table style={tablaf}>
+                <thead>
+                    <tr style={tr}>
+                        <th><strong>Productos </strong></th>
+                        <th><strong>F. Pago </strong></th>
+                        <th><strong>Total </strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    venta.map((v, index)=>(
+                        <tr key={index}>
+                            <td>
+                                <ul >
+                                    {
+                                        v.items.map((item, r)=>(
+                                            <li key={r}>{item.qty} - {item.productName}</li>   
+                                        ))
+                                    }
+                                </ul>
+                            </td>
+                            <td>{v.payType}</td>
+                            <td>{v.total}</td>
+                        </tr>
+                    ))
+                }
+                </tbody>
+            </table>
+
+        </SoftBox>
+   
     </Card>
   );
 }

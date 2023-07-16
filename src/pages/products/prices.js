@@ -6,7 +6,7 @@ import SoftButton from "components/SoftButton";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { muiOptions,  columnsFunc3 } from "components/DataTable/options"
+import { muiOptions,  columnsFunc5 } from "components/DataTable/options"
 import clienteAxios from 'config/axios';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -57,18 +57,19 @@ function ProductPrices() {
     }
 
     const onDelete = (item) => {
-		let data = {
+		
+        let data = {
 			uid: item[3],
 			qty: item[1],
-			price: Number(item[2].replace("$ ","").replace(".", "")),
 		}
 
         clienteAxios.put(`/product/deletePrices/`+id, data).then((resp) => {
+            console.log(resp.data)
             location.reload()
         })
     }
 
-    const columns = columnsFunc3(["Fecha", "Cantidad", "Precio"],edit, 3,  onDelete);
+    const columns = columnsFunc5(["Fecha", "Cantidad", "Precio"],onDelete);
 	
 	const [open, setOpen] =useState(false);
     const handleClose = () => {

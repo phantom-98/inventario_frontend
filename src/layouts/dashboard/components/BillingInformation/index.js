@@ -20,9 +20,11 @@ function BillingInformation() {
     const [facturas, setFacturas] = useState([])
 
     const getFacturas = async()=>{
+        dispatch(loadingAction())
         const data = await clienteAxios.get('factura/getReceivedDteforApi2');
         let respData = data.data
         setFacturas(respData)
+        dispatch(loadingAction())
    }
 
     useEffect(()=>{
@@ -36,7 +38,7 @@ function BillingInformation() {
             </SoftTypography>
         </SoftBox>
         <SoftBox pt={1} pb={2} px={2}>
-            <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0} overflow="scroll" height="320px"  >
+            <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0} overflow="scroll" height="460px"  >
                 {
                     facturas.map((data, index) => (
                         <Bill key={index}

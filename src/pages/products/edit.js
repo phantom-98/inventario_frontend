@@ -32,6 +32,9 @@ import Modal from '@mui/material/Modal';
 import MUIDataTable from "mui-datatables";
 import {insertarPuntos, dateFormat} from "../../config/helpers"
 import {getCpp} from "../../config/helpers"
+import {laboratories} from "../../config/labs.js"
+import {subcat} from "../../config/subcat.js"
+
 const check ={
     display: 'flex',
     justifyContent: 'space-around',
@@ -224,8 +227,7 @@ function EditProduct() {
                                 }}
                                 >
                                 <option value={'ninguna'}>Ninguna</option>
-                                <option value={'sicotropico'}>Sicotropico</option>
-                                <option value={'estupefaciente'}>Estupefacientes</option>
+                                { subcat.map(c => (<option key={c.id} value={c.name}>{c.name}</option>))}
                                 </NativeSelect>
                             </FormControl>
                         </SoftBox>
@@ -248,8 +250,7 @@ function EditProduct() {
                                     }}
                                     >
                                     <option value={'ninguna'}>Ninguna</option>
-                                    <option value={'sicotropico'}>Sicotropico</option>
-                                    <option value={'estupefaciente'}>Estupefacientes</option>
+                                    { laboratories.map(c => (<option key={c.id} value={c.name}>{c.name}</option>))}
                                     </NativeSelect>
                                 </FormControl>
                         </SoftBox>
@@ -272,8 +273,30 @@ function EditProduct() {
                                 }}
                             >
                                 <option value={'ninguna'}>Ninguna</option>
-                                <option value={'sicotropico'}>Sicotropico</option>
-                                <option value={'estupefaciente'}>Estupefacientes</option>
+                                <option  value=''>Seleccione...</option>
+                                        <option value="ABA - ORAL S.ORD.GRAGEAS" selected="">ABA - ORAL S.ORD.GRAGEAS</option>
+                                        <option value="AAA - ORAL S.ORD. TABLETAS">AAA - ORAL S.ORD. TABLETAS</option>
+                                        <option value="TYQ - VAGINAL PESARIO MEC C/S">TYQ - VAGINAL PESARIO MEC C/S</option>
+                                        <option value="JWN - OTROS SIST.EMPL TRANSDER">JWN - OTROS SIST.EMPL TRANSDER</option>
+                                        <option value="GMD - PARENT.RET.AMP I.M.">GMD - PARENT.RET.AMP I.M.</option>
+                                        <option value="ABC - ORAL S.ORD.GRAG.RECUB.">ABC - ORAL S.ORD.GRAG.RECUB.</option>
+                                        <option value="GNE - PARENT.RET. JER PREC SC">GNE - PARENT.RET. JER PREC SC</option>
+                                        <option value="GND - PARENT.RET.JER.PRECAR.IM">GND - PARENT.RET.JER.PRECAR.IM</option>
+                                        <option value="TYR - VAGINAL D.I.U.">TYR - VAGINAL D.I.U.</option>
+                                        <option value="TVA - VAGINAL GEL/SOL">TVA - VAGINAL GEL/SOL</option>
+                                        <option value="TTA - VAGINAL CREMA NO ESPEC.">TTA - VAGINAL CREMA NO ESPEC.</option>
+                                        <option value="TGW - VAGINAL JAB LIQD/LAV">TGW - VAGINAL JAB LIQD/LAV</option>
+                                        <option value="ACA - ORAL S.ORD.CAPSULAS">ACA - ORAL S.ORD.CAPSULAS</option>
+                                        <option value="TLS - VAGINAL SUPOSITORIOS">TLS - VAGINAL SUPOSITORIOS</option>
+                                        <option value="TGS - VAGINAL LOCIONES">TGS - VAGINAL LOCIONES</option>
+                                        <option value="DEP - ORAL LIQ.ORD.POLVO DOSIS">DEP - ORAL LIQ.ORD.POLVO DOSIS</option>
+                                        <option value="GPD - PARENT.RET.VIALES I.M.">GPD - PARENT.RET.VIALES I.M.</option>
+                                        <option value="TWY - VAGINAL OTR APOSIT MEDIC">TWY - VAGINAL OTR APOSIT MEDIC</option>
+                                        <option value="FMA - PARENT.ORD.AMPOLLAS">FMA - PARENT.ORD.AMPOLLAS</option>
+                                        <option value="DGA - ORAL LIQ.ORD.LIQUIDOS">DGA - ORAL LIQ.ORD.LIQUIDOS</option>
+                                        <option value="GYV - PARENT.RET.INJERTO">GYV - PARENT.RET.INJERTO</option>
+                                        <option value="DGB - ORAL LIQ.ORD.GOTAS">DGB - ORAL LIQ.ORD.GOTAS</option>
+                                        <option value="ADR - ORAL S.ORD.GLOB PQ+HOMEO">ADR - ORAL S.ORD.GLOB PQ+HOMEO</option>
                             </NativeSelect>
                             
                         </SoftBox>
@@ -312,8 +335,39 @@ function EditProduct() {
                                         }}
                                     >
                                         <option value={'ninguna'}>Ninguna</option>
-                                        <option value={'sicotropico'}>Sicotropico</option>
-                                        <option value={'estupefaciente'}>Estupefacientes</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="3.5">3.5</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                        <option value="12">12</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="28">28</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="56">56</option>
+                                        <option value="60">60</option>
+                                        <option value="80">80</option>
+                                        <option value="90">90</option>
+                                        <option value="91">91</option>
+                                        <option value="100">100</option>
+                                        <option value="133">133</option>
+                                        <option value="180">180</option>
+                                        <option value="200">200</option>
+                                        <option value="250">250</option>
                                     </NativeSelect>
                                     
                                 </SoftBox>
