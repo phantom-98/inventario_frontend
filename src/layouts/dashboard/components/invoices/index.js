@@ -55,24 +55,13 @@ function Invoices() {
     const [venta, setVenta] = useState([]) 
     const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
 
-   
-
-
-    const test = ()=>{
-        
-        /*
-        Una vez crea true
-        dispatch(loadingAction())
-        Otra vez crea false
-        dispatch(loadingAction())
-        */
-
-    }
     const getData = async()=>{
-        dispatch(loadingAction())
+        
         const data = await clienteAxios.get('sale/all');
         let respData = data.data
-        setVenta(respData.boletas.slice(0, 10))
+        console.log(respData)
+        setVenta(respData.boletas)
+        dispatch(loadingAction())
     }
     useEffect(()=>{
         getData()
@@ -83,7 +72,7 @@ function Invoices() {
     <Card id="delete-account" sx={{ height: "100%" }}>
         <SoftBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
             <SoftTypography variant="h6" fontWeight="medium">
-                Ventas Diarias
+                Ventas Web
             </SoftTypography>
             <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
             Ver Mas +
@@ -105,8 +94,8 @@ function Invoices() {
                             <tr key={index}>
                                 <td>{dateFormat(item.createdAt)}</td>
                                 <td>WebPay</td>
-                                <td>${insertarPuntos(item.totals.MntTotal)}</td>
-                                <td>{item.client.RUTRecep}</td>
+                                <td>${insertarPuntos(item.totals?.MntTotal)}</td>
+                                <td>{item.client?.RUTRecep}</td>
                             </tr>
                         ))
                     }
