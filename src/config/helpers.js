@@ -109,6 +109,18 @@ function mapDte(type){
     }
 }
 
+const itemListWeb = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.QtyItem} - {item.NmbItem}</li>   
+    ))
+}
+
+const itemListPos = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.qty} - {item.productName}</li>   
+    ))
+}
 
 
-export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte };
+
+export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos };
