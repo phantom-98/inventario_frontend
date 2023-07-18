@@ -159,7 +159,7 @@ const routes = [
     component: <Profile />,
     noCollapse: true,
   },
-  {
+  /*{
     type: "collapse",
     name: "Tiendas",
     key: "tiendas",
@@ -167,7 +167,7 @@ const routes = [
     icon: <Shop size="12px" />,
     component: <Tiendas />,
     noCollapse: true,
-  },
+  },*/
   {
     type: "nocollapse",
     name: "Sign In",

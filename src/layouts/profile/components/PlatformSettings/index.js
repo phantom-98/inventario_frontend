@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -22,93 +22,62 @@ import Switch from "@mui/material/Switch";
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
+import { loadingAction } from "actions/helperActions";
+import { useDispatch } from "react-redux";
+import clienteAxios from 'config/axios';
 
 function PlatformSettings() {
-  const [followsMe, setFollowsMe] = useState(true);
+  const dispatch = useDispatch();
+  const [descount, setDescount] = useState(false);
   const [answersPost, setAnswersPost] = useState(false);
-  const [mentionsMe, setMentionsMe] = useState(true);
+  const [mentionsMe, setMentionsMe] = useState(false);
   const [newLaunches, setNewLaunches] = useState(false);
-  const [productUpdate, setProductUpdate] = useState(true);
-  const [newsletter, setNewsletter] = useState(true);
+  const [productUpdate, setProductUpdate] = useState(false);
+  const [newsletter, setNewsletter] = useState(false);
+
+  const getSettings = async ()=>{
+    dispatch(loadingAction())
+    const data = await clienteAxios.get('setting/');
+    dispatch(loadingAction())
+    let respData = data.data
+    let posDiscount = respData.find(r=>r.key =="POS_DISCOUNT")
+    if(posDiscount){
+      setDescount(posDiscount.value == "true");
+    }
+  }
+  const setSetting = async (name)=>{
+    dispatch(loadingAction())
+    const data = await clienteAxios.put('setting/'+name);
+    dispatch(loadingAction())
+    let respData = data.data
+    console.log(respData)
+    
+    if(name =="POS_DISCOUNT"){
+      setDescount(respData.value == "true");
+    }
+  }
+  
+  useEffect(()=>{
+    getSettings()
+  })
+
 
   return (
     <Card>
       <SoftBox pt={2} px={2}>
         <SoftTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-          platform settings
+          Settings Pos
         </SoftTypography>
       </SoftBox>
       <SoftBox pt={1.5} pb={2} px={2} lineHeight={1.25}>
-        <SoftTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
-          account
-        </SoftTypography>
+        
         <SoftBox display="flex" py={1} mb={0.25}>
           <SoftBox mt={0.25}>
-            <Switch checked={followsMe} onChange={() => setFollowsMe(!followsMe)} />
+            <Switch checked={descount} onChange={() => setSetting("POS_DISCOUNT")} />
           </SoftBox>
           <SoftBox width="80%" ml={2}>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone follows me
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={answersPost} onChange={() => setAnswersPost(!answersPost)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone answers on my post
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={mentionsMe} onChange={() => setMentionsMe(!mentionsMe)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Email me when someone mentions me
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox mt={3}>
-          <SoftTypography
-            variant="caption"
-            fontWeight="bold"
-            color="text"
-            textTransform="uppercase"
-          >
-            application
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={newLaunches} onChange={() => setNewLaunches(!newLaunches)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              New launches and projects
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={productUpdate} onChange={() => setProductUpdate(!productUpdate)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Monthly product updates
-            </SoftTypography>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox display="flex" py={1} mb={0.25}>
-          <SoftBox mt={0.25}>
-            <Switch checked={newsletter} onChange={() => setNewsletter(!newsletter)} />
-          </SoftBox>
-          <SoftBox width="80%" ml={2}>
-            <SoftTypography variant="button" fontWeight="regular" color="text">
-              Subscribe to newsletter
+              Precio Descuento en Pos
             </SoftTypography>
           </SoftBox>
         </SoftBox>

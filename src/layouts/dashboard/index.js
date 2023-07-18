@@ -144,16 +144,17 @@ function Dashboard() {
               />
             </Grid>
             <Grid item xs={12} lg={5}>
-              <Invoices />
+              <BillingInformation />
+             
             </Grid>
           </Grid>
         </SoftBox>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={7}>
+          <Grid item xs={12} md={6} lg={6}>
             <Projects />
           </Grid>
-          <Grid item xs={12} md={6} lg={5} height="417px" >
-            <BillingInformation />
+          <Grid item xs={12} md={6} lg={6} >
+            <Invoices />
           </Grid>
         </Grid>
       </SoftBox>

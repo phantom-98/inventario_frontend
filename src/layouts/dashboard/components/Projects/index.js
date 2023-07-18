@@ -20,7 +20,7 @@ const tr = {
     borderStyle: 'solid none' ,
     borderWidth: '1px',
     borderColor: 'black',
-    fontSize: '13px',
+    fontSize: '12px',
 }
 
 function Projects() {
@@ -61,7 +61,7 @@ function Projects() {
                 <thead>
                     <tr style={tr}>
                         <th><strong>Productos </strong></th>
-                        <th><strong>F. Pago </strong></th>
+                        <th><strong>Tipo </strong></th>
                         <th><strong>Total </strong></th>
                     </tr>
                 </thead>
@@ -79,7 +79,7 @@ function Projects() {
                                 </ul>
                             </td>
                             <td>{v.payType}</td>
-                            <td>{v.total}</td>
+                            <td>$ {insertarPuntos(v.total)}</td>
                         </tr>
                     ))
                 }
