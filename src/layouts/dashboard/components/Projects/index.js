@@ -7,6 +7,7 @@ import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import { insertarPuntos, dateFormat } from "config/helpers";
 
+import SoftButton from "components/SoftButton";
 
 const tablaf ={
     width:'100%',
@@ -32,10 +33,9 @@ function Projects() {
         dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all');
         let respData = data.data
-        console.log(respData.sales)
-
-        setVenta(respData.sales.slice(0, 10))
-       
+        setVenta(respData.sales)
+        dispatch(loadingAction())
+     
 
     }
     useEffect(()=>{
@@ -47,21 +47,21 @@ function Projects() {
   return (
     <Card>
       <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-        <SoftBox>
+        
           <SoftTypography variant="h6" gutterBottom>
-            Detalle De Ventas
+            Ventas Pos
           </SoftTypography>
-          <SoftBox display="flex" alignItems="center" lineHeight={0}>
-          </SoftBox>
-        </SoftBox>
+          <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
+            Ver Mas +
+            </SoftButton>
+      
       </SoftBox>
-        <SoftBox pt={2} px={2} >
+        <SoftBox pt={0} px={2} >
             <table style={tablaf}>
                 <thead>
                     <tr style={tr}>
                         <th><strong>Productos </strong></th>
-                        
-                        <th><strong>Tipo De Pago </strong></th>
+                        <th><strong>F. Pago </strong></th>
                         <th><strong>Total </strong></th>
                     </tr>
                 </thead>

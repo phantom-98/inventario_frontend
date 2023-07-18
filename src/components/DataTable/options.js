@@ -103,7 +103,7 @@ const columnsFunc2 = (rows, edit, index, onDelete) =>{
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log(tableMeta)
+          
           return (
             <>
               <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[index])}>
@@ -134,7 +134,7 @@ const columnsFunc3 = (rows, edit, index, onDelete) =>{
           filter: false,
           sort: false,
           customBodyRender: (value, tableMeta, updateValue) => {
-            console.log(tableMeta)
+            
             return (
               <>
                 <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData)}>
@@ -157,41 +157,68 @@ const columnsFunc3 = (rows, edit, index, onDelete) =>{
     return rows
       
   }
-  const columnsFunc4 = (rows, edit, index, onDelete) =>{
-    let actionTemp = {
-    
-        name: "Action",
-        options: {
-          filter: false,
-          sort: false,
-          customBodyRender: (value, tableMeta, updateValue) => {
-            console.log(tableMeta)
-            return (
-              <>
-                <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[4])}>
-                  <Tooltip title="editar">
-                      <Icon>edit</Icon>
+    const columnsFunc4 = (rows, edit, index, onDelete) =>{
+        let actionTemp = {
+        
+            name: "Action",
+            options: {
+            filter: false,
+            sort: false,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                
+                return (
+                <>
+                    <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[4])}>
+                    <Tooltip title="editar">
+                        <Icon>edit</Icon>
+                        </Tooltip>
+                    </SoftButton>
+                    <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData[4])} >
+                    <Tooltip title="eliminar">
+                        <Icon>delete</Icon>
                     </Tooltip>
-                </SoftButton>
-                <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData[4])} >
-                  <Tooltip title="eliminar">
-                      <Icon>delete</Icon>
-                  </Tooltip>
-                </SoftButton>
-              </>
-            );
-          }
-        }
-    };
-  
-    rows.push(actionTemp)
-    return rows
-      
-  }
+                    </SoftButton>
+                </>
+                );
+            }
+            }
+        };
+    
+        rows.push(actionTemp)
+        return rows
+        
+    }
+    const columnsFunc5 = (rows, onDelete) =>{
+        let actionTemp = {
+        
+            name: "Action",
+            options: {
+            filter: false,
+            sort: false,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                
+                return (
+                <>
+                    <SoftButton variant="text" style={color} onClick={(e) => onDelete(tableMeta.rowData)} >
+                    <Tooltip title="eliminar">
+                        <Icon>delete</Icon>
+                    </Tooltip>
+                    </SoftButton>
+                </>
+                );
+            }
+            }
+        };
+    
+        rows.push(actionTemp)
+        return rows
+        
+    }
 export {
     muiOptions,
     columnsFunc,
     columnsFunc2,
     columnsFunc3,
-    columnsFunc4
+    columnsFunc4,
+    columnsFunc5
 }
