@@ -131,7 +131,7 @@ function Ventas() {
             
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
+                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[6])}>
                   <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
                   </Tooltip>
@@ -153,7 +153,7 @@ function Ventas() {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[4])}>
+                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[5])}>
                   <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
                   </Tooltip>
