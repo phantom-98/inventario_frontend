@@ -112,7 +112,7 @@ function Ventas() {
         let respData = resp.data
         setVenta(respData)
         handleOpen();
-        
+    }
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
