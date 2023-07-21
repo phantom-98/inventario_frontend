@@ -153,7 +153,7 @@ const columnsFunc3 = (rows, edit, index, onDelete) =>{
         }
     };
   
-    rows.push(actionTemp)
+    //rows.push(actionTemp)
     return rows
       
   }

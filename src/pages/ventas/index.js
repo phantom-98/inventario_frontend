@@ -108,14 +108,11 @@ function Ventas() {
         //getFactura()
     },[])         
     const view = async(id)=>{
-        console.log(id)
         let resp = await clienteAxios.get("/sale/"+id)
-        console.log(resp)
         let respData = resp.data
         setVenta(respData)
         handleOpen();
-        console.log(venta)
-    }
+        
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -131,7 +128,7 @@ function Ventas() {
             
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[6])}>
+                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[5])}>
                   <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
                   </Tooltip>
