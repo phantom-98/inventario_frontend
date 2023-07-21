@@ -22,9 +22,9 @@ function ListHeader ({url, label, buttonText, mode}) {
     }else if(mode == "AbasRecep"){
        // extraButtons += <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/receivedDte")} color="info" size="small">Descargar Todas</SoftButton>
         extraButtons = <>
-                    <SoftButton variant="outlined" onClick={()=>goUrl("http://127.0.0.1:4000/v1/factura/exportFromExcel/Pagada")} color="dark" size="small">Descargar Pagadas</SoftButton>
-                    <SoftButton variant="outlined" onClick={()=>goUrl("http://127.0.0.1:4000/v1/factura/exportFromExcel/No_Pagada")} color="dark" size="small">Descargar No Pagadas</SoftButton>
-                    <SoftButton variant="outlined" onClick={()=>goUrl("http://127.0.0.1:4000/v1/factura/exportFromExcel/Todas")} color="dark" size="small">Descargar Todas</SoftButton>
+                    <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/Pagada")} color="dark" size="small">Descargar Pagadas</SoftButton>
+                    <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/No_Pagada")} color="dark" size="small">Descargar No Pagadas</SoftButton>
+                    <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/Todas")} color="dark" size="small">Descargar Todas</SoftButton>
                     <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/receivedDte")} color="info" size="small">Actualizar</SoftButton>
             </> 
     }
