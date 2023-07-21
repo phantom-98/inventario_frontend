@@ -44,7 +44,7 @@ const tr = {
     borderStyle: 'solid none' ,
     borderWidth: '1px',
     borderColor: 'black',
-    fontSize: '13px',
+    fontSize: '12px',
 }
 
 
@@ -71,32 +71,43 @@ function Invoices() {
 
   return (
     <Card id="delete-account" sx={{ height: "100%" }}>
-        <SoftBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
-            <SoftTypography variant="h6" fontWeight="medium">
-                Ventas Web
-            </SoftTypography>
-            <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
+       <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        
+          <SoftTypography variant="h6" gutterBottom>
+            Ventas Web
+          </SoftTypography>
+          <SoftButton variant="outlined" color="info" size="small" href="/ventas" >
             Ver Mas +
             </SoftButton>
-        </SoftBox>
-        <SoftBox pt={2} px={2} >
+      
+      </SoftBox>
+        <SoftBox pt={0} px={2} >
             <table style={tablaf}>
                 <thead>
                     <tr style={tr}>
-                        <th><strong>Fecha </strong></th>
-                        <th><strong>Tipo De Pago </strong></th>
+                          <th><strong># </strong></th>
+                        <th><strong>Productos </strong></th>
                         <th><strong>Total </strong></th>
                         <th><strong>Rut </strong></th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        venta.map((item, index)=>(
+                        venta.map((v, index)=>(
                             <tr key={index}>
-                                <td>{dateFormat(item.createdAt)}</td>
-                                <td>WebPay</td>
-                                <td>${insertarPuntos(item.totals?.MntTotal)}</td>
-                                <td>{item.client?.RUTRecep}</td>
+                                <td>{v.counter}</td>
+                               <td>
+                                    <ul >
+                                        {
+                                            v.items.map((item, r)=>(
+                                                <li key={r}>{item.QtyItem} - {item.NmbItem}</li>   
+                                            ))
+                                        }
+                                    </ul>
+                                </td>
+                                
+                                <td>$ {insertarPuntos(v.totals?.MntTotal)}</td>
+                                <td>{v.client?.RUTRecep}</td>
                             </tr>
                         ))
                     }

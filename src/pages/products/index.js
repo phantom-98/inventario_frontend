@@ -37,7 +37,7 @@ function Clientes() {
     dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
-      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${insertarPuntos(r.precio)}`, `$ ${insertarPuntos(r.precioOferta)}`,`$ ${getCpp(r.prices, r.stock)}`, r.uid]
+      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${insertarPuntos(r.precio)}`, `$ ${insertarPuntos(r.precioOferta)}`,`$ ${insertarPuntos(Math.ceil(r.cpp2[r.cpp2.length -1]?.price))}`, r.uid]
      
     })
 

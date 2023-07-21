@@ -10,7 +10,7 @@ import HeaderVentas from "./Header/headerVentas";
 
 import MUIDataTable from "mui-datatables";
 import { muiOptions,  columnsFunc4 } from "components/DataTable/options"
-import {insertarPuntos, dateFormat} from "../../config/helpers"
+import {insertarPuntos, dateFormat, itemListWeb, itemListPos} from "../../config/helpers"
 import { loadingAction } from "actions/helperActions";
 import { Icon } from "@mui/material";
 import SoftButton from "components/SoftButton";
@@ -81,11 +81,11 @@ function Ventas() {
     
     const getData = async()=>{
         dispatch(loadingAction())
-        const data = await clienteAxios.get('sale/all');
+        const data = await clienteAxios.get('sale/all3');
         let respData = data.data
         //console.log(respData.boletas)
         let tempRows = respData.boletas.map(r=>{
-            return[dateFormat(r.createdAt), 'WebPay', `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.client?.RUTRecep, r.url,r.uid]
+            return[r.counter, dateFormat(r.createdAt), itemListWeb(r.items) ,`$ ${insertarPuntos(r.totals?.MntTotal)}`, r.client?.RUTRecep, r.url,r.uid]
         })
 
         let tempRows2 = respData.sales.map(r=>{
@@ -96,7 +96,7 @@ function Ventas() {
                     precio: i.price,
                 }
             })
-            return[dateFormat(r.createdAt), r.payType, `$ ${insertarPuntos(r.total)}`, r.clientRut, r.uid, JSON.stringify(items)]
+            return[dateFormat(r.createdAt), r.payType, itemListPos(r.items),`$ ${insertarPuntos(r.total)}`,  r.clientRut, r.uid, JSON.stringify(items)]
         })
 
         setDataRow(tempRows)
@@ -119,7 +119,7 @@ function Ventas() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
+    const columns = ["#", "Fecha", "Productos", "Total", "Rut"];
     columns.push({
     
         name: "Boleta",
@@ -131,7 +131,7 @@ function Ventas() {
             
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[4])}>
+                <SoftButton variant="text" color="dark" onClick={(e) => window.open(tableMeta.rowData[6])}>
                   <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
                   </Tooltip>
@@ -142,7 +142,7 @@ function Ventas() {
           }
         }
     })
-    const columnsF = columnsFunc4(["Fecha", "Tipo de Pago", "Total", "Rut"], view);
+    const columnsF = columnsFunc4(["Fecha", "Tipo de Pago", "Productos", "Total", "Rut"], view);
     columnsF.push({
     
         name: "Ver",
@@ -153,7 +153,7 @@ function Ventas() {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[4])}>
+                <SoftButton variant="text" color="dark" onClick={(e) => view(tableMeta.rowData[5])}>
                   <Tooltip title="boleta">
                     <Icon >archiveIcon</Icon>
                   </Tooltip>

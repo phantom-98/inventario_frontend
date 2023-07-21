@@ -128,7 +128,16 @@ function dateClose(provider, facturaDate){
         return moment(facturaDate).add(provider.creditCondition, "days")
     }
 }
+const itemListWeb = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.QtyItem} - {item.NmbItem}</li>   
+    ))
+}
 
+const itemListPos = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.qty} - {item.productName}</li>   
+    ))
+}
 
-
-export { dateFormat2, succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, dateClose };
+export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose };
