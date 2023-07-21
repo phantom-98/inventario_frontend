@@ -18,7 +18,9 @@ import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { headert, style } from "./style";
+import { headert, style, botones } from "./style";
+import ListHeader from "components/ListHeader"
+
 import {succesSwal, errorSwal} from 'config/helpers.js'
 
 function ProductPrices() {
@@ -35,6 +37,7 @@ function ProductPrices() {
     const getData = async()=>{
         const data = await clienteAxios.get('product/sku/'+id);
         let respData = data.data
+        console.log(respData)
         let tempRows = respData.prices.map(r=>{
             return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`, r._id]
         })
@@ -112,8 +115,14 @@ function ProductPrices() {
                 <SoftBox mb={3}>
                     <Card  >
                         <div style={headert}>
-                            <h6> Ingreso De Precios</h6>
-                            <SoftButton onClick={()=>addPrice()} variant="outlined" color="info" size="small">Agregar +</SoftButton>
+                            <h6> Ingreso De Precios: {product.nombre} </h6>
+                            <div style={botones}>
+                                <ListHeader url="/inventario" buttonText="Regresar" />
+                                <SoftButton onClick={()=>addPrice()} variant="outlined" color="info" size="small">
+                                
+                                    Agregar +</SoftButton>
+                            </div>
+                                
                             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                                 <Box sx={style}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2">

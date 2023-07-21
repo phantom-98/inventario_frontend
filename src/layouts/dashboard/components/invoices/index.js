@@ -56,12 +56,13 @@ function Invoices() {
     const columns = ["Fecha", "Tipo de Pago", "Total", "Rut"];
 
     const getData = async()=>{
-        
+        dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all');
         let respData = data.data
+        dispatch(loadingAction())
+
         console.log(respData)
         setVenta(respData.boletas)
-        dispatch(loadingAction())
     }
     useEffect(()=>{
         getData()

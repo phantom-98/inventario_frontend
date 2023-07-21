@@ -23,6 +23,7 @@ function OrdenDeCompra  () {
     const dispatch = useDispatch();
     const [options, setOptions] = useState([]);
     const loading = open && options.length === 0;
+    const [rowsProvider, setrowsProvider] = useState([])
 
     function sleep(delay = 0) {
         return new Promise((resolve) => {
@@ -54,13 +55,23 @@ function OrdenDeCompra  () {
         const data = await clienteAxios.get('product/');
         dispatch(loadingAction())
         let respData = data.data
-        
-    
+      
         setProductos(respData)
         console.log(productos)
     }
+    const getProvider = async()=>{
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('provider/');
+        dispatch(loadingAction())
+        let respData = data.data
+       
+
+        setrowsProvider(respData)
+    }
+
     useEffect(() =>{
         getProductos()
+        getProvider()
     },[])
 
     useEffect(() => {
@@ -110,8 +121,7 @@ function OrdenDeCompra  () {
                                 }}
                             >
                                 <option  value='' >Seleccione...</option>
-                                <option  value='x'>x</option>
-                                <option  value='y'>y</option>
+                                { rowsProvider.map(c => (<option key={c.id} value={c.name}>{c.name}</option>))}
                             </NativeSelect>
                         </SoftBox>
                     </Grid>
@@ -136,9 +146,9 @@ function OrdenDeCompra  () {
                             loading={loading}
                             renderInput={(params) => (
                                 <TextField
-                                key={params.id}
+                                key={params.sku}
                                 {...params}
-                                label="Asynchronous"
+                                label="Buscar Producto"
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (

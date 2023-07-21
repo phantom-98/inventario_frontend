@@ -17,7 +17,7 @@ function SignIn() {
   const [password, setPassword] = useState("")
 
   const dispatch = useDispatch();
-  dispatch(getDataforDashAction())
+//  dispatch(getDataforDashAction())
 
   const loginUser = (user)=> dispatch(loginAction(user))
   

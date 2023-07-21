@@ -83,6 +83,7 @@ function create() {
                                     type="number"
                                     fullWidth  InputLabelProps={{ shrink: true }} variant="standard" 
                                     style={{paddingTop:"0.15rem"}}
+                                    required  
                                     onChange={(e)=>handleChange(e)}
                                     />
                                 </SoftBox>
