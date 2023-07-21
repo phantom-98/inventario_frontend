@@ -127,7 +127,7 @@ function Abastecimiento() {
                 </Card>
     } else if(showCard == "recepcion") {
         card = <Card>
-                    <ListHeader url="factura/receivedDte" label="Listado Recepcion" buttonText="Actualizar" />
+                    <ListHeader url="/factura/receivedDte" mode="AbasRecep" label="Listado Recepcion" buttonText="Actualizar" />
                     <SoftBox>
                         <MUIDataTable
                             data={rowsFactura}
