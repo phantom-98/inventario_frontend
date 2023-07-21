@@ -11,12 +11,16 @@ import MUIDataTable from "mui-datatables";
 import Header from "./components/Header";
 import { loadingAction } from "actions/helperActions";
 import { useDispatch } from "react-redux";
-
+import {dateFormat, dateClose, dateFormat2} from "../../config/helpers.js"
+import Tooltip from '@mui/material/Tooltip';
+import SoftButton from "components/SoftButton";
+import Icon from "@mui/material/Icon";
 function Abastecimiento() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [rows, setRows] = useState([])
     const [rowsProvider, setrowsProvider] = useState([])
+    const [rowsFactura, setrowsFactura] = useState([])
     const [showCard, setShowCard] = useState("orderCompra")
     
     const getData = async()=>{
@@ -41,9 +45,21 @@ function Abastecimiento() {
 
         setrowsProvider(tempRows)
     }
+
+    const getFacturas = async()=>{
+        const data = await clienteAxios.get('factura/getReceivedDteforApi3');
+        let respData = data.data
+        let tempRows = respData.map(r=>{
+            return[r.folio, r.emisorData?.RznSoc, dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), r.totals.MntTotal, dateFormat2(dateClose(r.provider,r.createdAt)), r]
+        })
+
+        setrowsFactura(tempRows)
+    }
+
         
     useEffect(()=>{
         getData()
+        getFacturas()
         getProvider()
     },[])
 
@@ -65,10 +81,39 @@ function Abastecimiento() {
         
     }
 
+    const changeStatus=(id)=>{
+        dispatch(loadingAction())
+        clienteAxios.put(`/factura/changeStatus/${id}`).then((r) => {
+            getFacturas()
+            dispatch(loadingAction())
+        }).catch(e=>console.log(e))
+    }
 
-    const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
 
-    const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email", "Condicion de Credito"], editProvider, 3, onDelete);
+    const columns = ["Numero Factura", "Proovedor", "Fecha Emision", "Fecha Vencimiento", "Monto", "Mes Vencimiento"];
+    columns.push({
+        name: "Estado",
+        options: {
+          filter: false,
+          sort: false,
+          empty: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            
+            let status = tableMeta.rowData[6].status ? tableMeta.rowData[6].status :"No Pagada"
+            let color = tableMeta.rowData[6].status == "Pagada" ? "success" : "error"
+            return (
+              <>
+                <SoftButton variant="outlined"  size="small" color={color} onClick={(e) => changeStatus(tableMeta.rowData[6].uid)}>
+                    {status}
+                </SoftButton>
+              
+              </>
+            );
+          }
+        }
+    })
+
+    const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email", "Condicion de Credito"], editProvider, 4, onDelete);
     
     let card;
     if (showCard == "orderCompra") {
@@ -81,7 +126,16 @@ function Abastecimiento() {
                     </SoftBox>
                 </Card>
     } else if(showCard == "recepcion") {
-        card = "";
+        card = <Card>
+                    <ListHeader url="factura/receivedDte" label="Listado Recepcion" buttonText="Actualizar" />
+                    <SoftBox>
+                        <MUIDataTable
+                            data={rowsFactura}
+                            columns={columns}
+                            options={muiOptions}
+                        />
+                    </SoftBox>
+                </Card>;
     }else if(showCard == "provider"){
         card = <Card>
             <ListHeader url="/provider/create" label="Listado Provedores" buttonText="Agregar +" />

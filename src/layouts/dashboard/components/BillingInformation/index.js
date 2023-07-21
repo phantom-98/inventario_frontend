@@ -22,9 +22,9 @@ function BillingInformation() {
     const getFacturas = async()=>{
         dispatch(loadingAction())
         const data = await clienteAxios.get('factura/getReceivedDteforApi2');
+        dispatch(loadingAction())
         let respData = data.data
         setFacturas(respData)
-        dispatch(loadingAction())
    }
 
     useEffect(()=>{

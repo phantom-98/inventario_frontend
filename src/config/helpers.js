@@ -82,8 +82,20 @@ function getCpp(inventario, stock){
 
 
 function dateFormat(dateInformat) {
+    if(dateInformat == 0 ){
+        return 0
+    }
 
     return moment(dateInformat).format("DD-MM-YYYY H:mm")
+}
+function dateFormat2(dateInformat) {
+    let mm = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    if(dateInformat == 0 ){
+        return 0
+    }
+
+    let month =  moment(dateInformat).format("M")
+    return mm[month-1]
 }
 
 function mapDte(type){
@@ -109,6 +121,14 @@ function mapDte(type){
     }
 }
 
+function dateClose(provider, facturaDate){
+    if(!provider || !provider.creditCondition){
+        return 0
+    }else{
+        return moment(facturaDate).add(provider.creditCondition, "days")
+    }
+}
 
 
-export { succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte };
+
+export { dateFormat2, succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, dateClose };
