@@ -36,7 +36,7 @@ function Abastecimiento() {
         dispatch(loadingAction())
         let respData = data.data
         let tempRows = respData.map(r=>{
-            return[r.name, r.RUTRecep, r.email, r.uid]
+            return[r.name, r.RUTRecep, r.email, r.creditCondition, r.uid]
         })
 
         setrowsProvider(tempRows)
@@ -68,7 +68,7 @@ function Abastecimiento() {
 
     const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
 
-    const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email"], editProvider, 3, onDelete);
+    const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email", "Condicion de Credito"], editProvider, 3, onDelete);
     
     let card;
     if (showCard == "orderCompra") {

@@ -10,6 +10,9 @@ import clienteAxios from 'config/axios';
 import { Provider } from "react-redux";
 import SoftButton from "components/SoftButton";
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
+
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import {succesSwal, errorSwal} from 'config/helpers.js'
@@ -167,12 +170,25 @@ const create = () => {
                             </Grid>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
-                                <TextField 
-                                    name="creditCondition"
-                                    onChange={(e)=>handleChange(e)}
-                                    fullWidth label="creditCondition" InputLabelProps={{ shrink: true }} variant="standard" 
-                                    style={{paddingTop:"0.15rem"}}
-                                />
+                                    <InputLabel variant="standard" htmlFor="creditCondition">
+                                        Condicion De Credito
+                                    </InputLabel>
+                                    <NativeSelect
+                                        onChange={(e)=>handleChange(e)}
+                                        name="creditCondition"
+                                        sx={{ input: { color: "white", width: "100%" } }}
+                                        fullWidth
+                                        
+                                        defaultValue={'ninguna'}
+                                        inputProps={{
+                                            name: 'creditCondition',
+                                            id: 'creditCondition',
+                                        }}
+                                    >
+                                          <option  value='Contado'>Contado</option>
+                                          <option  value='30'>30</option>
+                                          <option  value='60'>60</option>
+                                    </NativeSelect>
                                 </SoftBox>
                             </Grid>
                             <Grid   item xs={12} md={12} xl={12}>

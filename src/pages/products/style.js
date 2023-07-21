@@ -1,8 +1,16 @@
+export const botones = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '20px'
+}
 export const headert={
     display: 'flex',
     padding: '10px',
     justifyContent: 'space-between',
-    margin: '10px'
+    alignItems: 'center',
+    margin: '10px',
+    height: '50px'
 }
 
 export const style = {
