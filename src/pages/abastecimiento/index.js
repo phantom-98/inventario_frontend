@@ -11,7 +11,7 @@ import MUIDataTable from "mui-datatables";
 import Header from "./components/Header";
 import { loadingAction } from "actions/helperActions";
 import { useDispatch } from "react-redux";
-import {dateFormat, dateClose, dateFormat2, insertarPuntos, mapDte} from "../../config/helpers.js"
+import {dateFormat, dateClose, dateFormat2, insertarPuntos, mapDte, insertarPuntos2} from "../../config/helpers.js"
 import Tooltip from '@mui/material/Tooltip';
 import SoftButton from "components/SoftButton";
 import Icon from "@mui/material/Icon";
@@ -22,6 +22,10 @@ import Tab from "@mui/material/Tab";
 import Cube from "examples/Icons/Cube";
 import Document from "examples/Icons/Document";
 import Settings from "examples/Icons/Settings";
+import CustomFooter from './CustomFooter';
+import TableFooter from '@mui/material/TableFooter';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
 function Abastecimiento() {
     const [tabValue, setTabValue] = useState(1);
@@ -74,7 +78,7 @@ function Abastecimiento() {
             return[e[0],  `$ ${insertarPuntos(respData2[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData2[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData2[e[0]]?.Septiembre)}`, `$ ${insertarPuntos(total)}`]
         });
 
-        test.push(["Totals", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
+        test.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
        
         console.log(test)
         
@@ -86,15 +90,13 @@ function Abastecimiento() {
         countTo = 0
         let test2 = tempRows.map(e => {
             let total = (respData3[e[0]]?.Julio ?respData3[e[0]].Julio:0 ) + (respData3[e[0]]?.Agosto? respData3[e[0]].Agosto : 0) + (respData3[e[0]]?.Septiembre? respData3[e[0]].Septiembre:0); 
-            countJul += respData2[e[0]]?.Julio ?respData2[e[0]].Julio:0
-            countAg += respData2[e[0]]?.Agosto ?respData2[e[0]].Agosto:0
-            countSep += respData2[e[0]]?.Septiembre ?respData2[e[0]].Septiembre:0
+            countJul += respData3[e[0]]?.Julio ?respData3[e[0]].Julio:0
+            countAg += respData3[e[0]]?.Agosto ?respData3[e[0]].Agosto:0
+            countSep += respData3[e[0]]?.Septiembre ?respData3[e[0]].Septiembre:0
             countTo += total
             return[e[0],  `$ ${insertarPuntos(respData3[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData3[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData3[e[0]]?.Septiembre)}`, `$ ${insertarPuntos(total)}`]
         });
-        test2.push(["Totals", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
-       
-        
+        test2.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
         setRows3(test2)
     }
 
@@ -102,7 +104,7 @@ function Abastecimiento() {
         const data = await clienteAxios.get('factura/getReceivedDteforApi3');
         let respData = data.data
         let tempRows = respData.map(r=>{
-            return[r.folio, r.provider?.name, mapDte(r.typeId), dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), r.totals.MntTotal, dateFormat2(dateClose(r.provider,r.createdAt)), r]
+            return[r.folio, r.provider?.name, mapDte(r.typeId), dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), `$ ${insertarPuntos2(r.totals.MntTotal, r.typeId)}`, dateFormat2(dateClose(r.provider,r.createdAt)), r]
         })
 
         setrowsFactura(tempRows)
@@ -122,6 +124,7 @@ function Abastecimiento() {
         getData()
         getProvider()
     },[])
+
 
     
 
@@ -149,7 +152,9 @@ function Abastecimiento() {
         }).catch(e=>console.log(e))
     }
 
-    const options2 = {rowsPerPageOptions: [15,30,100],}
+    const options2 = {
+        rowsPerPageOptions: [15,30,100]
+    }
 
     const columns2 = [ "Proovedor", "Julio", "Agosto", "Septiembre", "Total"];
     const columns = ["Numero Factura", "Proovedor", "Tipo","Fecha Emision", "Fecha Vencimiento", "Monto", "Mes Vencimiento"];
@@ -177,6 +182,26 @@ function Abastecimiento() {
     })
 
     const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email", "Condicion de Credito"], editProvider, 4, onDelete);
+
+    const listItems = rows3.map((r,i) =>
+        <tr key={i}>
+            <td>{r[0] =="Total" ? <strong>{r[0]}</strong> : r[0]}</td>
+            <td>{r[0] =="Total" ? <strong>{r[1]}</strong> : r[1]}</td>
+            <td>{r[0] =="Total" ? <strong>{r[2]}</strong> : r[2]}</td>
+            <td>{r[0] =="Total" ? <strong>{r[3]}</strong> : r[3]}</td>
+            <td>{r[0] =="Total" ? <strong>{r[4]}</strong> : r[4]}</td>
+        </tr>
+    );
+
+    const listItems2 = rows2.map((r,i) =>
+    <tr key={i}>
+        <td>{r[0] =="Total" ? <strong>{r[0]}</strong> : r[0]}</td>
+        <td>{r[0] =="Total" ? <strong>{r[1]}</strong> : r[1]}</td>
+        <td>{r[0] =="Total" ? <strong>{r[2]}</strong> : r[2]}</td>
+        <td>{r[0] =="Total" ? <strong>{r[3]}</strong> : r[3]}</td>
+        <td>{r[0] =="Total" ? <strong>{r[4]}</strong> : r[4]}</td>
+    </tr>
+);
     
     let card;
     if (showCard == "orderCompra") {
@@ -191,18 +216,37 @@ function Abastecimiento() {
     } else if(showCard == "consolid") {
         card = <Card>
             <SoftBox>
-                    <h5 style={{padding:"30px"}}>Pagadas</h5>
-                    <MUIDataTable
-                        data={rows2}
-                        columns={columns2}
-                        options={options2}
-                    />
                     <h5 style={{padding:"30px"}}>No Pagadas</h5>
-                    <MUIDataTable
-                        data={rows3}
-                        columns={columns2}
-                        options={options2}
-                    />
+                    <table className="table" >
+                        <thead>
+                            <tr>
+                                <td>Proovedor</td>
+                                <td>Julio</td>
+                                <td>Agosto</td>
+                                <td>Septiembre</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listItems}
+                        </tbody>
+                    </table>
+                    <h5 style={{padding:"30px"}}>Pagadas</h5>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <td>Proovedor</td>
+                                <td>Julio</td>
+                                <td>Agosto</td>
+                                <td>Septiembre</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listItems2}
+                        </tbody>
+                    </table>
+                    
             </SoftBox>
         </Card>
         

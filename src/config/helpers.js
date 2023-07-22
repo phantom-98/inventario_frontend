@@ -52,6 +52,16 @@ const deleteSwal = (url) => {
       })
 }
 
+function insertarPuntos2(numero, type){
+    if(!numero){
+        return 0
+    }
+    let numeroRevertido = numero.toString().split("").reverse().join("");
+    let grupos = numeroRevertido.match(/.{1,3}/g);
+    let resultado = grupos.join(".").split("").reverse().join("");
+    return type == 61 ? `- ${resultado}`:resultado;
+}
+
 function insertarPuntos(numero) {
     if(!numero){
         return 0
@@ -140,4 +150,4 @@ const itemListPos = (items)=>{
     ))
 }
 
-export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose };
+export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2 };
