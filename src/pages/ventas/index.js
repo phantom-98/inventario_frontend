@@ -169,7 +169,7 @@ function Ventas() {
     let card;
     if (showCard == "web") {
         card =  <Card>
-                    <ListHeader url="/productos/create" label="Listado Ventas Web" buttonText="Agregar +" />
+                    <ListHeader url="/productos/create" label="Listado Ventas Web" buttonText="Agregar +"  mode="downloadWeb"/>
                     <SoftBox>
                         <MUIDataTable
                             data={dataRow}
