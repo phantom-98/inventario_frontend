@@ -11,7 +11,7 @@ import MUIDataTable from "mui-datatables";
 import Header from "./components/Header";
 import { loadingAction } from "actions/helperActions";
 import { useDispatch } from "react-redux";
-import {dateFormat, dateClose, dateFormat2, insertarPuntos} from "../../config/helpers.js"
+import {dateFormat, dateClose, dateFormat2, insertarPuntos, mapDte} from "../../config/helpers.js"
 import Tooltip from '@mui/material/Tooltip';
 import SoftButton from "components/SoftButton";
 import Icon from "@mui/material/Icon";
@@ -102,7 +102,7 @@ function Abastecimiento() {
         const data = await clienteAxios.get('factura/getReceivedDteforApi3');
         let respData = data.data
         let tempRows = respData.map(r=>{
-            return[r.folio, r.provider?.name, dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), r.totals.MntTotal, dateFormat2(dateClose(r.provider,r.createdAt)), r]
+            return[r.folio, r.provider?.name, mapDte(r.typeId), dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), r.totals.MntTotal, dateFormat2(dateClose(r.provider,r.createdAt)), r]
         })
 
         setrowsFactura(tempRows)
@@ -152,7 +152,7 @@ function Abastecimiento() {
     const options2 = {rowsPerPageOptions: [15,30,100],}
 
     const columns2 = [ "Proovedor", "Julio", "Agosto", "Septiembre", "Total"];
-    const columns = ["Numero Factura", "Proovedor", "Fecha Emision", "Fecha Vencimiento", "Monto", "Mes Vencimiento"];
+    const columns = ["Numero Factura", "Proovedor", "Tipo","Fecha Emision", "Fecha Vencimiento", "Monto", "Mes Vencimiento"];
 
     columns.push({
         name: "Estado",
