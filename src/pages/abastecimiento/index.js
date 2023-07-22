@@ -39,6 +39,14 @@ function Abastecimiento() {
     const [rowsFactura, setrowsFactura] = useState([])
     const [showCard, setShowCard] = useState("orderCompra")
     const [showCard2, setShowCard2] = useState("list")
+
+    function convertToNumber(value) {
+        return Number(value.replace(/[$,]/g, ''));
+      }
+      
+      // Ordenar el array por la última columna (convertida a número)
+      
+      
     
     const getData = async()=>{
         //dispatch(loadingAction())
@@ -75,10 +83,10 @@ function Abastecimiento() {
             countAg += respData2[e[0]]?.Agosto ?respData2[e[0]].Agosto:0
             countSep += respData2[e[0]]?.Septiembre ?respData2[e[0]].Septiembre:0
             countTo += total
-            return[e[0],  `$ ${insertarPuntos(respData2[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData2[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData2[e[0]]?.Septiembre)}`, `$ ${insertarPuntos(total)}`]
+            return[e[0],  `$ ${insertarPuntos(respData2[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData2[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData2[e[0]]?.Septiembre)}`, total]
         });
-
-        test.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
+        test.sort((a, b) => b[b.length - 1] - a[a.length - 1]);
+        test.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, countTo])
        
         console.log(test)
         
@@ -88,15 +96,20 @@ function Abastecimiento() {
         countAg = 0
         countSep = 0
         countTo = 0
+
         let test2 = tempRows.map(e => {
             let total = (respData3[e[0]]?.Julio ?respData3[e[0]].Julio:0 ) + (respData3[e[0]]?.Agosto? respData3[e[0]].Agosto : 0) + (respData3[e[0]]?.Septiembre? respData3[e[0]].Septiembre:0); 
             countJul += respData3[e[0]]?.Julio ?respData3[e[0]].Julio:0
             countAg += respData3[e[0]]?.Agosto ?respData3[e[0]].Agosto:0
             countSep += respData3[e[0]]?.Septiembre ?respData3[e[0]].Septiembre:0
             countTo += total
-            return[e[0],  `$ ${insertarPuntos(respData3[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData3[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData3[e[0]]?.Septiembre)}`, `$ ${insertarPuntos(total)}`]
+            return[e[0],  `$ ${insertarPuntos(respData3[e[0]]?.Julio)}`, `$ ${insertarPuntos(respData3[e[0]]?.Agosto)}`, `$ ${insertarPuntos(respData3[e[0]]?.Septiembre)}`, total]
         });
-        test2.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, `$ ${insertarPuntos(countTo)}`])
+        
+        test2.sort((a, b) => b[b.length - 1] - a[a.length - 1]);
+
+      
+        test2.push(["Total", `$ ${insertarPuntos(countJul)}`, `$ ${insertarPuntos(countAg)}`, `$ ${insertarPuntos(countSep)}`, countTo])
         setRows3(test2)
     }
 
@@ -104,7 +117,7 @@ function Abastecimiento() {
         const data = await clienteAxios.get('factura/getReceivedDteforApi3');
         let respData = data.data
         let tempRows = respData.map(r=>{
-            return[r.folio, r.provider?.name, mapDte(r.typeId), dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), `$ ${insertarPuntos2(r.totals.MntTotal, r.typeId)}`, dateFormat2(dateClose(r.provider,r.createdAt)), r]
+            return[r.folio, r.provider?.name, mapDte(r.typeId), dateFormat(r.createdAt), dateFormat(dateClose(r.provider,r.createdAt)), `$ ${insertarPuntos2(r.totals.MntTotal, r.typeId)}`, dateFormat2(dateClose(r.provider,r.createdAt)), r, r.obs]
         })
 
         setrowsFactura(tempRows)
@@ -167,14 +180,41 @@ function Abastecimiento() {
           empty: false,
           customBodyRender: (value, tableMeta, updateValue) => {
             
-            let status = tableMeta.rowData[6].status ? tableMeta.rowData[6].status :"No Pagada"
-            let color = tableMeta.rowData[6].status == "Pagada" ? "success" : "error"
+            let status = tableMeta.rowData[7].status ? tableMeta.rowData[7].status :"No Pagada"
+            let color = tableMeta.rowData[7].status == "Pagada" ? "success" : "error"
             return (
               <>
-                <SoftButton variant="outlined" size="small" color={color} onClick={(e) => changeStatus(tableMeta.rowData[6].uid)}>
+                <SoftButton variant="outlined" size="small" color={color} onClick={(e) => changeStatus(tableMeta.rowData[7].uid)}>
                     {status}
                 </SoftButton>
               
+              </>
+            );
+          }
+        }
+    })
+
+    const getValueText = (e, uid) => {
+      
+        dispatch(loadingAction())
+        clienteAxios.put(`/factura/changeObs/${uid}`, {data:e.target.value}).then((r) => {
+            console.log(r)
+            getFacturas()
+            dispatch(loadingAction())
+        }).catch(e=>console.log(e))
+
+    }
+
+    columns.push({
+        name: "Observaciones",
+        options: {
+          filter: true,
+          sort: true,
+          empty: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+              <>
+                <textarea onBlur={(e)=>getValueText(e, tableMeta.rowData[7].uid)} className="form-control">{tableMeta.rowData[8]}</textarea>
               </>
             );
           }
@@ -189,7 +229,7 @@ function Abastecimiento() {
             <td>{r[0] =="Total" ? <strong>{r[1]}</strong> : r[1]}</td>
             <td>{r[0] =="Total" ? <strong>{r[2]}</strong> : r[2]}</td>
             <td>{r[0] =="Total" ? <strong>{r[3]}</strong> : r[3]}</td>
-            <td>{r[0] =="Total" ? <strong>{r[4]}</strong> : r[4]}</td>
+            <td><strong>$ {insertarPuntos(r[4])}</strong></td>
         </tr>
     );
 
@@ -199,7 +239,7 @@ function Abastecimiento() {
         <td>{r[0] =="Total" ? <strong>{r[1]}</strong> : r[1]}</td>
         <td>{r[0] =="Total" ? <strong>{r[2]}</strong> : r[2]}</td>
         <td>{r[0] =="Total" ? <strong>{r[3]}</strong> : r[3]}</td>
-        <td>{r[0] =="Total" ? <strong>{r[4]}</strong> : r[4]}</td>
+        <td><strong>$ {insertarPuntos(r[4])}</strong></td>
     </tr>
 );
     
@@ -224,7 +264,7 @@ function Abastecimiento() {
                                 <td>Julio</td>
                                 <td>Agosto</td>
                                 <td>Septiembre</td>
-                                <td>Total</td>
+                                <td><strong>Total</strong></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -239,7 +279,7 @@ function Abastecimiento() {
                                 <td>Julio</td>
                                 <td>Agosto</td>
                                 <td>Septiembre</td>
-                                <td>Total</td>
+                                <td><strong>Total</strong></td>
                             </tr>
                         </thead>
                         <tbody>
