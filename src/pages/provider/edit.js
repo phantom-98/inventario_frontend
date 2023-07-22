@@ -201,26 +201,15 @@ const edit = () => {
                         </Grid>
                         <Grid item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
-                                    <InputLabel variant="standard" htmlFor="creditCondition">
-                                        Condicion De Credito
-                                    </InputLabel>
-                                    <NativeSelect
-                                        onChange={(e)=>handleChange(e)}
+                                    
+                                    <TextField 
+                                        label="Condicion de Credito"
                                         name="creditCondition"
-                                        sx={{ input: { color: "white", width: "100%", paddingTop:"0.20rem"} }}
-                                        fullWidth
-                                        
-                                        defaultValue={'ninguna'}
-                                        inputProps={{
-                                            value: provider.creditCondition,
-                                            name: 'creditCondition',
-                                            id: 'creditCondition',
-                                        }}
-                                    >
-                                          <option  value='Contado'>Contado</option>
-                                          <option  value='30'>30</option>
-                                          <option  value='60'>60</option>
-                                    </NativeSelect>
+                                        value={provider.creditCondition || ''} 
+                                        onChange={(e)=>handleChange(e)}
+                                        fullWidth InputLabelProps={{ shrink: true }} variant="standard" 
+                                        style={{paddingTop:"0.15rem"}}
+                                    />
                                 </SoftBox>
                             </Grid>
                         <Grid   item xs={12} md={12} xl={12}>
