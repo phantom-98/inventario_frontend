@@ -77,7 +77,7 @@ function Header({setShowCard}) {
         
 
 
-          <Grid item xs={12} md={6} sx={{ ml: "auto" }}>
+          <Grid item xs={12} md={12} sx={{ ml: "auto" }}>
             <AppBar position="static">
               <Tabs
                 orientation={tabsOrientation}
@@ -86,7 +86,8 @@ function Header({setShowCard}) {
                 sx={{ background: "transparent" }}
               >
                 <Tab label="Orden de Compra" icon={<Cube />} onClick={()=>setShowCard("orderCompra")} />
-                <Tab label="Recepcion" icon={<Document />}  onClick={()=>setShowCard("recepcion")} />
+                <Tab label="Consolidado Recepcion" icon={<Document />}  onClick={()=>setShowCard("consolid")} />
+                <Tab label="Listado Recepcion" icon={<Document />}  onClick={()=>setShowCard("recepcion")} />
                 <Tab label="Proovedores" icon={<Settings />}  onClick={()=>setShowCard("provider")} />
               </Tabs>
             </AppBar>
