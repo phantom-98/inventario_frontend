@@ -131,9 +131,23 @@ function Abastecimiento() {
         
        
     }
+    const getProduct = async()=>{
+  
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('product/');
+        dispatch(loadingAction())
+        let respData = data.data
+        let tempRows = respData.map(r=>{
+          return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock,]
+         
+        })
+    
+        setrowsProduct(tempRows)
+      }
 
         
     useEffect(()=>{
+        getProduct()
         getFacturas()
         getData()
         getProvider()
