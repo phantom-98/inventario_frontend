@@ -21,8 +21,10 @@ import EditFacturas from "pages/facturas/edit";
 import EditPromociones from "pages/promociones/edit";
 import EditVentas from "pages/ventas/edit";
 import EditProvider from "pages/provider/edit"
+import ProductPrices from "pages/products/prices"
+import EditUsuario from "pages/usuario/edit";
 
-
+import DuplicarProducto from "pages/products/duplicate";
 
 import CreateTienda from "pages/tiendas/create";
 import CreateProduct from "pages/products/create";
@@ -31,6 +33,8 @@ import CreateFacturas from "pages/facturas/create";
 import CreatePromociones from "pages/promociones/create";
 import CreateVentas from "pages/ventas/create";
 import CreateProvider from "pages/provider/create"
+import CrearUsuario from "pages/usuario/create";
+import OrdenDeCompra from "pages/ordenCompra/create";
 
 import Tiendas from './pages/tiendas'
 import Products from "pages/products";
@@ -38,8 +42,8 @@ import Ventas from './pages/ventas'
 import Clientes from './pages/clientes'
 import Factura from './pages/facturas'
 import Abastecimiento from './pages/abastecimiento'
-
 import SpaceShip from './examples/Icons/SpaceShip';
+import Usuarios from "pages/usuario";
 
 import Settings from './examples/Icons/Settings';
 import Cube from "examples/Icons/Cube";
@@ -100,6 +104,24 @@ const routes = [
     component: <Billing />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Ventas",
+    key: "ventas",
+    route: "/ventas",
+    icon: <Document size="12px" />,
+    component: <Ventas />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Usuarios",
+    key: "usuarios",
+    route: "/usuarios",
+    icon: <CustomerSupport size="12px" />,
+    component: <Usuarios />,
+    noCollapse: true,
+  },
   
   {
     type: "collapse",
@@ -137,7 +159,7 @@ const routes = [
     component: <Profile />,
     noCollapse: true,
   },
-  {
+  /*{
     type: "collapse",
     name: "Tiendas",
     key: "tiendas",
@@ -145,7 +167,7 @@ const routes = [
     icon: <Shop size="12px" />,
     component: <Tiendas />,
     noCollapse: true,
-  },
+  },*/
   {
     type: "nocollapse",
     name: "Sign In",
@@ -182,6 +204,18 @@ const routes = [
     component: <EditProduct />,
     noCollapse: true,
   },
+
+  {
+    type: "nocollapse",
+    name: "DuplicarProduct",
+    key: "dashboard",
+    route: "/productos/duplicar/:id",
+    icon: <Shop size="12px" />,
+    component: <DuplicarProducto />,
+    noCollapse: true,
+  },
+
+
   {
     type: "nocollapse",
     name: "CreateProduct",
@@ -191,6 +225,28 @@ const routes = [
     component: <CreateProduct />,
     noCollapse: true,
   },
+
+
+  {
+    type: "nocollapse",
+    name: "EditUsuario",
+    key: "dashboard",
+    route: "/usuario/edit/:id",
+    icon: <Shop size="12px" />,
+    component: <EditUsuario />,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "CrearUsuario",
+    key: "dashboard",
+    route: "/usuarios/create",
+    icon: <Shop size="12px" />,
+    component: <CrearUsuario />,
+    noCollapse: true,
+  },
+  
+  
   {
     type: "nocollapse",
     name: "EditClientes",
@@ -207,6 +263,15 @@ const routes = [
     route: "/clientes/create",
     icon: <Shop size="12px" />,
     component: <CreateClientes/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "OrdenDeCompra",
+    key: "dashboard",
+    route: "/orden_de_compra/create",
+    icon: <Shop size="12px" />,
+    component: <OrdenDeCompra/>,
     noCollapse: true,
   },
   {
@@ -279,6 +344,15 @@ const routes = [
     route: "/provider/edit/:id",
     icon: <Shop size="12px" />,
     component: <EditProvider/>,
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "ProductPrices",
+    key: "dashboard",
+    route: "/inventario/precios/:id",
+    icon: <Shop size="12px" />,
+    component: <ProductPrices/>,
     noCollapse: true,
   },
   

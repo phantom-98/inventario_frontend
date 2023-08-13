@@ -11,6 +11,9 @@ import { Provider } from "react-redux";
 import SoftButton from "components/SoftButton";
 import TextField from '@mui/material/TextField';
 import Grid from "@mui/material/Grid";
+import NativeSelect from '@mui/material/NativeSelect';
+import InputLabel from '@mui/material/InputLabel';
+
 import { useEffect, useState } from "react";
 import {succesSwal, errorSwal} from 'config/helpers.js'
 import { useParams } from "react-router-dom";
@@ -184,26 +187,31 @@ const edit = () => {
                         </Grid>
                         <Grid   item xs={12} md={6} xl={6}>
                             <SoftBox mb={2}>
-                            <TextField 
-                                name="CmnaRecep"
-                                value={provider.CmnaRecep || ''} 
-                                onChange={(e)=>handleChange(e)}
-                                fullWidth label="CmnaRecep" InputLabelProps={{ shrink: true }} variant="standard" 
-                                style={{paddingTop:"0.15rem"}}
-                            />
+                                <InputLabel variant="standard" htmlFor="creditCondition">
+                                    CmnaRecep
+                                </InputLabel>
+                                <TextField 
+                                    name="CmnaRecep"
+                                    value={provider.CmnaRecep || ''} 
+                                    onChange={(e)=>handleChange(e)}
+                                    fullWidth InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                />
                             </SoftBox>
                         </Grid>
-                        <Grid   item xs={12} md={6} xl={6}>
-                            <SoftBox mb={2}>
-                            <TextField 
-                                name="creditCondition"
-                                value={provider.creditCondition || ''} 
-                                onChange={(e)=>handleChange(e)}
-                                fullWidth label="creditCondition" InputLabelProps={{ shrink: true }} variant="standard" 
-                                style={{paddingTop:"0.15rem"}}
-                            />
-                            </SoftBox>
-                        </Grid>
+                        <Grid item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                    
+                                    <TextField 
+                                        label="Condicion de Credito"
+                                        name="creditCondition"
+                                        value={provider.creditCondition || ''} 
+                                        onChange={(e)=>handleChange(e)}
+                                        fullWidth InputLabelProps={{ shrink: true }} variant="standard" 
+                                        style={{paddingTop:"0.15rem"}}
+                                    />
+                                </SoftBox>
+                            </Grid>
                         <Grid   item xs={12} md={12} xl={12}>
                             <SoftBox mb={12}>
                             <TextField 

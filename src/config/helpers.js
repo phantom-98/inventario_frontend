@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import clienteAxios from 'config/axios';
-
+import moment from 'moment'
 const succesSwal = (url) => {
     Swal.fire({
         text: "Form ah sido enviado exitosamente!",
@@ -13,9 +13,9 @@ const succesSwal = (url) => {
         location.href = url
       }
     });
-  }
+}
   
-  const errorSwal = (msg = null) => {
+const errorSwal = (msg = null) => {
     Swal.fire({
         text: msg ? msg : "Lo sentimos, parece que se han detectado algunos errores, inténtalo de nuevo.",
         icon: "error",
@@ -23,9 +23,9 @@ const succesSwal = (url) => {
         confirmButtonText: "Ok",
         customClass: { confirmButton: "btn btn-primary"},
     });
-  }
+}
 
-  const deleteSwal = (url) => {
+const deleteSwal = (url) => {
     Swal.fire({
         title: 'Estas seguro?',
         text: "No podras revertir esto!",
@@ -50,6 +50,104 @@ const succesSwal = (url) => {
           
         }
       })
-  }
+}
 
-  export { succesSwal, errorSwal, deleteSwal };
+function insertarPuntos2(numero, type){
+    if(!numero){
+        return 0
+    }
+    let numeroRevertido = numero.toString().split("").reverse().join("");
+    let grupos = numeroRevertido.match(/.{1,3}/g);
+    let resultado = grupos.join(".").split("").reverse().join("");
+    return type == 61 ? `- ${resultado}`:resultado;
+}
+
+function insertarPuntos(numero) {
+    if(!numero){
+        return 0
+    }
+    let numeroRevertido = numero.toString().split("").reverse().join("");
+    let grupos = numeroRevertido.match(/.{1,3}/g);
+    let resultado = grupos.join(".").split("").reverse().join("");
+    return resultado;
+}
+
+function getCpp(inventario, stock){
+    if(!inventario){
+        return 0
+    }
+    let totalUnidades = 0;
+    let totalCostoPonderado = 0;
+
+    for (let i = 0; i < inventario.length; i++) {
+        const producto = inventario[i];
+        totalUnidades += Number(producto.qty);
+        totalCostoPonderado += Number(producto.qty) * Number(producto.price);
+    }
+    const costoPromedioPonderado = totalCostoPonderado / (totalUnidades);
+
+    return costoPromedioPonderado ? insertarPuntos(Math.round(costoPromedioPonderado)) : 0;
+
+}
+
+
+function dateFormat(dateInformat) {
+    if(dateInformat == 0 ){
+        return 0
+    }
+
+    return moment(dateInformat).format("DD-MM-YYYY H:mm")
+}
+function dateFormat2(dateInformat) {
+    let mm = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    if(dateInformat == 0 ){
+        return 0
+    }
+
+    let month =  moment(dateInformat).format("M")
+    return mm[month-1]
+}
+
+function mapDte(type){
+    switch (type) {
+        case 61:
+            return "Nota de Credito"
+            break;
+        case 34:
+            return "Factura Exenta"
+            break;
+        case 33:
+            return "Factura"
+            break;
+        case 52:
+            return "Guía de Despacho"
+            break;
+        case 39:
+            return "Boleta"
+            break;
+        default:
+            return "dte?"
+            break;
+    }
+}
+
+function dateClose(provider, facturaDate){
+    if(!provider || !provider.creditCondition){
+        return 0
+    }else{
+        return moment(facturaDate).add(provider.creditCondition, "days")
+    }
+}
+const itemListWeb = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.QtyItem} - {item.NmbItem}</li>   
+    ))
+}
+
+const itemListPos = (items)=>{
+    return items.map((item, r)=>(
+        <li key={r}>{item.qty} - {item.productName}</li>   
+    ))
+}
+
+export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2 };

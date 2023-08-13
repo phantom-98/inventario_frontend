@@ -22,7 +22,8 @@ import ListHeader from "components/ListHeader"
 import MUIDataTable from "mui-datatables"
 import NestedModal from "components/modal/modalExel";
 import { loadingAction } from "actions/helperActions";
-
+import {insertarPuntos, getCpp} from "../../config/helpers"
+import Icon from "@mui/material/Icon";
 
 
 function Clientes() {
@@ -30,12 +31,13 @@ function Clientes() {
   const [rows, setRows] = useState([])
   
   const getData = async()=>{
+  
     dispatch(loadingAction())
     const data = await clienteAxios.get('product/');
     dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
-      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${r.precio}`, `$ ${r.precioOferta}`, r.uid]
+      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${insertarPuntos(r.precio)}`, `$ ${insertarPuntos(r.precioOferta)}`,`$ ${insertarPuntos(Math.ceil(r.cpp2[r.cpp2.length -1]?.price))}`, r.uid]
      
     })
 
@@ -52,7 +54,19 @@ function Clientes() {
     
 	  navigate(`/productos/edit/${item}`);
 	}
-  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"], edit);
+
+  const onDelete = (item) => {
+    clienteAxios.delete(`/product/${item}`)
+      .then(() => {
+      getData();
+})
+}
+const duplicate = (item) => {
+  navigate(`/productos/duplicar/${item}`);
+}
+
+
+  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],edit, onDelete, duplicate);
 
   return (
     <DashboardLayout>

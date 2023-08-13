@@ -15,13 +15,13 @@ export function loginAction(user){
         try {
             let data = await clienteAxios.post('users/login', user);
             let respdata = data.data
+            localStorage.setItem("token", respdata.token)
             Swal.fire(
                 '',
                 'Usuario logeado correctamente!',
                 'success'
               )
             dispatch( loginExito(data.data) )
-            localStorage.setItem("token", respdata.token)
            return respdata
         } catch (error) {
             console.log(error)
