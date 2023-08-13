@@ -37,6 +37,7 @@ function Abastecimiento() {
     const [rows2, setRows2] = useState([])
     const [rows3, setRows3] = useState([])
     const [rowsFactura, setrowsFactura] = useState([])
+    const [rowsProduct, setrowsProduct] =useState([])
     const [showCard, setShowCard] = useState("orderCompra")
     const [showCard2, setShowCard2] = useState("list")
 
