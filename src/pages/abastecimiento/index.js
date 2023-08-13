@@ -37,6 +37,7 @@ function Abastecimiento() {
     const [rows2, setRows2] = useState([])
     const [rows3, setRows3] = useState([])
     const [rowsFactura, setrowsFactura] = useState([])
+    const [rowsProduct, setrowsProduct] =useState([])
     const [showCard, setShowCard] = useState("orderCompra")
     const [showCard2, setShowCard2] = useState("list")
 
@@ -130,9 +131,23 @@ function Abastecimiento() {
         
        
     }
+    const getProduct = async()=>{
+  
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('product/');
+        dispatch(loadingAction())
+        let respData = data.data
+        let tempRows = respData.map(r=>{
+          return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock,]
+         
+        })
+    
+        setrowsProduct(tempRows)
+      }
 
         
     useEffect(()=>{
+        getProduct()
         getFacturas()
         getData()
         getProvider()
@@ -168,10 +183,11 @@ function Abastecimiento() {
     const options2 = {
         rowsPerPageOptions: [15,30,100]
     }
-
+    
     const columns2 = [ "Proovedor", "Julio", "Agosto", "Septiembre", "Total"];
     const columns = ["Numero Factura", "Proovedor", "Tipo","Fecha Emision", "Fecha Vencimiento", "Monto", "Mes Vencimiento"];
-
+    const columnsRop = (["Sku", "codigo de barras", "Nombre", "laboratorio", "stock"])
+    
     columns.push({
         name: "Estado",
         options: {
@@ -220,6 +236,38 @@ function Abastecimiento() {
           }
         }
     })
+
+    columnsRop.push({
+        name: "Rop",
+        options: {
+            filter: true,
+            sort: true,
+            empty: false,
+            customBodyRender: (value, tableMeta, updateValue) => {
+              return (
+                <>
+                  <input className="form-control"></input>
+                </>
+              );
+            }
+          }
+    })
+    columnsRop.push({
+        name: "Nll",
+        options: {
+            filter: true,
+            sort: true,
+            empty: false,
+            customBodyRender: (value, tableMeta, updateValue) => {
+              return (
+                <>
+                  <input className="form-control"></input>
+                </>
+              );
+            }
+          }
+    })
+
 
     const columnsProvider = columnsFunc2(["Nombre", "Rut", "Email", "Condicion de Credito"], editProvider, 4, onDelete);
 
@@ -310,6 +358,17 @@ function Abastecimiento() {
                 <MUIDataTable
                     data={rowsProvider}
                     columns={columnsProvider}
+                    options={muiOptions}
+                />
+            </SoftBox>
+        </Card>
+    }else if(showCard == "ROP"){
+        card = <Card>
+            <ListHeader url="/productos/create" label="Rop" buttonText="Descargar"  mode="excelModal"/>
+            <SoftBox>
+                <MUIDataTable
+                    data={rowsProduct}
+                    columns={columnsRop}
                     options={muiOptions}
                 />
             </SoftBox>

@@ -89,6 +89,7 @@ function Header({setShowCard}) {
                 <Tab label="Consolidado Recepcion" icon={<Document />}  onClick={()=>setShowCard("consolid")} />
                 <Tab label="Listado Recepcion" icon={<Document />}  onClick={()=>setShowCard("recepcion")} />
                 <Tab label="Proovedores" icon={<Settings />}  onClick={()=>setShowCard("provider")} />
+                <Tab label="Rop" icon={<Settings />}  onClick={()=>setShowCard("ROP")} />
               </Tabs>
             </AppBar>
           </Grid>

@@ -51,11 +51,13 @@ import BillingInformation from "./components/BillingInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { loadingAction, getDataforDashAction } from "actions/helperActions";
 import clienteAxios from 'config/axios';
+import moment from "moment";
 
 function Dashboard() {
     const dispatch = useDispatch();
     let helper = useSelector(state => state.helper)
     const { size } = typography;
+    const moment = require('moment')
     const [ventasPos, setventasPos] = useState({})
     const [ventasWeb, setventasWeb] = useState({})
     
@@ -70,17 +72,32 @@ function Dashboard() {
         year = data.data.web.reduce((a,b)=>a + b.total,0)
         setventasWeb({ mes, year})
         
-        
-    }
+      }
+      
+      const today = moment(); 
+      const dayOfMonth = today.date(); 
+      const currentDate = moment();
 
+      const specificMonth = moment(currentDate); 
+      const daysInSpecificMonth = specificMonth.daysInMonth();
+      
+      console.log( daysInSpecificMonth);
+     
+    const estimacionPos = Math.ceil(ventasPos.mes/dayOfMonth*daysInSpecificMonth)
+    const estimacionWeb = Math.ceil(ventasWeb.mes/dayOfMonth*daysInSpecificMonth)
+    console.log(estimacionPos)
+      
     
 
-    useEffect(()=>{
+      
+      
+      
+      useEffect(()=>{
         dispatch(getDataforDashAction())
         getData()
         
-    },[])
-   
+      },[])
+      
 
 
 
@@ -89,29 +106,43 @@ function Dashboard() {
       
       <SoftBox py={3}>
         <SoftBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} xl={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} xl={4}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
+            <Grid item xs={12} sm={6} xl={4}>
+              <MiniStatisticsCard
+                title={{ text: "Estimacion cierre mes Pos" }}
+                count={`$ ${insertarPuntos(estimacionPos)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={4}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Anuales Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.year)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
+            <Grid item xs={12} sm={6} xl={4}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Web" }}
                 count={`$ ${insertarPuntos(ventasWeb.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
+            <Grid item xs={12} sm={6} xl={4}>
+              <MiniStatisticsCard
+                title={{ text: "Estimacion cierre mes Web" }}
+                count={`$ ${insertarPuntos(estimacionWeb)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={4}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Anuales Web" }}
                 count={`$ ${insertarPuntos(ventasWeb.year)}`}
