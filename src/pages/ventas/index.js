@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import clienteAxios from 'config/axios';
-import ListHeader from "components/ListHeader"
+import ListHeader from "./Header/ListHeader"
 import HeaderVentas from "./Header/headerVentas";
 
 import MUIDataTable from "mui-datatables";
@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import tableData from './../tiendas/storeTableData';
 import Tooltip from '@mui/material/Tooltip';
-
+import moment from "moment";
 
 const style = {
     position: 'absolute',
@@ -76,6 +76,7 @@ function Ventas() {
     const [showCard, setShowCard] = useState("web")
     const [venta, setVenta] = useState({items:[]})
 
+    
 
 
     
@@ -104,9 +105,70 @@ function Ventas() {
         dispatch(loadingAction())
     }
     useEffect(()=>{
-        getData()
+        const currentDate = moment();
+        const firstDayOfMonth = currentDate.clone().startOf('month');
+        const lastdayMonth = currentDate.clone().endOf('month');
+
+        filterWeb({
+            startAt: firstDayOfMonth.format("YYYY-MM-DD"),
+            endAt: lastdayMonth.format("YYYY-MM-DD")
+        })
+        filterPos({
+            startAt: firstDayOfMonth.format("YYYY-MM-DD"),
+            endAt: lastdayMonth.format("YYYY-MM-DD")
+        })
         //getFactura()
     },[])         
+
+    const filterWeb = async(dateRange) =>{
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('sale/all3');
+        let respData = data.data
+        //console.log(respData.boletas)
+        let tempRows = respData.boletas.map(r=>{
+            return[r.counter, dateFormat(r.createdAt), itemListWeb(r.items) ,`$ ${insertarPuntos(r.totals?.MntTotal)}`, r.client?.RUTRecep, r.url,r.uid]
+        })
+        dispatch(loadingAction())
+
+        const filteredData = tempRows.filter((item) => {
+            const dateItem = moment(item[1],'DD-MM-YYYY H:mm').format("YYYY-MM-DD")
+            const itemDate = new Date(dateItem);
+            const start = new Date(dateRange.startAt);
+            const end = new Date(dateRange.endAt);
+            return itemDate >= start && itemDate <= end;
+        });
+
+        setDataRow(filteredData)
+    }
+
+    const filterPos = async(dateRange) =>{
+        dispatch(loadingAction())
+        const data = await clienteAxios.get('sale/all3');
+        let respData = data.data
+        //console.log(respData.boletas)
+        let tempRows2 = respData.sales.map(r=>{
+            let items = r.items.map(i=>{
+                return {
+                    producto: i.productName,
+                    cantidad: i.qty,
+                    precio: i.price,
+                }
+            })
+            return[dateFormat(r.createdAt), r.payType, itemListPos(r.items),`$ ${insertarPuntos(r.total)}`,  r.clientRut, r.uid, JSON.stringify(items)]
+        })
+        dispatch(loadingAction())
+
+        const filteredData = tempRows2.filter((item) => {
+            const dateItem = moment(item[1],'DD-MM-YYYY H:mm').format("YYYY-MM-DD")
+            const itemDate = new Date(dateItem);
+            const start = new Date(dateRange.startAt);
+            const end = new Date(dateRange.endAt);
+            return itemDate >= start && itemDate <= end;
+        });
+
+        setDataRowF(filteredData)
+    }
+
     const view = async(id)=>{
         let resp = await clienteAxios.get("/sale/"+id)
         let respData = resp.data
@@ -169,7 +231,7 @@ function Ventas() {
     let card;
     if (showCard == "web") {
         card =  <Card>
-                    <ListHeader url="/productos/create" label="Listado Ventas Web" buttonText="Agregar +"  mode="downloadWeb"/>
+                    <ListHeader url="/productos/create" label="Listado Ventas Web" buttonText="Agregar +"  mode="downloadWeb" filter={filterWeb} />
                     <SoftBox>
                         <MUIDataTable
                             data={dataRow}
@@ -180,7 +242,7 @@ function Ventas() {
                 </Card>
     }else if(showCard == "pos"){
         card =  <Card>
-                    <ListHeader url="/provider/create" label="Listado Ventas POS" buttonText="Agregar +" mode="downloadPos" />
+                    <ListHeader url="/provider/create" label="Listado Ventas POS" buttonText="Agregar +" mode="downloadPos" filter={filterPos}  />
                     <SoftBox>
                         <MUIDataTable
                             data={dataRowF}

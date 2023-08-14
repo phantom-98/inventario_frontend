@@ -93,7 +93,7 @@ function Dashboard() {
       
       
       useEffect(()=>{
-        dispatch(getDataforDashAction())
+       // dispatch(getDataforDashAction())
         getData()
         
       },[])

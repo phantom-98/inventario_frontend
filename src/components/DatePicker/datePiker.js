@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { style } from './../../pages/products/style';
+import PropTypes from "prop-types";
 
 const div ={
     display: 'flex',
@@ -13,7 +14,7 @@ const piker={
     height: '35px',
     width: '130px',
     borderRadius: 10,
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
     height: '35px',
     width: 170,
@@ -21,17 +22,41 @@ const piker={
 
     
 };
-export default function DatePiker() {
-    const [value, setValue] = useState();
+
+import moment from "moment";
+const DatePiker = ({value, handleDateChange})=> {
+ 
 
     return (
         <div style={div}>
             
-            <input style={piker} type="date" id="date"/>
-             <p style={{marginLeft: '10px', marginRight: '10px'}}> - </p>
-            <input style={piker} type="date" id="date"/>
+            <input 
+                name="startAt" 
+                style={piker} 
+                type="date" 
+                id="date"  
+                value={value.startAt} 
+                onChange={handleDateChange}
+            />
+            <p style={{marginLeft: '10px', marginRight: '10px', marginBottom: '0px'}}> - </p>
+            <input 
+                name="endAt" 
+                style={piker} 
+                type="date" 
+                id="date" 
+                value={value.endAt} 
+                onChange={handleDateChange}
+            />
         </div>
       );
 
 
 }
+
+DatePiker.propTypes = {
+    value: PropTypes.object,
+    handleDateChange: PropTypes.func
+};
+
+export default DatePiker
+  
