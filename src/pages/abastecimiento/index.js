@@ -43,7 +43,7 @@ function Abastecimiento() {
 
     function convertToNumber(value) {
         return Number(value.replace(/[$,]/g, ''));
-      }
+    }
       
       // Ordenar el array por la última columna (convertida a número)
       
@@ -138,7 +138,7 @@ function Abastecimiento() {
         dispatch(loadingAction())
         let respData = data.data
         let tempRows = respData.map(r=>{
-          return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock,]
+          return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, r.puntoreorden, r.nivelLlenado, r.uid]
          
         })
     
@@ -221,6 +221,28 @@ function Abastecimiento() {
 
     }
 
+    const getValueRop = (e, uid) => {
+      
+        dispatch(loadingAction())
+        clienteAxios.put(`/product/changeRop/${uid}`, {data:e.target.value}).then((r) => {
+            console.log(r)
+            getProduct()
+            dispatch(loadingAction())
+        }).catch(e=>console.log(e))
+
+    }
+
+    const getValueNll = (e, uid) => {
+      
+        dispatch(loadingAction())
+        clienteAxios.put(`/product/changeNll/${uid}`, {data:e.target.value}).then((r) => {
+            console.log(r)
+            getProduct()
+            dispatch(loadingAction())
+        }).catch(e=>console.log(e))
+
+    }
+
     columns.push({
         name: "Observaciones",
         options: {
@@ -244,9 +266,10 @@ function Abastecimiento() {
             sort: true,
             empty: false,
             customBodyRender: (value, tableMeta, updateValue) => {
+                
               return (
                 <>
-                  <input className="form-control"></input>
+                  <input name="puntoreorden" defaultValue={tableMeta.rowData[5]} className="form-control" onChange={()=>{}} onBlur={(e)=>getValueRop(e, tableMeta.rowData[7])} ></input>
                 </>
               );
             }
@@ -261,7 +284,22 @@ function Abastecimiento() {
             customBodyRender: (value, tableMeta, updateValue) => {
               return (
                 <>
-                  <input className="form-control"></input>
+                  <input name="nivelLlenado" className="form-control"  defaultValue={tableMeta.rowData[6]} onChange={()=>{}} onBlur={(e)=>getValueNll(e, tableMeta.rowData[7])}></input>
+                </>
+              );
+            }
+          }
+    })
+    columnsRop.push({
+        name: "",
+        options: {
+            filter: true,
+            sort: true,
+            empty: false,
+            customBodyRender: (value, tableMeta, updateValue) => {
+              return (
+                <>
+               
                 </>
               );
             }
@@ -364,7 +402,7 @@ function Abastecimiento() {
         </Card>
     }else if(showCard == "ROP"){
         card = <Card>
-            <ListHeader url="/productos/create" label="Rop" buttonText="Descargar"  mode="excelModal"/>
+            <ListHeader url="/product/downloadRop" label="Rop" buttonText="Descargar"  mode="rop"/>
             <SoftBox>
                 <MUIDataTable
                     data={rowsProduct}

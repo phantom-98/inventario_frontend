@@ -4,6 +4,7 @@ import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import { useNavigate } from "react-router-dom";
 import NestedModal from "components/modal/modalExel";
+import NestedModalRop from "components/modal/modalExelRop";
 import DatePiker from "components/DatePicker/datePiker";
 function ListHeader ({url, label, buttonText, mode}) {
 
@@ -15,6 +16,11 @@ function ListHeader ({url, label, buttonText, mode}) {
 
     if(mode == "excelModal"){
         extraButtons = <NestedModal/>
+    }else if(mode == "rop"){
+        extraButtons = <>
+            <NestedModalRop/>
+            <SoftButton variant="outlined" onClick={()=>location.href ="http://159.203.98.65:4000/v1/product/downloadRop" } color="info" size="small">{buttonText}</SoftButton>
+        </>
     }
     else if(mode == "downloadWeb"){
         extraButtons =
@@ -37,11 +43,11 @@ function ListHeader ({url, label, buttonText, mode}) {
                     <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/Pagada")} color="dark" size="small">Descargar Pagadas</SoftButton>
                     <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/No_Pagada")} color="dark" size="small">Descargar No Pagadas</SoftButton>
                     <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/exportFromExcel/Todas")} color="dark" size="small">Descargar Todas</SoftButton>
-                    <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/receivedDte")} color="info" size="small">Actualizar</SoftButton>
+                    <SoftButton variant="outlined" onClick={()=>goUrl("http://206.189.239.87:4000/v1/factura/receivedDte")} color="info" size="small">Actualizar</SoftButton> 
             </> 
     }
 
-    
+    //TODO view logic
 
     const navigate = useNavigate();
     return (
@@ -49,10 +55,14 @@ function ListHeader ({url, label, buttonText, mode}) {
             <SoftTypography variant="h6">{label}</SoftTypography>
             {extraButtons}
             {
-                mode !== "AbasRecep" 
-                    ? <SoftButton variant="outlined" onClick={()=>navigate(url)} color="info" size="small">{buttonText}</SoftButton>
-                    : ""
+                mode == "rop" 
+                    ?<></>
+                    : mode !== "AbasRecep"
+                        ? <SoftButton variant="outlined" onClick={()=>navigate(url)} color="info" size="small">{buttonText}</SoftButton>
+                        : ""
+                
             }
+            
             
         </SoftBox>
     )
