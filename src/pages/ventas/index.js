@@ -117,18 +117,19 @@ function Ventas() {
             startAt: firstDayOfMonth.format("YYYY-MM-DD"),
             endAt: lastdayMonth.format("YYYY-MM-DD")
         })
-        //getFactura()
+        //getData()
     },[])         
 
     const filterWeb = async(dateRange) =>{
         dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all3');
         let respData = data.data
-        //console.log(respData.boletas)
         let tempRows = respData.boletas.map(r=>{
             return[r.counter, dateFormat(r.createdAt), itemListWeb(r.items) ,`$ ${insertarPuntos(r.totals?.MntTotal)}`, r.client?.RUTRecep, r.url,r.uid]
         })
         dispatch(loadingAction())
+        console.log(tempRows)
+
 
         const filteredData = tempRows.filter((item) => {
             const dateItem = moment(item[1],'DD-MM-YYYY H:mm').format("YYYY-MM-DD")
@@ -139,14 +140,16 @@ function Ventas() {
         });
 
         setDataRow(filteredData)
+
     }
 
     const filterPos = async(dateRange) =>{
         dispatch(loadingAction())
         const data = await clienteAxios.get('sale/all3');
+        
         let respData = data.data
-        //console.log(respData.boletas)
         let tempRows2 = respData.sales.map(r=>{
+          
             let items = r.items.map(i=>{
                 return {
                     producto: i.productName,
@@ -156,17 +159,23 @@ function Ventas() {
             })
             return[dateFormat(r.createdAt), r.payType, itemListPos(r.items),`$ ${insertarPuntos(r.total)}`,  r.clientRut, r.uid, JSON.stringify(items)]
         })
+        
+        console.log(tempRows2)
         dispatch(loadingAction())
 
         const filteredData = tempRows2.filter((item) => {
-            const dateItem = moment(item[1],'DD-MM-YYYY H:mm').format("YYYY-MM-DD")
-            const itemDate = new Date(dateItem);
-            const start = new Date(dateRange.startAt);
-            const end = new Date(dateRange.endAt);
-            return itemDate >= start && itemDate <= end;
-        });
+          const dateItem = moment(item[0],'DD-MM-YYYY H:mm').format("YYYY-MM-DD")
+          const itemDate = new Date(dateItem);
+          const start = new Date(dateRange.startAt);
+          const end = new Date(dateRange.endAt);
+          return itemDate >= start && itemDate <= end;
 
+      });
+
+        
         setDataRowF(filteredData)
+
+
     }
 
     const view = async(id)=>{
