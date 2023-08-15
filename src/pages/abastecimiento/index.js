@@ -38,7 +38,7 @@ function Abastecimiento() {
     const [rows3, setRows3] = useState([])
     const [rowsFactura, setrowsFactura] = useState([])
     const [rowsProduct, setrowsProduct] =useState([])
-    const [showCard, setShowCard] = useState("orderCompra")
+    const [showCard, setShowCard] = useState("ROP")
     const [showCard2, setShowCard2] = useState("list")
 
     function convertToNumber(value) {
