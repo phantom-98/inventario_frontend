@@ -64,13 +64,15 @@ function Dashboard() {
     
     const getData = async()=>{
         const data = await clienteAxios.get('sale/salePerMonth');
+        console.log(data)
+        let day = data.data.pos[data.data.pos.length-1].totalDay
         let mes = data.data.pos[data.data.pos.length-1].total
         let year = data.data.pos.reduce((a,b)=>a + b.total,0)
-        setventasPos({ mes, year})
-
+        setventasPos({ day,mes, year})
+        day = data.data.web[data.data.web.length-1].totalDayB
         mes = data.data.web[data.data.web.length-1].total
         year = data.data.web.reduce((a,b)=>a + b.total,0)
-        setventasWeb({ mes, year})
+        setventasWeb({ day, mes, year})
         
       }
       
@@ -107,42 +109,56 @@ function Dashboard() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Ventas Dia Pos" }}
+                count={`$ ${insertarPuntos(ventasPos.day)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Estimacion cierre mes Pos" }}
                 count={`$ ${insertarPuntos(estimacionPos)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Anuales Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.year)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Ventas Dia Web" }}
+                count={`$ ${insertarPuntos(ventasWeb.day)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Web" }}
                 count={`$ ${insertarPuntos(ventasWeb.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Estimacion cierre mes Web" }}
                 count={`$ ${insertarPuntos(estimacionWeb)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} xl={4}>
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Anuales Web" }}
                 count={`$ ${insertarPuntos(ventasWeb.year)}`}
