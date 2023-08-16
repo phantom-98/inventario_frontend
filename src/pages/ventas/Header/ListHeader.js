@@ -51,7 +51,7 @@ function ListHeader ({url, label, buttonText, mode, filter}) {
         <DatePiker value={valueWeb} handleDateChange={handleDateChangeWeb}/>
         <SoftButton variant="outlined" onClick={()=>filter(valueWeb)} color="info" size="small">Filtrar</SoftButton>
         <SoftButton variant="outlined" onClick={()=>location.reload()} color="info" size="small">Borrar</SoftButton>
-        <SoftButton variant="outlined" onClick={()=>location.href = `http://159.203.98.65:4000/v1/sale/excelWeb/${valueWeb.startAt}/${valueWeb.endAt}`} color="info" size="small">Descargar Ventas</SoftButton>
+        <SoftButton variant="outlined" onClick={()=>location.href = `${process.env.REACT_APP_INVENTARIO_API_URL}sale/excelWeb/${valueWeb.startAt}/${valueWeb.endAt}`} color="info" size="small">Descargar Ventas</SoftButton>
         
         </>
     }else if(mode == "downloadPos"){
@@ -60,7 +60,7 @@ function ListHeader ({url, label, buttonText, mode, filter}) {
         <DatePiker value={valuePos} handleDateChange={handleDateChangePos} />
         <SoftButton variant="outlined" onClick={()=>filter(valuePos)} color="info" size="small">Filtrar</SoftButton>
         <SoftButton variant="outlined" onClick={()=>location.reload()} color="info" size="small">Borrar</SoftButton>
-        <SoftButton variant="outlined" onClick={()=>location.href = `http://159.203.98.65:4000/v1/sale/excelPos/${valuePos.startAt}/${valuePos.endAt}`} color="info" size="small">Descargar Ventas</SoftButton>
+        <SoftButton variant="outlined" onClick={()=>location.href = `${process.env.REACT_APP_INVENTARIO_API_URL}sale/excelPos/${valuePos.startAt}/${valuePos.endAt}`} color="info" size="small">Descargar Ventas</SoftButton>
         </>
     }
     
