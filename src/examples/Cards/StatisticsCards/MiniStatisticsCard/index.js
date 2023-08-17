@@ -25,6 +25,7 @@ import Icon from "@mui/material/Icon";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 
+
 function MiniStatisticsCard({ bgColor, title, count, percentage, icon, direction }) {
   return (
     <Card>
@@ -54,6 +55,9 @@ function MiniStatisticsCard({ bgColor, title, count, percentage, icon, direction
             <Grid item xs={8}>
               <SoftBox ml={direction === "left" ? 2 : 0} lineHeight={1}>
                 <SoftTypography
+                  style={{fontSize:'12px','@media (max-width: 600px)': {
+                    fontSize: '9px'
+                  }}}
                   variant="button"
                   color={bgColor === "white" ? "text" : "white"}
                   opacity={bgColor === "white" ? 1 : 0.7}

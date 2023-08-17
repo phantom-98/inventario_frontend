@@ -139,7 +139,7 @@ function Dashboard() {
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={2}>
-            <Grid item xs={6} sm={4} xl={3}>
+            <Grid item xs={6} sm={4} xl={3} >
               <MiniStatisticsCard
                 title={{ text: "Ventas Dia Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.day)}`}
