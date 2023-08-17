@@ -28,6 +28,7 @@ import Footer from "examples/Footer";
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
+import VerticalBarChart from "examples/Charts/BarCharts/VerticalBarChart";
 
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
@@ -52,6 +53,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadingAction, getDataforDashAction } from "actions/helperActions";
 import clienteAxios from 'config/axios';
 import moment from "moment";
+import HorizontalBarChart from './../../examples/Charts/BarCharts/HorizontalBarChart/index';
 
 function Dashboard() {
     const dispatch = useDispatch();
@@ -60,11 +62,12 @@ function Dashboard() {
     const moment = require('moment')
     const [ventasPos, setventasPos] = useState({})
     const [ventasWeb, setventasWeb] = useState({})
-    
+    const [dataTemp, setDataTemp] = useState({})
+    const [dataTemp2, setDataTemp2] = useState({})
     
     const getData = async()=>{
         const data = await clienteAxios.get('sale/salePerMonth');
-        console.log(data)
+      
         let day = data.data.pos[data.data.pos.length-1].totalDay
         let mes = data.data.pos[data.data.pos.length-1].total
         let year = data.data.pos.reduce((a,b)=>a + b.total,0)
@@ -74,20 +77,47 @@ function Dashboard() {
         year = data.data.web.reduce((a,b)=>a + b.total,0)
         setventasWeb({ day, mes, year})
         
-      }
-      
-      const today = moment(); 
-      const dayOfMonth = today.date(); 
-      const currentDate = moment();
+    }
 
-      const specificMonth = moment(currentDate); 
-      const daysInSpecificMonth = specificMonth.daysInMonth();
+    const chartData = async() =>{
+        const data = await clienteAxios.get('sale/salePerMonth');
+        let respData = data.data
+        
+        let dataPos = new Array(12).fill(0);
+        data.data.pos.forEach(element => {
+            dataPos[element.mes] = element.total;
+        });
+
+        let dataWeb = new Array(12).fill(0);
+        data.data.web.forEach(element => {
+            dataWeb[element.mes] = element.total;
+        });
+
+        
+        let d =  {}
+        d.labels =  ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+        d.dataPos = dataPos
+        d.dataWeb = dataWeb
+        
+        setDataTemp(d)
+
+        
+
+       
+    }
       
-      console.log( daysInSpecificMonth);
+    const today = moment(); 
+    const dayOfMonth = today.date(); 
+    const currentDate = moment();
+
+    const specificMonth = moment(currentDate); 
+    const daysInSpecificMonth = specificMonth.daysInMonth();
+      
+   
      
     const estimacionPos = Math.ceil(ventasPos.mes/dayOfMonth*daysInSpecificMonth)
     const estimacionWeb = Math.ceil(ventasWeb.mes/dayOfMonth*daysInSpecificMonth)
-    console.log(estimacionPos)
+   
       
     
 
@@ -96,8 +126,8 @@ function Dashboard() {
       
       useEffect(()=>{
        // dispatch(getDataforDashAction())
+        chartData()
         getData()
-        
       },[])
       
 
@@ -174,21 +204,23 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={7}>
-              <GradientLineChart
-                title="Resumen De Ventas"
-                description={
-                  <SoftBox display="flex" alignItems="center">
-                    <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
-                    </SoftBox>
-                    <SoftTypography variant="button" color="text" fontWeight="medium">
-                      <SoftTypography variant="button" color="text" fontWeight="regular">
-                      </SoftTypography>
-                    </SoftTypography>
-                  </SoftBox>
-                }
-                height="20.25rem"
-                chart={helper.data ?helper.data  :gradientLineChartData}
-              />
+            <VerticalBarChart
+                title="Grafico Ventas 2023"
+                chart={{
+                    labels: dataTemp.labels,
+                    datasets: [{
+                        label: "Ventas Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos,
+                    },
+                    {
+                        label: "Ventas Web",
+                        color: "info",
+                        data: dataTemp.dataWeb,
+                    }
+                ],
+                }}
+                />
             </Grid>
             <Grid item xs={12} lg={5}>
               <BillingInformation />
