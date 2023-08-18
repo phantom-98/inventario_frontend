@@ -76,7 +76,7 @@ function Ventas() {
     const [showCard, setShowCard] = useState("web")
     const [venta, setVenta] = useState({items:[]})
 
-    
+    console.log(process.env.REACT_APP_TITLE)
 
 
     
