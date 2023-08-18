@@ -66,6 +66,7 @@ function Dashboard() {
         const data = await clienteAxios.get('sale/salePerMonth');
         let mes = data.data.pos[data.data.pos.length-1].total
         let year = data.data.pos.reduce((a,b)=>a + b.total,0)
+      
         setventasPos({ mes, year})
 
         mes = data.data.web[data.data.web.length-1].total
@@ -73,19 +74,22 @@ function Dashboard() {
         setventasWeb({ mes, year})
         
       }
+     
+   
+      
       
       const today = moment(); 
       const dayOfMonth = today.date(); 
       const currentDate = moment();
+      
+
 
       const specificMonth = moment(currentDate); 
       const daysInSpecificMonth = specificMonth.daysInMonth();
       
-      console.log( daysInSpecificMonth);
      
     const estimacionPos = Math.ceil(ventasPos.mes/dayOfMonth*daysInSpecificMonth)
     const estimacionWeb = Math.ceil(ventasWeb.mes/dayOfMonth*daysInSpecificMonth)
-    console.log(estimacionPos)
       
     
 
