@@ -43,3 +43,13 @@ th button{
 #facturaCard label+.css-11dh2is-MuiInputBase-root-MuiInput-root{
     margin-top: 0px!important;
 }
+.textc{
+    font-size: 12px!important;
+   
+}
+@media(max-width:1250px){
+    .textc{
+
+        font-size: 9px !important;
+    }
+}
