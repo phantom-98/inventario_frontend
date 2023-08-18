@@ -71,14 +71,8 @@ function Dashboard() {
         let day = data.data.pos[data.data.pos.length-1].totalDay
         let mes = data.data.pos[data.data.pos.length-1].total
         let year = data.data.pos.reduce((a,b)=>a + b.total,0)
-<<<<<<< HEAD
-      
-        setventasPos({ mes, year})
-
-=======
         setventasPos({ day,mes, year})
         day = data.data.web[data.data.web.length-1].totalDayB
->>>>>>> a3ef3f30707781398bda70cb40d12ffdd0e33617
         mes = data.data.web[data.data.web.length-1].total
         year = data.data.web.reduce((a,b)=>a + b.total,0)
         setventasWeb({ day, mes, year})
