@@ -96,7 +96,7 @@ function dateFormat(dateInformat) {
         return 0
     }
 
-    return moment(dateInformat).format("DD-MM-YYYY H:mm")
+    return moment(dateInformat).utcOffset(-240).format("DD-MM-YYYY H:mm")
 }
 function dateFormat2(dateInformat) {
     let mm = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
