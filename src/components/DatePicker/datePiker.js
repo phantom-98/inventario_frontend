@@ -1,31 +1,62 @@
 import { useState } from "react";
+import { style } from './../../pages/products/style';
+import PropTypes from "prop-types";
 
+const div ={
+    display: 'flex',
+
+    
+}
 
 const piker={
-    
-    
-    color: '#17c1e8',
+    color: '#344767',
     border: '1px solid',
     height: '35px',
     width: '130px',
     borderRadius: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontWeight: '500',
     height: '35px',
-    width: 150
+    width: 170,
+    padding: '10px'
+
     
 };
-export default function DatePiker() {
-    const [value, setValue] = useState();
+
+import moment from "moment";
+const DatePiker = ({value, handleDateChange})=> {
+ 
 
     return (
-        <div>
-        
-            <input style={piker} type="date" id="date"/>
-            a
-            <input style={piker} type="date" id="date"/>
+        <div style={div}>
+            
+            <input 
+                name="startAt" 
+                style={piker} 
+                type="date" 
+                id="date"  
+                value={value.startAt} 
+                onChange={handleDateChange}
+            />
+            <p style={{marginLeft: '10px', marginRight: '10px', marginBottom: '0px'}}> - </p>
+            <input 
+                name="endAt" 
+                style={piker} 
+                type="date" 
+                id="date" 
+                value={value.endAt} 
+                onChange={handleDateChange}
+            />
         </div>
       );
 
 
 }
+
+DatePiker.propTypes = {
+    value: PropTypes.object,
+    handleDateChange: PropTypes.func
+};
+
+export default DatePiker
+  
