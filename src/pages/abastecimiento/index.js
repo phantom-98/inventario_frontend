@@ -26,6 +26,8 @@ import CustomFooter from './CustomFooter';
 import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import Box from '@mui/material/Box';
+
 
 function Abastecimiento() {
     const [tabValue, setTabValue] = useState(1);
@@ -225,6 +227,7 @@ function Abastecimiento() {
       
         dispatch(loadingAction())
         clienteAxios.put(`/product/changeRop/${uid}`, {data:e.target.value}).then((r) => {
+            e.target.value = 0
             console.log(r)
             getProduct()
             dispatch(loadingAction())
@@ -235,12 +238,18 @@ function Abastecimiento() {
     const getValueNll = (e, uid) => {
       
         dispatch(loadingAction())
-        clienteAxios.put(`/product/changeNll/${uid}`, {data:e.target.value}).then((r) => {
+        clienteAxios.put(`/product/changeNll/${uid}`, {data:e.target.value}).then((r ) => {
+            e.target.value = 0
             console.log(r)
             getProduct()
+            
             dispatch(loadingAction())
         }).catch(e=>console.log(e))
 
+    }
+
+    const handleChange = (w)=>{
+        console.log(w)
     }
 
     columns.push({
@@ -269,7 +278,24 @@ function Abastecimiento() {
                 
               return (
                 <>
-                  <input name="puntoreorden" defaultValue={tableMeta.rowData[5]} className="form-control" onChange={()=>{}} onBlur={(e)=>getValueRop(e, tableMeta.rowData[7])} ></input>
+                   <Box
+                        sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'baseline',
+                        width: '150px',
+                        p: 1,
+                        m: 1,
+                        bgcolor: 'background.paper',
+                        borderRadius: 1,
+                        }}
+                    >
+                        <p style={{width: '40%', marginRight:'2px'}}>
+                             {tableMeta.rowData[5]}
+                        </p>
+                        <input style={{width: '60%'}} name="puntoreorden" defaultValue='0' className="form-control" onChange={handleChange} onBlur={(e)=>getValueRop(e, tableMeta.rowData[7])} ></input>
+                    </Box>
+
                 </>
               );
             }
@@ -284,7 +310,23 @@ function Abastecimiento() {
             customBodyRender: (value, tableMeta, updateValue) => {
               return (
                 <>
-                  <input name="nivelLlenado" className="form-control"  defaultValue={tableMeta.rowData[6]} onChange={()=>{}} onBlur={(e)=>getValueNll(e, tableMeta.rowData[7])}></input>
+                    <Box
+                        sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'baseline',
+                        width: '150px',
+                        p: 1,
+                        m: 1,
+                        bgcolor: 'background.paper',
+                        borderRadius: 1,
+                        }}
+                    >
+                        <p style={{width: '40%', marginRight:'2px'}}>
+                            {tableMeta.rowData[6]}
+                        </p>
+                        <input style={{width: '60%'}} name="nivelLlenado" className="form-control"  defaultValue='0' onChange={()=>{}} onBlur={(e)=>getValueNll(e, tableMeta.rowData[7])}></input>
+                    </Box>
                 </>
               );
             }

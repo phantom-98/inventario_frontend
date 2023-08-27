@@ -74,9 +74,13 @@ export default function NestedModalRop() {
     formData.append("file", file);
 
     clienteAxios.post('product/importRop', formData, {headers:{ "Content-Type":"multipart/form-data"}}).then(resp =>{
-        console.log(resp)
         dispatch(loadingAction())
-        succesSwal()
+        if(resp.data.error){
+            errorSwal(resp.data.msg)
+        }else{
+            succesSwal()
+
+        }
         
     })
     .catch((e)=>{
