@@ -98,6 +98,13 @@ function dateFormat(dateInformat) {
 
     return moment(dateInformat).utcOffset(-240).format("DD-MM-YYYY H:mm")
 }
+function dateFormat3(dateInformat) {
+    if(dateInformat == 0 ){
+        return 0
+    }
+
+    return moment(dateInformat).format("DD-MM-YYYY")
+}
 function dateFormat2(dateInformat) {
     let mm = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     if(dateInformat == 0 ){
@@ -150,4 +157,4 @@ const itemListPos = (items)=>{
     ))
 }
 
-export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2 };
+export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2, dateFormat3 };

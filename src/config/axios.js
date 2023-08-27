@@ -16,6 +16,7 @@ clienteAxios.interceptors.response.use((response) => response, (error) => {
     console.log(error.code)
 
     //todo change for prod
+    //todo manejar errores de api
    /* if(error.code == "ERR_BAD_REQUEST"){
         location.href = "/"
     }

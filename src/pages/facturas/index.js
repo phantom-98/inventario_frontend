@@ -21,7 +21,7 @@ import clienteAxios from 'config/axios';
 import ListHeader from "components/ListHeader"
 import { loadingAction } from "actions/helperActions";
 import HeaderFacturas from "./Header/headerFacturas";
-import {mapDte, dateFormat, insertarPuntos} from "../../config/helpers"
+import {mapDte, dateFormat, insertarPuntos, dateFormat3} from "../../config/helpers"
 import MUIDataTable from "mui-datatables";
 
 function Clientes() {
@@ -104,7 +104,7 @@ const dispatch = useDispatch();
     tempRows = respData
 		
 		tempRows = tempRows.map(r=>{
-			return[dateFormat(r.createdAt), mapDte(r.typeId),r.folio, r.emisorData?.RznSoc,  r.emisorData?.RUTEmisor, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.uid]
+			return[r.createdAt, mapDte(r.typeId),r.folio, r.emisorData?.RznSoc,  r.emisorData?.RUTEmisor, `$ ${insertarPuntos(r.totals?.MntTotal)}`, r.uid]
 		})
 
 		setRows2(tempRows)
