@@ -88,6 +88,10 @@ export default function NestedModal() {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const handleSync = () =>{
+    window.open(`${process.env.REACT_APP_INVENTARIO_API_URL}product/syncProductsStock`, '_blank');
+  }
   
   const handleClose = () => {
     setOpen(false);
@@ -95,6 +99,7 @@ export default function NestedModal() {
 
   return (
     <div>
+        <Button style={BotonCargar} onClick={(e) =>handleSync()}> Sincronizar </Button>
       <Button style={BotonExel} onClick={handleOpen}><strong>Carga Masiva</strong></Button>
 
       <Modal open={open} onClose={handleClose} aria-labelledby="parent-modal-title" aria-describedby="parent-modal-description">
