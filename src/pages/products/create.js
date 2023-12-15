@@ -33,12 +33,12 @@ const check = {
 
 function create() {
   const navigate = useNavigate();
-  const [product, setProduct] = useState({ activo: false });
+  const [product, setProduct] = useState({ activo: false, margen_precio:48 });
   const [isChecked, setIsChecked] = useState(false);
-
+console.log(product);
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(product);
+    
     clienteAxios
       .post("product", product)
       .then((resp) => {
@@ -56,6 +56,7 @@ function create() {
       ...prevState,
       [name]: value,
     }));
+    console.log(product);
   };
 
   const handleCheckChange = (e) => {
@@ -67,6 +68,18 @@ function create() {
       [name]: !product.activo,
     }));
   };
+
+  const handleMargenChange = (e,type) => {
+    const percentage = parseFloat(e.target.value)
+    setProduct((prevState) => ({
+      ...prevState,
+      ['margen_'+type]: percentage,
+      
+    }));
+  
+  }
+
+
 
   return (
     <DashboardLayout>
@@ -335,15 +348,17 @@ function create() {
                   <TextField
                     name="precio"
                     type="number"
-                    onChange={(e) => handleChange(e)}
+                    
                     fullWidth
-                    required
+                    
                     InputLabelProps={{ shrink: true }}
                     variant="standard"
                     style={{ paddingTop: "0.15rem" }}
                     inputProps={{
                       name: "precio",
                       id: "precio",
+                      
+                      readOnly: true
                     }}
                   />
                 </SoftBox>
@@ -370,11 +385,56 @@ function create() {
               </Grid>
               <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="precio">
+                    Margen % Precio Lista
+                  </InputLabel>
+                  <TextField
+                    name="margen precio lista"
+                    type="number"
+                    onChange={(e)=> handleMargenChange(e,'precio')}
+                    fullWidth
+                    required
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "margen precio lista",
+                      id: "margen precio lista",
+                      value: product.margen_precio,
+                      
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="precio">
+                    Margen % Precio Oferta
+                  </InputLabel>
+                  <TextField
+                    name="margen precio oferta"
+                    type="number"
+                  
+                    fullWidth
+                    
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "margen precio oferta",
+                      id: "margen precio oferta",
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="cpp">
                     Costo Promedio Ponderado
                   </InputLabel>
                   <TextField
                     name="cpp"
+                    
                     type="number"
                     onChange={(e) => handleChange(e)}
                     fullWidth
@@ -384,6 +444,8 @@ function create() {
                     inputProps={{
                       name: "cpp",
                       id: "cpp",
+                      readOnly: true
+                      
                     }}
                   />
                 </SoftBox>

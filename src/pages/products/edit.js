@@ -31,7 +31,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MUIDataTable from "mui-datatables";
 import { insertarPuntos, dateFormat } from "../../config/helpers";
-import { getCpp } from "../../config/helpers";
+import { getCpp, getCpp2 } from "../../config/helpers";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
 
@@ -69,9 +69,30 @@ function EditProduct() {
     stock: 0,
     precio: 0,
     precioOferta: 0,
+    cpp2:0,
+    margen_precio: 0
   });
   const [prices, setPrices] = useState({});
 
+  const handleMargenChange = (e,type) => {
+    const percentage = parseFloat(e.target.value)
+    setProduct((prevState) => ({
+      ...prevState,
+      ['margen_'+type]: percentage,
+      [type]: Math.round(product.cpp2[product.cpp2.length -1]?.price * (1+(percentage/100)))
+      
+    }));
+    console.log(product);
+  }
+  const handlePriceChange = (e,type) => {
+    const price = parseFloat(e.target.value)
+    setProduct((prevState) => ({
+      ...prevState,
+      ['margen_'+type]: product.cpp2 ? Math.round(((product.cpp2[product.cpp2.length -1]?.price - price)*100*-1)/product.cpp2[product.cpp2.length -1]?.price) : 0,
+      [type]: price
+    }));
+    console.log(product);
+  }
   const {
     register,
     handleSubmit,
@@ -432,11 +453,15 @@ function EditProduct() {
                     <TextField
                       type="precio"
                       name="precio"
+                      inputProps={{
+                        readOnly: product.cpp2.length === 0 ? true:false
+                      }}
                       fullWidth
+                      onChange={(e) => handlePriceChange(e,'precio')}
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
                       value={product.precio || 0}
-                      onChange={(e) => handleChange(e)}
+                      
                       style={{ paddingTop: "0.15rem" }}
                     />
                   </SoftBox>
@@ -459,19 +484,68 @@ function EditProduct() {
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="precio">
+                    Margen % Precio Lista
+                  </InputLabel>
+                  <TextField
+                    name="margen precio lista"
+                    type="number"
+                    onChange={(e)=> handleMargenChange(e,'precio')}
+                    fullWidth
+                    required
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "margen precio lista",
+                      id: "margen precio lista",
+                      value: product.margen_precio || 0,
+                      readOnly: product.cpp2.length === 0 ? true:false
+                      
+                      
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="precio">
+                    Margen % Precio Oferta
+                  </InputLabel>
+                  <TextField
+                    name="margen precio oferta"
+                    type="number"
+                  
+                    fullWidth
+                    
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "margen precio oferta",
+                      id: "margen precio oferta",
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+                <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="cpp">
                       Costo Promedio Ponderado
                     </InputLabel>
                     <TextField
                       name="cpp"
-                      value={getCpp(product.prices)}
-                      type="number"
+                      value={insertarPuntos(Math.ceil(product.cpp2[product.cpp2.length -1]?.price))}
+                      type="string"
                       onChange={(e) => handleChange(e)}
                       fullWidth
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
                       style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        readOnly: product
+                      }}
                     />
                   </SoftBox>
                 </Grid>
