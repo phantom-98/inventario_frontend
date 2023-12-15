@@ -69,7 +69,7 @@ function EditProduct() {
     stock: 0,
     precio: 0,
     precioOferta: 0,
-    cpp2:0,
+    cpp2:[],
     margen_precio: 0
   });
   const [prices, setPrices] = useState({});
@@ -448,13 +448,14 @@ function EditProduct() {
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="precio">
-                      Precio Del Producto
+                      Precio Del Producto {product.cpp2.length !== 0 ? '': <span style={{color:'red'}}>Por favor añade un cpp!</span>}
                     </InputLabel>
                     <TextField
                       type="precio"
                       name="precio"
                       inputProps={{
-                        readOnly: product.cpp2.length === 0 ? true:false
+                        readOnly: product.cpp2.length === 0 ? true:false,
+                        placeHolder: 'test'
                       }}
                       fullWidth
                       onChange={(e) => handlePriceChange(e,'precio')}
