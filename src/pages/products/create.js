@@ -348,7 +348,7 @@ console.log(product);
                   <TextField
                     name="precio"
                     type="number"
-                    
+                    onChange={(e) => handleChange(e)}
                     fullWidth
                     
                     InputLabelProps={{ shrink: true }}
@@ -358,7 +358,7 @@ console.log(product);
                       name: "precio",
                       id: "precio",
                       
-                      readOnly: true
+                      
                     }}
                   />
                 </SoftBox>
@@ -400,7 +400,8 @@ console.log(product);
                     inputProps={{
                       name: "margen precio lista",
                       id: "margen precio lista",
-                      value: product.margen_precio,
+                      readOnly:true
+                      //value: product.margen_precio,
                       
                     }}
                   />

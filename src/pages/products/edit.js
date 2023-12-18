@@ -76,21 +76,41 @@ function EditProduct() {
 
   const handleMargenChange = (e,type) => {
     const percentage = parseFloat(e.target.value)
-    setProduct((prevState) => ({
-      ...prevState,
-      ['margen_'+type]: percentage,
-      [type]: Math.round(product.cpp2[product.cpp2.length -1]?.price * (1+(percentage/100)))
-      
-    }));
+    if(product.cpp2.length === 0){
+      setProduct((prevState) => ({
+        ...prevState,
+        ['margen_'+type]: percentage,
+        
+        
+      }));
+    }else {
+      setProduct((prevState) => ({
+        ...prevState,
+        ['margen_'+type]: percentage,
+        [type]: Math.round((product.cpp2[product.cpp2.length -1]?.price / (1-(percentage/100))) * 1.19)
+        
+      }));
+
+    }
+    
     console.log(product);
   }
   const handlePriceChange = (e,type) => {
     const price = parseFloat(e.target.value)
-    setProduct((prevState) => ({
-      ...prevState,
-      ['margen_'+type]: product.cpp2 ? Math.round(((product.cpp2[product.cpp2.length -1]?.price - price)*100*-1)/product.cpp2[product.cpp2.length -1]?.price) : 0,
-      [type]: price
-    }));
+    if(product.cpp2.length === 0){
+      setProduct((prevState) => ({
+        ...prevState,
+        
+        [type]: price
+      }));
+    }else{
+      setProduct((prevState) => ({
+        ...prevState,
+        ['margen_'+type]: product.cpp2 ? Math.round((((price/(1+0.19)) - product.cpp2[product.cpp2.length -1]?.price)/(price/(1+0.19)))*100) : 0,
+        [type]: price
+      }));
+    }
+    
     console.log(product);
   }
   const {
@@ -454,8 +474,8 @@ function EditProduct() {
                       type="precio"
                       name="precio"
                       inputProps={{
-                        readOnly: product.cpp2.length === 0 ? true:false,
-                        placeHolder: 'test'
+                        //readOnly: product.cpp2.length === 0 ? true:false,
+                        
                       }}
                       fullWidth
                       onChange={(e) => handlePriceChange(e,'precio')}
@@ -502,7 +522,7 @@ function EditProduct() {
                       name: "margen precio lista",
                       id: "margen precio lista",
                       value: product.margen_precio || 0,
-                      readOnly: product.cpp2.length === 0 ? true:false
+                      //readOnly: product.cpp2.length === 0 ? true:false
                       
                       
                     }}
@@ -537,7 +557,7 @@ function EditProduct() {
                     </InputLabel>
                     <TextField
                       name="cpp"
-                      value={insertarPuntos(Math.ceil(product.cpp2[product.cpp2.length -1]?.price))}
+                      value={product.cpp2.length !== 0 ? insertarPuntos(Math.ceil(product.cpp2[product.cpp2.length -1]?.price)): 0}
                       type="string"
                       onChange={(e) => handleChange(e)}
                       fullWidth
@@ -545,7 +565,7 @@ function EditProduct() {
                       variant="standard"
                       style={{ paddingTop: "0.15rem" }}
                       inputProps={{
-                        readOnly: product
+                        readOnly: true
                       }}
                     />
                   </SoftBox>
