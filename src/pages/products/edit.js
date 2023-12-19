@@ -30,7 +30,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MUIDataTable from "mui-datatables";
-import { insertarPuntos, dateFormat } from "../../config/helpers";
+import { insertarPuntos, dateFormat, replaceDigits } from "../../config/helpers";
 import { getCpp, getCpp2 } from "../../config/helpers";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
@@ -74,6 +74,7 @@ function EditProduct() {
   });
   const [prices, setPrices] = useState({});
 
+
   const handleMargenChange = (e,type) => {
     const percentage = parseFloat(e.target.value)
     if(product.cpp2.length === 0){
@@ -84,10 +85,12 @@ function EditProduct() {
         
       }));
     }else {
+      const prices = Math.round((product.cpp2[product.cpp2.length -1]?.price / (1-(percentage/100))) * 1.19)
+      const formatedPrice = replaceDigits(prices)
       setProduct((prevState) => ({
         ...prevState,
         ['margen_'+type]: percentage,
-        [type]: Math.round((product.cpp2[product.cpp2.length -1]?.price / (1-(percentage/100))) * 1.19)
+        [type]: formatedPrice
         
       }));
 

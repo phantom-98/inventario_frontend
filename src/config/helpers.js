@@ -61,6 +61,46 @@ function insertarPuntos2(numero, type){
     let resultado = grupos.join(".").split("").reverse().join("");
     return type == 61 ? `- ${resultado}`:resultado;
 }
+function replaceDigits(num) {
+    // Convert the number to a string to get its length
+    const numStr = num.toString();
+    const numLength = numStr.length;
+  
+    if (numLength <= 3) {
+      // If the number has 3 or fewer digits, replace the last two with 90
+      const replacedNum = numStr.slice(0, numLength - 2) + '90';
+      return parseInt(replacedNum, 10); // Convert back to an integer
+    } else {
+      const thirdDigit = parseInt(numStr[numLength - 3], 10);
+  
+      if (thirdDigit <= 0) {
+        // If the third digit is closer to 0, add 90
+        const replacedNum = numStr.slice(0, numLength - 3) + '090';
+        return parseInt(replacedNum, 10);
+      } else if (thirdDigit <= 2) {
+        // If the third digit is closer to 5, add 5 and 90
+        const replacedNum = numStr.slice(0, numLength - 3) +  '290';
+        return parseInt(replacedNum, 10);
+      }else if (thirdDigit <= 4) {
+        // If the third digit is closer to 5, add 5 and 90
+        const replacedNum = numStr.slice(0, numLength - 3) +  '490';
+        return parseInt(replacedNum, 10);
+      }else if (thirdDigit <= 5) {
+        // If the third digit is closer to 5, add 5 and 90
+        const replacedNum = numStr.slice(0, numLength - 3) +  '590';
+        return parseInt(replacedNum, 10);
+      }else if (thirdDigit <= 7) {
+        // If the third digit is closer to 5, add 5 and 90
+        const replacedNum = numStr.slice(0, numLength - 3) +  '790';
+        return parseInt(replacedNum, 10);
+      } else {
+        // If the third digit is closer to 9, add 9 and 90
+        const replacedNum = numStr.slice(0, numLength - 3) + '990';
+        return parseInt(replacedNum, 10);
+      }
+    }
+  }
+
 
 function insertarPuntos(numero) {
     if(!numero){
@@ -157,4 +197,4 @@ const itemListPos = (items)=>{
     ))
 }
 
-export { dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2, dateFormat3 };
+export { replaceDigits,dateFormat2,succesSwal, errorSwal, deleteSwal, insertarPuntos, dateFormat, getCpp, mapDte, itemListWeb, itemListPos, dateClose, insertarPuntos2, dateFormat3 };
