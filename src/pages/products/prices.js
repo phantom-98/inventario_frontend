@@ -72,7 +72,7 @@ function ProductPrices() {
         })
     }
 
-    const columns = columnsFunc5(["Fecha", "Cantidad", "Precio"],onDelete);
+    const columns = columnsFunc5(["Fecha", "Cantidad", "Costo Neto"],onDelete);
 	
 	const [open, setOpen] =useState(false);
     const handleClose = () => {
