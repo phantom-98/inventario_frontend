@@ -33,7 +33,7 @@ const check = {
 
 function create() {
   const navigate = useNavigate();
-  const [product, setProduct] = useState({ activo: false, margen_precio:48 });
+  const [product, setProduct] = useState({ activo: false });
   const [isChecked, setIsChecked] = useState(false);
 console.log(product);
   const onSubmit = (e) => {
@@ -69,15 +69,7 @@ console.log(product);
     }));
   };
 
-  const handleMargenChange = (e,type) => {
-    const percentage = parseFloat(e.target.value)
-    setProduct((prevState) => ({
-      ...prevState,
-      ['margen_'+type]: percentage,
-      
-    }));
   
-  }
 
 
 
@@ -357,7 +349,7 @@ console.log(product);
                     inputProps={{
                       name: "precio",
                       id: "precio",
-                      
+                      required:true
                       
                     }}
                   />
@@ -391,7 +383,7 @@ console.log(product);
                   <TextField
                     name="margen precio lista"
                     type="number"
-                    onChange={(e)=> handleMargenChange(e,'precio')}
+                    
                     fullWidth
                     required
                     InputLabelProps={{ shrink: true }}
@@ -424,6 +416,7 @@ console.log(product);
                     inputProps={{
                       name: "margen precio oferta",
                       id: "margen precio oferta",
+                      readOnly:true
                     }}
                   />
                 </SoftBox>
