@@ -70,9 +70,13 @@ function EditProduct() {
     precio: 0,
     precioOferta: 0,
     cpp2:[],
-    margen_precio: 0
+    margen_precio: 0,
+    margen_precioOferta: 0
   });
   const [prices, setPrices] = useState({});
+  const [canSave, setCanSave] = useState(true);
+  const [priceValidationError, setpriceValidationError] = useState(false);
+  const [offerPriceValidationError, setofferPriceValidationError] = useState(false);
 
 
   const handleMargenChange = (e,type) => {
@@ -84,9 +88,38 @@ function EditProduct() {
         
         
       }));
+      
+      
     }else {
       const prices = Math.round((product.cpp2[product.cpp2.length -1]?.price / (1-(percentage/100))) * 1.19)
       const formatedPrice = replaceDigits(prices)
+      
+      if(percentage < 0){
+        if(type === 'precio'){
+          setpriceValidationError(true)
+        }else{
+          setofferPriceValidationError(true)
+        }
+        setCanSave(false)
+      }else if (type !== 'precio') {
+        if(percentage > product.margen_precio ){
+          setofferPriceValidationError(true)
+          setCanSave(false)
+        }else{
+          setofferPriceValidationError(false)
+          setCanSave(true)
+        }
+
+      }else{
+        if(percentage < product.margen_precioOferta){
+          setpriceValidationError(true)
+          setCanSave(false)
+        }else{
+          setpriceValidationError(false)
+          setCanSave(true)
+        }
+      } 
+      
       setProduct((prevState) => ({
         ...prevState,
         ['margen_'+type]: percentage,
@@ -96,7 +129,6 @@ function EditProduct() {
 
     }
     
-    console.log(product);
   }
   const handlePriceChange = (e,type) => {
     const price = parseFloat(e.target.value)
@@ -107,9 +139,36 @@ function EditProduct() {
         [type]: price
       }));
     }else{
+      const margin = Math.round((((price/(1+0.19)) - product.cpp2[product.cpp2.length -1]?.price)/(price/(1+0.19)))*100)
+      if(margin < 0){
+        if(type === 'precio'){
+          setpriceValidationError(true)
+        }else{
+          setofferPriceValidationError(true)
+        }
+        setCanSave(false)
+      }else if(type !== 'precio'){
+        if(price > product.precio){
+          setCanSave(false)
+          setofferPriceValidationError(true)
+        }else{
+          setofferPriceValidationError(false)
+          setCanSave(true)
+        }
+        
+      }else{
+        if(price < product.precioOferta){
+          setpriceValidationError(true)
+          setCanSave(false)
+        }else{
+          setpriceValidationError(false)
+          setCanSave(true)
+        }
+      }
+      
       setProduct((prevState) => ({
         ...prevState,
-        ['margen_'+type]: product.cpp2 ? Math.round((((price/(1+0.19)) - product.cpp2[product.cpp2.length -1]?.price)/(price/(1+0.19)))*100) : 0,
+        ['margen_'+type]: product.cpp2 ?  margin: 0,
         [type]: price
       }));
     }
@@ -473,15 +532,13 @@ function EditProduct() {
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="precio">
-                      Precio Del Producto {product.cpp2.length !== 0 ? '': <span style={{color:'red'}}>Por favor añade un cpp!</span>}
+                      Precio Del Producto
                     </InputLabel>
                     <TextField
                       type="precio"
                       name="precio"
-                      inputProps={{
-                        //readOnly: product.cpp2.length === 0 ? true:false,
-                        
-                      }}
+                      error={priceValidationError}
+                      helperText={priceValidationError ? 'precio invalido*' : ''}
                       fullWidth
                       onChange={(e) => handlePriceChange(e,'precio')}
                       InputLabelProps={{ shrink: true }}
@@ -501,10 +558,12 @@ function EditProduct() {
                       type="number"
                       name="precioOferta"
                       fullWidth
+                      error={offerPriceValidationError}
+                      helperText={offerPriceValidationError ? 'precio oferta invalido*' : ''}
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
                       value={product.precioOferta || 0}
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handlePriceChange(e,'precioOferta')}
                       style={{ paddingTop: "0.15rem" }}
                     />
                   </SoftBox>
@@ -527,9 +586,6 @@ function EditProduct() {
                       name: "margen precio lista",
                       id: "margen precio lista",
                       value: product.margen_precio || 0,
-                      //readOnly: product.cpp2.length === 0 ? true:false
-                      
-                      
                     }}
                   />
                 </SoftBox>
@@ -542,7 +598,7 @@ function EditProduct() {
                   <TextField
                     name="margen precio oferta"
                     type="number"
-                  
+                    onChange={(e)=> handleMargenChange(e,'precioOferta')}
                     fullWidth
                     
                     InputLabelProps={{ shrink: true }}
@@ -551,6 +607,7 @@ function EditProduct() {
                     inputProps={{
                       name: "margen precio oferta",
                       id: "margen precio oferta",
+                      value: product.margen_precioOferta || 0,
                     }}
                   />
                 </SoftBox>
@@ -671,12 +728,13 @@ function EditProduct() {
                 </SoftBox>
                 </Grid>
               </Grid>
-              <SoftBox mt={4} mb={1}>
+              <SoftBox mt={4} mb={1} >
                 <SoftButton
                   type="submit"
                   variant="gradient"
                   color="dark"
                   style={{ float: "right" }}
+                  disabled={!canSave}
                 >
                   Guardar
                 </SoftButton>

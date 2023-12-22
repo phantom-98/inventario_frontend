@@ -88,9 +88,8 @@ function ProductPrices() {
 				return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
 			})
 			setRows(tempRows)
-            location.reload()
+			location.reload()
 			succesSwal()
-            location.reload()
 		}).catch((e)=>{
 			console.log(e);
 			errorSwal()

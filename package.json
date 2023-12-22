@@ -61,7 +61,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
-    "install:peer-deps": "npm install --legacy-peer-deps"
+    "install:peer-deps": "npm install --legacy-peer-deps",
+    "serve": "serve -s build/"
   },
   "eslintConfig": {
     "extends": [
