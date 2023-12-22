@@ -201,11 +201,13 @@ function EditProduct() {
 
   const handleCheckChange = (e) => {
     //setIsChecked(e.target.checked);
-    const { name } = e.target;
+    const name = e.target.name || e.target.getAttribute('data-name');
+    
+    console.log(name);
 
     setProduct((prevState) => ({
       ...prevState,
-      [name]: !product.activo,
+      [name]: !product[name]
     }));
   };
 
@@ -642,47 +644,31 @@ function EditProduct() {
                   </SoftBox>
                 </Grid>
                 <Grid item style={check} xs={12} md={6} xl={6}>
-                  <SoftBox>
-                    <input
-                      name="petitorioMin"
-                      type="checkbox"
-                      onChange={(e) => handleChange(e)}
-                      checked={product.petitorioMin}
-                      value="1"
-                    />{" "}
-                    Peritorio Minimo
-                  </SoftBox>
-                  <SoftBox>
-                    <input
-                      name="refrigerado"
-                      type="checkbox"
-                      onChange={(e) => handleChange(e)}
-                      checked={product.refrigerado}
-                      value="1"
-                    />{" "}
-                    Refrigerado
-                  </SoftBox>
-                  <SoftBox>
-                    <input
-                      name="generico"
-                      checked={product.generico}
-                      type="checkbox"
-                      onChange={(e) => handleChange(e)}
-                      value="1"
-                    />{" "}
-                    Generico
-                  </SoftBox>
-                  {product.activo === false || product.activo === true ? (
-                    <SoftBox>
-                      <input
-                        name="activo"
-                        type="checkbox"
-                        onChange={(e) => handleCheckChange(e)}
-                        checked={product.activo}
-                      />{" "}
-                      Activo
-                    </SoftBox>
-                  ) : null}
+                <SoftBox>
+                <div data-name="petitorioMin" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.petitorioMin ? '#000C66' : 'lightgray',color:product.petitorioMin ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
+                  Pet. Minimo
+                  </div>
+                </SoftBox>
+                <SoftBox>
+                <div data-name="refrigerado" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.refrigerado ? '#000C66' : 'lightgray',color:product.refrigerado ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
+                  Refrigerado
+                  </div>
+                </SoftBox>
+                <SoftBox>
+                <div data-name="generico" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.generico ? '#000C66' : 'lightgray',color:product.generico ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
+                  Generico
+                  </div>
+                </SoftBox>
+                <SoftBox>
+                <div data-name="activo" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.activo ? '#000C66' : 'lightgray',color:product.activo ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
+                  Activo
+                  </div>
+                </SoftBox>
+                <SoftBox >
+                  <div data-name="oferta" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.oferta ? '#000C66' : 'lightgray',color:product.oferta ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
+                  Oferta
+                  </div>
+                </SoftBox>
                 </Grid>
               </Grid>
               <SoftBox mt={4} mb={1}>

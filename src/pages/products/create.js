@@ -33,7 +33,7 @@ const check = {
 
 function create() {
   const navigate = useNavigate();
-  const [product, setProduct] = useState({ activo: false, margen_precio:48 });
+  const [product, setProduct] = useState({ activo: false, margen_precio:48,oferta:false });
   const [isChecked, setIsChecked] = useState(false);
 console.log(product);
   const onSubmit = (e) => {
@@ -61,11 +61,13 @@ console.log(product);
 
   const handleCheckChange = (e) => {
     //setIsChecked(e.target.checked);
-    const { name } = e.target;
+    const name = e.target.name || e.target.getAttribute('data-name');
+    
+    console.log(name);
 
     setProduct((prevState) => ({
       ...prevState,
-      [name]: !product.activo,
+      [name]: !product[name]
     }));
   };
 
@@ -522,40 +524,29 @@ console.log(product);
               </Grid>
               <Grid item style={check} xs={12} md={6} xl={6}>
                 <SoftBox>
-                  <input
-                    name="petitorioMin"
-                    type="checkbox"
-                    onChange={(e) => handleChange(e)}
-                    value="1"
-                  />{" "}
-                  Peritorio Minimo
+                <div data-name="petitorioMin" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.petitorioMin ? '#000C66' : 'lightgray',color:product.petitorioMin ?'white' : '' ,borderRadius: '15px', padding: '0 7px',cursor: 'pointer'}}>
+                  Pet. Minimo
+                  </div>
                 </SoftBox>
                 <SoftBox>
-                  <input
-                    name="refrigerado"
-                    type="checkbox"
-                    onChange={(e) => handleChange(e)}
-                    value="1"
-                  />{" "}
+                <div data-name="refrigerado" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.refrigerado ? '#000C66' : 'lightgray',color:product.refrigerado ?'white' : '' ,borderRadius: '15px', padding: '0 7px',cursor: 'pointer'}}>
                   Refrigerado
+                  </div>
                 </SoftBox>
                 <SoftBox>
-                  <input
-                    name="generico"
-                    type="checkbox"
-                    onChange={(e) => handleChange(e)}
-                    value="1"
-                  />{" "}
+                <div data-name="generico" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.generico ? '#000C66' : 'lightgray',color:product.generico ?'white' : '' ,borderRadius: '15px', padding: '0 7px',cursor: 'pointer'}}>
                   Generico
+                  </div>
                 </SoftBox>
                 <SoftBox>
-                  <input
-                    name="activo"
-                    type="checkbox"
-                    onChange={(e) => handleCheckChange(e)}
-                    checked={product.activo}
-                  />{" "}
+                <div data-name="activo" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.activo ? '#000C66' : 'lightgray',color:product.activo ?'white' : '' ,borderRadius: '15px', padding: '0 7px',cursor: 'pointer'}}>
                   Activo
+                  </div>
+                </SoftBox>
+                <SoftBox >
+                  <div data-name="oferta" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.oferta ? '#000C66' : 'lightgray',color:product.oferta ?'white' : '' ,borderRadius: '15px', padding: '0 7px',cursor: 'pointer'}}>
+                  Oferta
+                  </div>
                 </SoftBox>
               </Grid>
             </Grid>
