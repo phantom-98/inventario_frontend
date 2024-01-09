@@ -5,7 +5,7 @@ import Billing from "layouts/billing";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication";
 
-
+import { PROFILE_ADMIN,PROFILE_CLIENT,PROFILE_DEVELOPER } from "types";
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -47,6 +47,7 @@ import Usuarios from "pages/usuario";
 
 import Settings from './examples/Icons/Settings';
 import Cube from "examples/Icons/Cube";
+import RouteGuard from "pages/guards/RouteGuard";
 
 const routes = [
   {
@@ -55,7 +56,7 @@ const routes = [
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
-    component: <Dashboard />,
+    component: <RouteGuard Component={<Dashboard />} profileTypes={[PROFILE_ADMIN]}/>,
     noCollapse: true,
   },
   {
@@ -110,7 +111,7 @@ const routes = [
     key: "ventas",
     route: "/ventas",
     icon: <Document size="12px" />,
-    component: <Ventas />,
+    component: <RouteGuard Component={<Ventas />} profileTypes={[PROFILE_ADMIN]} />,
     noCollapse: true,
   },
   {
@@ -201,7 +202,7 @@ const routes = [
     key: "dashboard",
     route: "/productos/edit/:id",
     icon: <Shop size="12px" />,
-    component: <EditProduct />,
+    component: <RouteGuard Component={<EditProduct />} profileTypes={[PROFILE_ADMIN]} /> ,
     noCollapse: true,
   },
 

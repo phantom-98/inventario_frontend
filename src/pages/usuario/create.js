@@ -9,23 +9,26 @@ import InputLabel from '@mui/material/InputLabel';
 import NativeSelect from '@mui/material/NativeSelect';
 import SoftButton from "components/SoftButton";
 import clienteAxios from 'config/axios';
+import axios from "axios";
 
 
 function  CrearUsuario () {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({})
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault()
-        console.log(usuario)
-        clienteAxios.post('users', usuario)
+        
+        const resp = await axios.post('http://localhost:5000/auth/intranet',usuario)
+        console.log(resp.data);
+        /* clienteAxios.post('users', usuario)
             .then(resp =>{
                 succesSwal()
                 navigate(`/usuarios`);
             })
             .catch((e)=>{
 
-            });
+            }); */
     };
     const handleChange=e=>{
 
@@ -49,9 +52,31 @@ function  CrearUsuario () {
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                     <TextField 
-                                    name="name"
+                                    name="first_name"
                                     type="text"
                                     fullWidth label="Nombre Del Usuario" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                    onChange={(e)=>handleChange(e)}
+                                    />
+                                </SoftBox> 
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                    <TextField 
+                                    name="last_name"
+                                    type="text"
+                                    fullWidth label="Apellido Del Usuario" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    style={{paddingTop:"0.15rem"}}
+                                    onChange={(e)=>handleChange(e)}
+                                    />
+                                </SoftBox> 
+                            </Grid>
+                            <Grid   item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                    <TextField 
+                                    name="rut"
+                                    type="text"
+                                    fullWidth label="Rut Del Usuario" InputLabelProps={{ shrink: true }} variant="standard" 
                                     style={{paddingTop:"0.15rem"}}
                                     onChange={(e)=>handleChange(e)}
                                     />
@@ -85,19 +110,21 @@ function  CrearUsuario () {
                                     </InputLabel>
                                     <NativeSelect
                                      onChange={(e)=>handleChange(e)}
-                                        name="role"
+                                        name="profileType"
                                         sx={{ input: { color: "white", width: "100%" } }}
                                         fullWidth
                                         defaultValue={'ninguna'}
                                         inputProps={{
-                                            name: 'role',
+                                            name: 'profileType',
                                             id: 'uncontrolled-native',
                                         }}
                                         >
                                              <option  value=''>Seleccione</option>
-                                            <option  value='administrator'>administrador</option>
-                                            <option  value='SuperAdmin'>SuperAdmin</option>
-                                            <option  value='vendedor'>vendedor</option>
+                                            <option  value='CLIENT'>cliente</option>
+                                            <option  value='ADMIN'>administrador</option>
+                                            <option  value='DEVELOPER'>desarrollador</option>
+                                            <option  value='PHARMACIST'>farmaceuta</option>
+                                            <option  value='PHARMACY_ASSISTANT'>assistente de farmacia</option>
                                     </NativeSelect>
                                     
                                 </SoftBox>
