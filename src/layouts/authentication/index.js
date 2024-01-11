@@ -28,6 +28,7 @@ function SignIn() {
       }
       const userRes = await loginUser({ email, password });
       if(userRes && userRes.token){
+        
         if(userRes.user.profile.type === 'ADMIN') {
 
           location.href = "/dashboard"

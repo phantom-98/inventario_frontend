@@ -10,6 +10,9 @@ import NativeSelect from '@mui/material/NativeSelect';
 import SoftButton from "components/SoftButton";
 import clienteAxios from 'config/axios';
 import axios from "axios";
+import { succesSwal } from "config/helpers";
+import Swal from "sweetalert2";
+import clienteAxiosAuth from "config/axiosAuth";
 
 
 function  CrearUsuario () {
@@ -18,9 +21,27 @@ function  CrearUsuario () {
 
     const onSubmit = async e => {
         e.preventDefault()
+        try {
+            await clienteAxiosAuth.post('intranet',usuario)
+        Swal.fire({
+            title: 'Confirmado!',
+            text: 'Usuario creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
+        navigate('/usuarios')
+            
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                title: 'Error!',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              })
+            
+        }
         
-        const resp = await axios.post('http://localhost:5000/auth/intranet',usuario)
-        console.log(resp.data);
         /* clienteAxios.post('users', usuario)
             .then(resp =>{
                 succesSwal()

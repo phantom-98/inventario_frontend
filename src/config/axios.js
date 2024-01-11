@@ -1,9 +1,5 @@
 import axios from 'axios'
-import { useSelector } from "react-redux";
 const token = localStorage.getItem("token") 
-//const user = useSelector(state => state.user)
-console.log()
-console.log(token)
 
 const clienteAxios = axios.create({
     baseURL:process.env.REACT_APP_INVENTARIO_API_URL,
