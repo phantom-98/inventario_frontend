@@ -3,7 +3,7 @@ import clienteAxios from 'config/axios';
 import moment from 'moment'
 const succesSwal = (url) => {
     Swal.fire({
-        text: "Form ah sido enviado exitosamente!",
+        text: "Form ha sido enviado exitosamente!",
         icon: "success",
         buttonsStyling: false,
         confirmButtonText: "Ok",

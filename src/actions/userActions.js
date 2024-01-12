@@ -16,7 +16,7 @@ export function loginAction(user){
         dispatch(login())
         try {
             //let data = await clienteAxios.post('users/login', user);
-            let data2 = await clienteAxiosAuth.post(`${process.env.REACT_APP_URL}login`,user)
+            let data2 = await clienteAxiosAuth.post("auth/login",user)
             //console.log(data2.data);
             //let respdata = data.data
             let respdata2 = data2.data

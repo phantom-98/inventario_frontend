@@ -20,7 +20,7 @@ function Usuarios (){
     const getData = async()=>{
         dispatch(loadingAction())
         //const data = await clienteAxios.get('users/');
-        const data2 = await clienteAxiosAuth.get();
+        const data2 = await clienteAxiosAuth.get("/auth");
         console.log(data2.data);
         dispatch(loadingAction())
         let respData = data2.data

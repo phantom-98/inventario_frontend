@@ -23,12 +23,12 @@ function  EditUsuario () {
     const navigate = useNavigate();
     
     const getData = async()=>{
-        const data = await clienteAxiosAuth.get(`${id}`);
+        const data = await clienteAxiosAuth.get(`/auth/${id}`);
         //const data = await clienteAxios.get('users/64b413eeb7e38b5f4a80ac3f');
         let respData = data.data
         setUsuario({email:respData.email,first_name: respData.first_name, profileId:respData.profile.id})
         console.log(usuario);
-        const profileData = await axios.get('http://localhost:4001/profile')
+        const profileData = await clienteAxiosAuth.get('profile')
         setProfileOptions(profileData.data.data)
         console.log(profileData.data.data);
     }

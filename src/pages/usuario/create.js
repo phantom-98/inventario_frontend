@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import SoftBox from "components/SoftBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -18,11 +18,23 @@ import clienteAxiosAuth from "config/axiosAuth";
 function  CrearUsuario () {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({})
+    const [profileOptions, setProfileOptions] = useState([])
+
+    const getData = async()=>{
+        
+        const profileData = await clienteAxiosAuth.get('profile')
+        setProfileOptions(profileData.data.data)
+        console.log(profileData.data.data);
+    }
+
+    useEffect(()=>{
+        getData()
+    },[])
 
     const onSubmit = async e => {
         e.preventDefault()
         try {
-            await clienteAxiosAuth.post('intranet',usuario)
+            await clienteAxiosAuth.post('',usuario)
         Swal.fire({
             title: 'Confirmado!',
             text: 'Usuario creado correctamente',
@@ -54,10 +66,19 @@ function  CrearUsuario () {
     const handleChange=e=>{
 
         const {name, value}=e.target;
-        setUsuario(prevState=>({
-            ...prevState,
-            [name]: value
-        }))
+        if(name === 'profileId') {
+            const auxValue = parseInt(value)
+            setUsuario(prevState=>({
+                ...prevState,
+                [name]: auxValue
+            }))
+            
+        }else {
+            setUsuario(prevState=>({
+                ...prevState,
+                [name]: value
+            }))
+        }
     }
 
 
@@ -131,21 +152,17 @@ function  CrearUsuario () {
                                     </InputLabel>
                                     <NativeSelect
                                      onChange={(e)=>handleChange(e)}
-                                        name="profileType"
+                                        name="profileId"
                                         sx={{ input: { color: "white", width: "100%" } }}
                                         fullWidth
                                         defaultValue={'ninguna'}
                                         inputProps={{
-                                            name: 'profileType',
+                                            name: 'profileId',
                                             id: 'uncontrolled-native',
                                         }}
                                         >
                                              <option  value=''>Seleccione</option>
-                                            <option  value='CLIENT'>cliente</option>
-                                            <option  value='ADMIN'>administrador</option>
-                                            <option  value='DEVELOPER'>desarrollador</option>
-                                            <option  value='PHARMACIST'>farmaceuta</option>
-                                            <option  value='PHARMACY_ASSISTANT'>assistente de farmacia</option>
+                                             { profileOptions.map(profile => <option key={profile.id} value={profile.id}>{profile.type}</option>)}
                                     </NativeSelect>
                                     
                                 </SoftBox>
