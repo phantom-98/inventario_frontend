@@ -39,7 +39,7 @@ function  EditUsuario () {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        clienteAxiosAuth.put(`${id}`, usuario)
+        clienteAxiosAuth.put(`auth/${id}`, usuario)
             .then(resp =>{
                 succesSwal()
                 navigate(`/usuarios`)
