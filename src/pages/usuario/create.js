@@ -34,7 +34,7 @@ function  CrearUsuario () {
     const onSubmit = async e => {
         e.preventDefault()
         try {
-            await clienteAxiosAuth.post('',usuario)
+            await clienteAxiosAuth.post('auth',usuario)
         Swal.fire({
             title: 'Confirmado!',
             text: 'Usuario creado correctamente',
