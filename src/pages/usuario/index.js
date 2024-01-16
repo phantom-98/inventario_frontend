@@ -9,6 +9,7 @@ import clienteAxios from 'config/axios';
 import { useNavigate } from "react-router-dom";
 import MUIDataTable from "mui-datatables"
 import { muiOptions,  columnsFunc2 } from "components/DataTable/options"
+import clienteAxiosAuth from "config/axiosAuth";
 
 
 function Usuarios (){
@@ -18,11 +19,13 @@ function Usuarios (){
 
     const getData = async()=>{
         dispatch(loadingAction())
-        const data = await clienteAxios.get('users/');
+        //const data = await clienteAxios.get('users/');
+        const data2 = await clienteAxiosAuth.get("/auth");
+        console.log(data2.data);
         dispatch(loadingAction())
-        let respData = data.data
-        let tempRows = respData.users.map(r=>{
-            return[r.name, r.email, r.role, r.uid]
+        let respData = data2.data
+        let tempRows = respData.map(r=>{
+            return[r.first_name, r.email, r.profile.type, r.id]
         })
         setRows(tempRows)
     }
@@ -33,7 +36,7 @@ function Usuarios (){
         navigate(`/usuario/edit/${item}`);
     }
     const onDelete = (item) => {
-        clienteAxios.delete(`/users/${item}`)
+        clienteAxiosAuth.delete(`auth/${item}`)
             .then(() => {
             getData();
         })

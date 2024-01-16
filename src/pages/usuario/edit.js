@@ -11,18 +11,26 @@ import clienteAxios from 'config/axios';
 import SoftBox from "components/SoftBox";
 import {succesSwal, errorSwal} from 'config/helpers.js'
 import { useNavigate } from "react-router-dom";
+import clienteAxiosAuth from "config/axiosAuth";
+import axios from "axios";
 
 function  EditUsuario () {
     const routeParams = useParams();
     const {id} = routeParams;
-    const [usuario, setUsuario] = useState({})
+    const [usuario, setUsuario] = useState({email:'',first_name:'',profileType:''})
+    const [profileOptions, setProfileOptions] = useState([])
     const [rows, setRows] = useState([])
     const navigate = useNavigate();
     
     const getData = async()=>{
-        const data = await clienteAxios.get('users/'+id);
+        const data = await clienteAxiosAuth.get(`/auth/${id}`);
+        //const data = await clienteAxios.get('users/64b413eeb7e38b5f4a80ac3f');
         let respData = data.data
-        setUsuario(respData)
+        setUsuario({email:respData.email,first_name: respData.first_name, profileId:respData.profile.id})
+        console.log(usuario);
+        const profileData = await clienteAxiosAuth.get('profile')
+        setProfileOptions(profileData.data.data)
+        console.log(profileData.data.data);
     }
 
     useEffect(()=>{
@@ -31,7 +39,7 @@ function  EditUsuario () {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        clienteAxios.put('users/'+id, usuario)
+        clienteAxiosAuth.put(`auth/${id}`, usuario)
             .then(resp =>{
                 succesSwal()
                 navigate(`/usuarios`)
@@ -44,10 +52,24 @@ function  EditUsuario () {
     const handleChange=e=>{
 
         const {name, value}=e.target;
-        setUsuario(prevState=>({
+        /* setUsuario(prevState=>({
             ...prevState,
             [name]: value
-        }))
+        })) */
+        if(name === 'profileId') {
+            const auxValue = parseInt(value)
+            setUsuario(prevState=>({
+                ...prevState,
+                [name]: auxValue
+            }))
+            
+        }else {
+            setUsuario(prevState=>({
+                ...prevState,
+                [name]: value
+            }))
+        }
+        
     }
     return (
         <DashboardLayout>
@@ -59,9 +81,9 @@ function  EditUsuario () {
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                     <TextField 
-                                        name="name"
+                                        name="first_name"
                                         type="text"
-                                        value={usuario.name} 
+                                        value={usuario.first_name} 
                                         fullWidth label="Nombre Del Usuario" InputLabelProps={{ shrink: true }} variant="standard" 
                                         style={{paddingTop:"0.15rem"}}
                                         onChange={(e)=>handleChange(e)}
@@ -79,6 +101,17 @@ function  EditUsuario () {
                                 />
                                 </SoftBox>
                             </Grid>
+                            <Grid  item xs={12} md={6} xl={6}>
+                                <SoftBox mb={2}>
+                                <TextField 
+                                    name="password"
+                                    defaultValue={""} 
+                                    fullWidth label="Contraseña del usuario" InputLabelProps={{ shrink: true }} variant="standard" 
+                                    onChange={(e)=>handleChange(e)}
+                                    style={{paddingTop:"0.15rem"}}
+                                />
+                                </SoftBox>
+                            </Grid>
                             <Grid   item xs={12} md={6} xl={6}>
                                 <SoftBox mb={2}>
                                     <InputLabel variant="standard" htmlFor="uncontrolled-native">
@@ -86,20 +119,19 @@ function  EditUsuario () {
                                     </InputLabel>
                                     <NativeSelect
                                         onChange={(e)=>handleChange(e)}
-                                        name="role"
-                                        value={usuario.role} 
+                                        name="profileId"
+                                        value={usuario.profileId} 
                                         sx={{ input: { color: "white", width: "100%" } }}
                                         fullWidth
-                                        defaultValue={'ninguna'}
+                                        
                                         inputProps={{
-                                            name: 'role',
+                                            name: 'profileId',
                                             id: 'uncontrolled-native',
                                         }}
                                     >
                                         <option  value=''>Seleccione</option>
-                                        <option  value='administrator'>administrador</option>
-                                        <option  value='SuperAdmin'>SuperAdmin</option>
-                                        <option  value='vendedor'>vendedor</option>
+                                        { profileOptions.map(profile => <option key={profile.id} value={profile.id}>{profile.type}</option>)}
+                                        
                                     </NativeSelect>
                                 </SoftBox>
                             </Grid>

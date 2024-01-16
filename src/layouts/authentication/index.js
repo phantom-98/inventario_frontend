@@ -28,13 +28,21 @@ function SignIn() {
       }
       const userRes = await loginUser({ email, password });
       if(userRes && userRes.token){
-        location.href = "/dashboard"
+        
+        if(userRes.user.profile.type === 'ADMIN') {
+
+          location.href = "/dashboard"
+        }else {
+
+          location.href = "/inventario"
+        }
       }else{
-        Swal.fire(
-          '',
-          'Nombre de usuario o password incorrecto!',
-          'error'
-        )
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Usuario sin accesos',
+      })
       }
   }
 
