@@ -36,7 +36,7 @@ function Usuarios (){
         navigate(`/usuario/edit/${item}`);
     }
     const onDelete = (item) => {
-        clienteAxios.delete(`/users/${item}`)
+        clienteAxiosAuth.delete(`auth/${item}`)
             .then(() => {
             getData();
         })
