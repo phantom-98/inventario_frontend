@@ -9,19 +9,18 @@ const RouteGuard = ({profileTypes,component}) => {
     const navigate = useNavigate();
     const isAllowed = checkUserPermissions(user.profile.type,profileTypes)
     
-    if(isAllowed){
-        return <>{component}</>
-    }else {
-        useEffect(() => {
+    useEffect(() => {
+        if (!isAllowed) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Usuario sin accesos',
-            })
-            navigate("/inventario")
-        },[])
-        
-    }
+            });
+            navigate("/inventario");
+        }
+    }, [isAllowed, navigate]);
+
+    return isAllowed ? <>{component}</> : null;
 }
 
 RouteGuard.propTypes = {
