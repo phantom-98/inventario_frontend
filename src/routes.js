@@ -202,7 +202,7 @@ const routes = [
     key: "dashboard",
     route: "/productos/edit/:id",
     icon: <Shop size="12px" />,
-    component: <RouteGuard Component={<EditProduct />} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST]} /> ,
+    component: <EditProduct /> ,
     noCollapse: true,
   },
 
