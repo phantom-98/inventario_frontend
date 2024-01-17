@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 import checkUserPermissions from "./guardProfileHelper";
 import { useEffect } from "react";
 
-const RouteGuard = ({profileTypes,Component}) => {
+const RouteGuard = ({profileTypes,component}) => {
     const user = JSON.parse(localStorage.getItem('user'))
     const navigate = useNavigate();
     const isAllowed = checkUserPermissions(user.profile.type,profileTypes)
     
     if(isAllowed){
-        return <>{Component}</>
+        return <>{component}</>
     }else {
         useEffect(() => {
             Swal.fire({
@@ -25,7 +25,7 @@ const RouteGuard = ({profileTypes,Component}) => {
 }
 
 RouteGuard.propTypes = {
-    Component : PropTypes.element,
+    component : PropTypes.element,
     profileTypes : PropTypes.array
 };
 
