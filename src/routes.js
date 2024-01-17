@@ -75,7 +75,7 @@ const routes = [
     key: "inventario",
     route: "/inventario",
     icon: <SpaceShip size="12px" />,
-    component: <RouteGuard component={<Products />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
+    component: <RouteGuard component={<Products />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT,PROFILE_DEVELOPER]} /> ,
     noCollapse: true,
   },
   {
