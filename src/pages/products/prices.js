@@ -81,8 +81,10 @@ function ProductPrices() {
     const handleOpen = () => {
         setOpen(true);
     };
-	const onSubmitPrices = data => {
-        clienteAxios.put('product/prices/'+id, prices).then(resp =>{
+	const onSubmitPrices = async data => {
+        try {
+            const resp = await clienteAxios.put('product/prices/'+id, prices)
+        
 			console.log(resp)
 			let tempRows = resp.data.prices.map(r=>{
 				return[dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`]
@@ -90,10 +92,12 @@ function ProductPrices() {
 			setRows(tempRows)
 			location.reload()
 			succesSwal()
-		}).catch((e)=>{
-			console.log(e);
+        } catch (error) {
+            console.log(error);
 			errorSwal()
-		});
+        }
+        
+		
     };
 	
 
