@@ -34,10 +34,13 @@ import { insertarPuntos, dateFormat, replaceDigits } from "../../config/helpers"
 import { getCpp, getCpp2 } from "../../config/helpers";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
+import { TextareaAutosize } from "@mui/material";
 
 const check = {
   display: "flex",
-  justifyContent: "space-around",
+  justifyContent: "between",
+  flexWrap: "wrap",
+  gap: 5,
   padding: 30,
 };
 const style = {
@@ -64,117 +67,113 @@ function EditProduct() {
   const { id } = routeParams;
   const [product, setProduct] = useState({
     sku: "",
-    nombre: "",
+    name: "",
     laboratorio: "",
+    subcategory_id: "ninguna",
+    consumption_typology: "ninguna",
+    laboratory_id: "ninguna",
+    format: "ninguna",
     stock: 0,
-    precio: 0,
-    precioOferta: 0,
-    cpp2:[],
+    price: 0,
+    offer_price: 0,
+    cpp: 0,
     margen_precio: 0,
-    margen_precioOferta: 0
+    margen_precioOferta: 0,
   });
   const [prices, setPrices] = useState({});
+  const [subCategories, setSubCategories] = useState([]);
+  const [laboratories, setLaboratories] = useState([]);
   const [canSave, setCanSave] = useState(true);
   const [priceValidationError, setpriceValidationError] = useState(false);
   const [offerPriceValidationError, setofferPriceValidationError] = useState(false);
 
-
-  const handleMargenChange = (e,type) => {
-    const percentage = parseFloat(e.target.value)
-    if(product.cpp2.length === 0){
+  const handleMargenChange = (e, type) => {
+    const percentage = parseFloat(e.target.value);
+    if (!product.cpp) {
       setProduct((prevState) => ({
         ...prevState,
-        ['margen_'+type]: percentage,
-        
-        
+        [type + "_margin"]: percentage,
       }));
-      
-      
-    }else {
-      const prices = Math.round((product.cpp2[product.cpp2.length -1]?.price / (1-(percentage/100))) * 1.19)
-      const formatedPrice = replaceDigits(prices)
-      
-      if(percentage < 0){
-        if(type === 'precio'){
-          setpriceValidationError(true)
-        }else{
-          setofferPriceValidationError(true)
-        }
-        setCanSave(false)
-      }else if (type !== 'precio') {
-        if(percentage > product.margen_precio ){
-          setofferPriceValidationError(true)
-          setCanSave(false)
-        }else{
-          setofferPriceValidationError(false)
-          setCanSave(true)
-        }
+    } else {
+      const prices = Math.round((product.cpp / (1 - percentage / 100)) * 1.19);
+      const formatedPrice = replaceDigits(prices);
 
-      }else{
-        if(percentage < product.margen_precioOferta){
-          setpriceValidationError(true)
-          setCanSave(false)
-        }else{
-          setpriceValidationError(false)
-          setCanSave(true)
+      if (percentage < 0) {
+        if (type === "price") {
+          setpriceValidationError(true);
+        } else {
+          setofferPriceValidationError(true);
         }
-      } 
-      
-      setProduct((prevState) => ({
-        ...prevState,
-        ['margen_'+type]: percentage,
-        [type]: formatedPrice
-        
-      }));
-
-    }
-    
-  }
-  const handlePriceChange = (e,type) => {
-    const price = parseFloat(e.target.value)
-    if(product.cpp2.length === 0){
-      setProduct((prevState) => ({
-        ...prevState,
-        
-        [type]: price
-      }));
-    }else{
-      const margin = Math.round((((price/(1+0.19)) - product.cpp2[product.cpp2.length -1]?.price)/(price/(1+0.19)))*100)
-      if(margin < 0){
-        if(type === 'precio'){
-          setpriceValidationError(true)
-        }else{
-          setofferPriceValidationError(true)
+        setCanSave(false);
+      } else if (type !== "price") {
+        if (percentage > product.price_margin) {
+          setofferPriceValidationError(true);
+          setCanSave(false);
+        } else {
+          setofferPriceValidationError(false);
+          setCanSave(true);
         }
-        setCanSave(false)
-      }else if(type !== 'precio'){
-        if(price > product.precio){
-          setCanSave(false)
-          setofferPriceValidationError(true)
-        }else{
-          setofferPriceValidationError(false)
-          setCanSave(true)
-        }
-        
-      }else{
-        if(price < product.precioOferta){
-          setpriceValidationError(true)
-          setCanSave(false)
-        }else{
-          setpriceValidationError(false)
-          setCanSave(true)
+      } else {
+        if (percentage < product.offer_price_margin) {
+          setpriceValidationError(true);
+          setCanSave(false);
+        } else {
+          setpriceValidationError(false);
+          setCanSave(true);
         }
       }
-      
+
       setProduct((prevState) => ({
         ...prevState,
-        ['margen_'+type]: product.cpp2 ?  margin: 0,
-        [type]: price
+        [type + "_margin"]: percentage,
+        [type]: formatedPrice,
       }));
     }
-    
+  };
+  const handlePriceChange = (e, type) => {
+    const price = parseFloat(e.target.value);
+    if (!product.cpp) {
+      setProduct((prevState) => ({
+        ...prevState,
+
+        [type]: price,
+      }));
+    } else {
+      const margin = Math.round(((price / (1 + 0.19) - product.cpp) / (price / (1 + 0.19))) * 100);
+      if (margin < 0) {
+        if (type === "price") {
+          setpriceValidationError(true);
+        } else {
+          setofferPriceValidationError(true);
+        }
+        setCanSave(false);
+      } else if (type !== "price") {
+        if (price > product.price) {
+          setCanSave(false);
+          setofferPriceValidationError(true);
+        } else {
+          setofferPriceValidationError(false);
+          setCanSave(true);
+        }
+      } else {
+        if (price < product.offer_price) {
+          setpriceValidationError(true);
+          setCanSave(false);
+        } else {
+          setpriceValidationError(false);
+          setCanSave(true);
+        }
+      }
+
+      setProduct((prevState) => ({
+        ...prevState,
+        [type + "_margin"]: margin,
+        [type]: price,
+      }));
+    }
+
     console.log(product);
-  }
+  };
   const {
     register,
     handleSubmit,
@@ -187,20 +186,39 @@ function EditProduct() {
   const getData = async () => {
     const data = await clienteAxios.get("product/sku/" + id);
     let respData = data.data;
-    let tempRows = respData.prices.map((r) => {
+    console.log(respData);
+    const subCategories = await clienteAxios.get("subcategory");
+    let catData = subCategories.data;
+    const labs = await clienteAxios.get("laboratory");
+    let labsData = labs.data;
+    if (respData.cpp) {
+      respData.price_margin = Math.round(
+        ((respData.price / (1 + 0.19) - respData.cpp) / (respData.price / (1 + 0.19))) * 100
+      );
+      if (respData.offer_price) {
+        respData.offer_price_margin = Math.round(
+          ((respData.offer_price / (1 + 0.19) - respData.cpp) /
+            (respData.offer_price / (1 + 0.19))) *
+            100
+        );
+      }
+    }
+    /* let tempRows = respData.prices.map((r) => {
       return [dateFormat(r.createdAt), r.qty, `$ ${insertarPuntos(r.price)}`];
     });
 
-    setRows(tempRows);
+    setRows(tempRows); */
 
     setProduct(respData);
+    setSubCategories(catData);
+    setLaboratories(labsData);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  const onSubmitPrices = (data) => {
+  /* const onSubmitPrices = (data) => {
     clienteAxios
       .put("product/prices/" + id, prices)
       .then((resp) => {
@@ -216,12 +234,13 @@ function EditProduct() {
         console.log(e);
         errorSwal();
       });
-  };
+  }; */
 
   const onSubmit = (data) => {
     //handleOpen()
+    const { price_margin, offer_price_margin, ...auxProduct } = product;
     clienteAxios
-      .put("product/sku/" + id, product)
+      .put("product/sku/" + id, auxProduct)
       .then((resp) => {
         //handleClose()
         console.log(resp);
@@ -248,6 +267,7 @@ function EditProduct() {
       ...prevState,
       [name]: value,
     }));
+    console.log(product);
   };
   //TODO set on Redux
   const [open, setOpen] = useState(false);
@@ -260,13 +280,13 @@ function EditProduct() {
 
   const handleCheckChange = (e) => {
     //setIsChecked(e.target.checked);
-    const name = e.target.name || e.target.getAttribute('data-name');
-    
+    const name = e.target.name || e.target.getAttribute("data-name");
+
     console.log(name);
 
     setProduct((prevState) => ({
       ...prevState,
-      [name]: !product[name]
+      [name]: !product[name],
     }));
   };
 
@@ -309,11 +329,11 @@ function EditProduct() {
                       Nombre Del Producto
                     </InputLabel>
                     <TextField
-                      name="nombre"
+                      name="name"
                       fullWidth
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
-                      value={product.nombre || ""}
+                      value={product.name || ""}
                       onChange={(e) => handleChange(e)}
                       style={{ paddingTop: "0.15rem" }}
                     />
@@ -329,16 +349,15 @@ function EditProduct() {
                         onChange={(e) => handleChange(e)}
                         name="subcategory"
                         fullWidth
-                        defaultValue={"ninguna"}
                         inputProps={{
-                          name: "subcategory",
-                          value: product.subcategory,
-                          id: "subcategory",
+                          name: "subcategory_id",
+                          value: product.subcategory_id || "ninguna",
+                          id: "subcategory_id",
                         }}
                       >
                         <option value={"ninguna"}>Ninguna</option>
-                        {subcat.map((c) => (
-                          <option key={c.id} value={c.name}>
+                        {subCategories.map((c) => (
+                          <option key={c.id} value={c.id}>
                             {c.name}
                           </option>
                         ))}
@@ -354,18 +373,17 @@ function EditProduct() {
                     <FormControl fullWidth>
                       <NativeSelect
                         onChange={(e) => handleChange(e)}
-                        name="laboratorio"
+                        name="laboratory_id"
                         fullWidth
-                        defaultValue={"ninguna"}
                         inputProps={{
-                          name: "laboratorio",
-                          value: product.laboratorio,
-                          id: "laboratorio",
+                          name: "laboratory_id",
+                          value: product.laboratory_id || "ninguna",
+                          id: "laboratory_id",
                         }}
                       >
                         <option value={"ninguna"}>Ninguna</option>
                         {laboratories.map((c) => (
-                          <option key={c.id} value={c.name}>
+                          <option key={c.id} value={c.id}>
                             {c.name}
                           </option>
                         ))}
@@ -375,70 +393,133 @@ function EditProduct() {
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="nombre">
+                      Compuesto
+                    </InputLabel>
+                    <TextField
+                      name="compound"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "compound",
+                        value: product.compound || "",
+                        id: "compound",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Tipologia De Consumo
                     </InputLabel>
                     <NativeSelect
                       onChange={(e) => handleChange(e)}
-                      name="tipologia_consumo"
+                      name="consumption_typology"
                       sx={{ input: { color: "white", width: "100%" } }}
                       fullWidth
-                      defaultValue={"ninguna"}
                       inputProps={{
-                        name: "tipologia_consumo",
-                        value: product.tipologia_consumo,
-                        id: "tipologia_consumo",
+                        name: "consumption_typology",
+                        value: product.consumption_typology || "ninguna",
+                        id: "consumption_typology",
                       }}
                     >
                       <option value={"ninguna"}>Ninguna</option>
-                      <option value="">Seleccione...</option>
-                      <option value="ABA - ORAL S.ORD.GRAGEAS" selected="">
-                        ABA - ORAL S.ORD.GRAGEAS
-                      </option>
-                      <option value="AAA - ORAL S.ORD. TABLETAS">AAA - ORAL S.ORD. TABLETAS</option>
-                      <option value="TYQ - VAGINAL PESARIO MEC C/S">
+                      <option value="ABA_ORAL_S_ORD_GRAGEAS">ABA - ORAL S.ORD.GRAGEAS</option>
+                      <option value="AAA_ORAL_S_ORD_TABLETAS">AAA - ORAL S.ORD. TABLETAS</option>
+                      <option value="TYQ_VAGINAL_PESARIO_MEC_C_S">
                         TYQ - VAGINAL PESARIO MEC C/S
                       </option>
-                      <option value="JWN - OTROS SIST.EMPL TRANSDER">
+                      <option value="JWN_OTROS_SIST_EMPL_TRANSDER">
                         JWN - OTROS SIST.EMPL TRANSDER
                       </option>
-                      <option value="GMD - PARENT.RET.AMP I.M.">GMD - PARENT.RET.AMP I.M.</option>
-                      <option value="ABC - ORAL S.ORD.GRAG.RECUB.">
+                      <option value="GMD_PARENT_RET_AMP_I_M_">GMD - PARENT.RET.AMP I.M.</option>
+                      <option value="ABC_ORAL_S_ORD_GRAG_RECUB_">
                         ABC - ORAL S.ORD.GRAG.RECUB.
                       </option>
-                      <option value="GNE - PARENT.RET. JER PREC SC">
+                      <option value="GNE_PARENT_RET__JER_PREC_SC">
                         GNE - PARENT.RET. JER PREC SC
                       </option>
-                      <option value="GND - PARENT.RET.JER.PRECAR.IM">
+                      <option value="GND_PARENT_RET_JER_PRECAR_IM">
                         GND - PARENT.RET.JER.PRECAR.IM
                       </option>
-                      <option value="TYR - VAGINAL D.I.U.">TYR - VAGINAL D.I.U.</option>
-                      <option value="TVA - VAGINAL GEL/SOL">TVA - VAGINAL GEL/SOL</option>
-                      <option value="TTA - VAGINAL CREMA NO ESPEC.">
+                      <option value="TYR_VAGINAL_D_I_U">TYR - VAGINAL D.I.U.</option>
+                      <option value="TVA_VAGINAL_GEL_SOL">TVA - VAGINAL GEL/SOL</option>
+                      <option value="TTA_VAGINAL_CREMA_NO_ESPEC">
                         TTA - VAGINAL CREMA NO ESPEC.
                       </option>
-                      <option value="TGW - VAGINAL JAB LIQD/LAV">TGW - VAGINAL JAB LIQD/LAV</option>
-                      <option value="ACA - ORAL S.ORD.CAPSULAS">ACA - ORAL S.ORD.CAPSULAS</option>
-                      <option value="TLS - VAGINAL SUPOSITORIOS">TLS - VAGINAL SUPOSITORIOS</option>
-                      <option value="TGS - VAGINAL LOCIONES">TGS - VAGINAL LOCIONES</option>
-                      <option value="DEP - ORAL LIQ.ORD.POLVO DOSIS">
+                      <option value="TGW_VAGINAL_JAB_LIQD_LAV">TGW - VAGINAL JAB LIQD/LAV</option>
+                      <option value="ACA_ORAL_S_ORD_CAPSULAS">ACA - ORAL S.ORD.CAPSULAS</option>
+                      <option value="TLS_VAGINAL_SUPOSITORIOS">TLS - VAGINAL SUPOSITORIOS</option>
+                      <option value="TGS_VAGINAL_LOCIONES">TGS - VAGINAL LOCIONES</option>
+                      <option value="DEP_ORAL_LIQ_ORD_POLVO_DOSIS">
                         DEP - ORAL LIQ.ORD.POLVO DOSIS
                       </option>
-                      <option value="GPD - PARENT.RET.VIALES I.M.">
+                      <option value="GPD_PARENT_RET_VIALES_I_M">
                         GPD - PARENT.RET.VIALES I.M.
                       </option>
-                      <option value="TWY - VAGINAL OTR APOSIT MEDIC">
+                      <option value="TWY_VAGINAL_OTR_APOSIT_MEDIC">
                         TWY - VAGINAL OTR APOSIT MEDIC
                       </option>
-                      <option value="FMA - PARENT.ORD.AMPOLLAS">FMA - PARENT.ORD.AMPOLLAS</option>
-                      <option value="DGA - ORAL LIQ.ORD.LIQUIDOS">
-                        DGA - ORAL LIQ.ORD.LIQUIDOS
-                      </option>
-                      <option value="GYV - PARENT.RET.INJERTO">GYV - PARENT.RET.INJERTO</option>
-                      <option value="DGB - ORAL LIQ.ORD.GOTAS">DGB - ORAL LIQ.ORD.GOTAS</option>
-                      <option value="ADR - ORAL S.ORD.GLOB PQ+HOMEO">
+                      <option value="FMA_PARENT_ORD_AMPOLLAS">FMA - PARENT.ORD.AMPOLLAS</option>
+                      <option value="DGA_ORAL_LIQ_ORD_LIQUIDOS">DGA - ORAL LIQ.ORD.LIQUIDOS</option>
+                      <option value="GYV_PARENT_RET_INJERTO">GYV - PARENT.RET.INJERTO</option>
+                      <option value="DGB_ORAL_LIQ_ORD_GOTAS">DGB - ORAL LIQ.ORD.GOTAS</option>
+                      <option value="ADR_ORAL_S_ORD_GLOB_PQ_HOMEO">
                         ADR - ORAL S.ORD.GLOB PQ+HOMEO
                       </option>
+                    </NativeSelect>
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="tipologia_consumo">
+                      Tipo de receta
+                    </InputLabel>
+                    <NativeSelect
+                      onChange={(e) => handleChange(e)}
+                      name="recipe_type"
+                      sx={{ input: { color: "white", width: "100%" } }}
+                      fullWidth
+                      inputProps={{
+                        name: "recipe_type",
+                        value: product.recipe_type || "ninguna",
+                        id: "recipe_type",
+                      }}
+                    >
+                      <option value={"ninguna"}>Ninguna</option>
+                      <option value="Venta Directa">Venta Directa</option>
+                      <option value="Receta Simple (R)">Receta Simple (R)</option>
+                      <option value="Receta Simple Obligatoria (RO)">
+                        Receta Simple Obligatoria (RO)
+                      </option>
+                      <option value="Receta Retenida (RR)">Receta Retenida (RR)</option>
+                      <option value="Receta Cheque (RCH)">Receta Cheque (RCH)</option>
+                    </NativeSelect>
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="tipologia_consumo">
+                      Estado
+                    </InputLabel>
+                    <NativeSelect
+                      onChange={(e) => handleChange(e)}
+                      name="state_of_matter"
+                      sx={{ input: { color: "white", width: "100%" } }}
+                      fullWidth
+                      inputProps={{
+                        name: "state_of_matter",
+                        value: product.state_of_matter || "ninguna",
+                        id: "state_of_matter",
+                      }}
+                    >
+                      <option value={"ninguna"}>Ninguna</option>
+                      <option value="Solido">Solido</option>
+                      <option value="Liquido">Liquido</option>
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
@@ -466,61 +547,61 @@ function EditProduct() {
                     </InputLabel>
                     <NativeSelect
                       onChange={(e) => handleChange(e)}
-                      name="formato"
+                      name="format"
                       sx={{ input: { color: "white", width: "100%" } }}
                       fullWidth
-                      defaultValue={"ninguna"}
                       inputProps={{
-                        name: "formato",
-                        value: product.formato,
-                        id: "formato",
+                        name: "format",
+                        value: product.format || "ninguna",
+                        id: "format",
                       }}
                     >
                       <option value={"ninguna"}>Ninguna</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="3.5">3.5</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="10">10</option>
-                      <option value="12">12</option>
-                      <option value="14">14</option>
-                      <option value="15">15</option>
-                      <option value="16">16</option>
-                      <option value="20">20</option>
-                      <option value="21">21</option>
-                      <option value="24">24</option>
-                      <option value="25">25</option>
-                      <option value="28">28</option>
-                      <option value="30">30</option>
-                      <option value="35">35</option>
-                      <option value="40">40</option>
-                      <option value="45">45</option>
-                      <option value="50">50</option>
-                      <option value="56">56</option>
-                      <option value="60">60</option>
-                      <option value="80">80</option>
-                      <option value="90">90</option>
-                      <option value="91">91</option>
-                      <option value="100">100</option>
-                      <option value="133">133</option>
-                      <option value="180">180</option>
-                      <option value="200">200</option>
-                      <option value="250">250</option>
+                      <option value="FORMAT_1">1</option>
+                      <option value="FORMAT_2">2</option>
+                      <option value="FORMAT_3">3</option>
+                      <option value="FORMAT_3_5">3.5</option>
+                      <option value="FORMAT_4">4</option>
+                      <option value="FORMAT_5">5</option>
+                      <option value="FORMAT_6">6</option>
+                      <option value="FORMAT_7">7</option>
+                      <option value="FORMAT_8">8</option>
+                      <option value="FORMAT_10">10</option>
+                      <option value="FORMAT_12">12</option>
+                      <option value="FORMAT_14">14</option>
+                      <option value="FORMAT_15">15</option>
+                      <option value="FORMAT_16">16</option>
+                      <option value="FORMAT_20">20</option>
+                      <option value="FORMAT_21">21</option>
+                      <option value="FORMAT_24">24</option>
+                      <option value="FORMAT_25">25</option>
+                      <option value="FORMAT_28">28</option>
+                      <option value="FORMAT_30">30</option>
+                      <option value="FORMAT_35">35</option>
+                      <option value="FORMAT_40">40</option>
+                      <option value="FORMAT_45">45</option>
+                      <option value="FORMAT_50">50</option>
+                      <option value="FORMAT_56">56</option>
+                      <option value="FORMAT_60">60</option>
+                      <option value="FORMAT_80">80</option>
+                      <option value="FORMAT_90">90</option>
+                      <option value="FORMAT_91">91</option>
+                      <option value="FORMAT_100">100</option>
+                      <option value="FORMAT_133">133</option>
+                      <option value="FORMAT_180">180</option>
+                      <option value="FORMAT_200">200</option>
+                      <option value="FORMAT_250">250</option>
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="codigoBarra">
-                      Codigo Barra
+                      Codigo de Barras
                     </InputLabel>
                     <TextField
-                      name="codigoBarra"
-                      value={product.codigoBarra}
+                      name="barcode"
+                      value={product.barcode || ""}
                       onChange={(e) => handleChange(e)}
                       fullWidth
                       InputLabelProps={{ shrink: true }}
@@ -531,20 +612,40 @@ function EditProduct() {
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="cpp">
+                      Dias de Proteccion
+                    </InputLabel>
+                    <TextField
+                      name="days_protection"
+                      type="number"
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      value={product.days_protection || ""}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "days_protection",
+                        id: "days_protection",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="precio">
                       Precio Del Producto
                     </InputLabel>
                     <TextField
-                      type="precio"
-                      name="precio"
+                      type="number"
+                      name="price"
                       error={priceValidationError}
-                      helperText={priceValidationError ? 'precio invalido*' : ''}
+                      helperText={priceValidationError ? "precio invalido*" : ""}
                       fullWidth
-                      onChange={(e) => handlePriceChange(e,'precio')}
+                      onChange={(e) => handlePriceChange(e, "price")}
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
-                      value={product.precio || 0}
-                      
+                      value={product.price || 0}
                       style={{ paddingTop: "0.15rem" }}
                     />
                   </SoftBox>
@@ -556,62 +657,61 @@ function EditProduct() {
                     </InputLabel>
                     <TextField
                       type="number"
-                      name="precioOferta"
+                      name="offer_price"
                       fullWidth
                       error={offerPriceValidationError}
-                      helperText={offerPriceValidationError ? 'precio oferta invalido*' : ''}
+                      helperText={offerPriceValidationError ? "precio oferta invalido*" : ""}
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
-                      value={product.precioOferta || 0}
-                      onChange={(e) => handlePriceChange(e,'precioOferta')}
+                      value={product.offer_price || 0}
+                      onChange={(e) => handlePriceChange(e, "offer_price")}
                       style={{ paddingTop: "0.15rem" }}
                     />
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="precio">
-                    Margen % Precio Lista
-                  </InputLabel>
-                  <TextField
-                    name="margen precio lista"
-                    type="number"
-                    onChange={(e)=> handleMargenChange(e,'precio')}
-                    fullWidth
-                    required
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "margen precio lista",
-                      id: "margen precio lista",
-                      value: product.margen_precio || 0,
-                    }}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item xs={12} md={6} xl={6}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="precio">
-                    Margen % Precio Oferta
-                  </InputLabel>
-                  <TextField
-                    name="margen precio oferta"
-                    type="number"
-                    onChange={(e)=> handleMargenChange(e,'precioOferta')}
-                    fullWidth
-                    
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "margen precio oferta",
-                      id: "margen precio oferta",
-                      value: product.margen_precioOferta || 0,
-                    }}
-                  />
-                </SoftBox>
-              </Grid>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="precio">
+                      Margen % Precio Lista
+                    </InputLabel>
+                    <TextField
+                      name="margen precio lista"
+                      type="number"
+                      onChange={(e) => handleMargenChange(e, "price")}
+                      fullWidth
+                      required
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "margen precio lista",
+                        id: "margen precio lista",
+                        value: product.price_margin || 0,
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="precio">
+                      Margen % Precio Oferta
+                    </InputLabel>
+                    <TextField
+                      name="margen precio oferta"
+                      type="number"
+                      onChange={(e) => handleMargenChange(e, "offer_price")}
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "margen precio oferta",
+                        id: "margen precio oferta",
+                        value: product.offer_price_margin || 0,
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="cpp">
@@ -619,15 +719,15 @@ function EditProduct() {
                     </InputLabel>
                     <TextField
                       name="cpp"
-                      value={product.cpp2.length !== 0 ? insertarPuntos(Math.ceil(product.cpp2[product.cpp2.length -1]?.price)): 0}
-                      type="string"
+                      value={product.cpp || 0}
+                      type="number"
                       onChange={(e) => handleChange(e)}
                       fullWidth
                       InputLabelProps={{ shrink: true }}
                       variant="standard"
                       style={{ paddingTop: "0.15rem" }}
                       inputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                     />
                   </SoftBox>
@@ -639,7 +739,7 @@ function EditProduct() {
                     </InputLabel>
                     <TextField
                       name="fechaVencimiento"
-                      value={product.fechaVencimiento}
+                      value={product.fechaVencimiento || ""}
                       type="date"
                       onChange={(e) => handleChange(e)}
                       fullWidth
@@ -662,7 +762,7 @@ function EditProduct() {
                         defaultValue={"ninguna"}
                         inputProps={{
                           name: "controlLegal",
-                          value: product.controlLegal,
+                          value: product.controlLegal || "ninguna",
                           id: "uncontrolled-native",
                         }}
                       >
@@ -686,7 +786,7 @@ function EditProduct() {
                       defaultValue={"ninguna"}
                       inputProps={{
                         name: "impuestoExtra",
-                        value: product.impuestoExtra,
+                        value: product.impuestoExtra || "ninguna",
                         id: "uncontrolled-native",
                       }}
                     >
@@ -700,35 +800,222 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
+                      Descripcion
+                    </InputLabel>
+                    <TextField
+                      name="description"
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      value={product.description || ""}
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "description",
+                        id: "description",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
+                      Tabla de Datos
+                    </InputLabel>
+                    <TextField
+                      name="data_sheet"
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      value={product.data_sheet || ""}
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "data_sheet",
+                        id: "data_sheet",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
+                      Beneficios
+                    </InputLabel>
+                    <TextareaAutosize
+                      name="benefits"
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      value={product.benefits || ""}
+                      minRows={3}
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      style={{ padding: "0.2rem", width: "100%", fontSize: "0.875rem" }}
+                      inputProps={{
+                        name: "benefits",
+                        id: "benefits",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
                 <Grid item style={check} xs={12} md={6} xl={6}>
-                <SoftBox>
-                <div data-name="petitorioMin" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.petitorioMin ? '#000C66' : 'lightgray',color:product.petitorioMin ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
-                  Pet. Minimo
-                  </div>
-                </SoftBox>
-                <SoftBox>
-                <div data-name="refrigerado" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.refrigerado ? '#000C66' : 'lightgray',color:product.refrigerado ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
-                  Refrigerado
-                  </div>
-                </SoftBox>
-                <SoftBox>
-                <div data-name="generico" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.generico ? '#000C66' : 'lightgray',color:product.generico ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
-                  Generico
-                  </div>
-                </SoftBox>
-                <SoftBox>
-                <div data-name="activo" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.activo ? '#000C66' : 'lightgray',color:product.activo ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
-                  Activo
-                  </div>
-                </SoftBox>
-                <SoftBox >
-                  <div data-name="oferta" onClick={(e) => handleCheckChange(e)} style={{backgroundColor: product.oferta ? '#000C66' : 'lightgray',color:product.oferta ?'white' : '' ,borderRadius: '15px', padding: '0 9px',cursor: 'pointer'}}>
-                  Oferta
-                  </div>
-                </SoftBox>
+                  {/* <SoftBox>
+                    <div
+                      data-name="petitorioMin"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.petitorioMin ? "#000C66" : "lightgray",
+                        color: product.petitorioMin ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 9px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Pet. Minimo
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="refrigerado"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.refrigerado ? "#000C66" : "lightgray",
+                        color: product.refrigerado ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 9px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Refrigerado
+                    </div>
+                  </SoftBox> */}
+                  <SoftBox>
+                    <div
+                      data-name="is_generic"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_generic ? "#000C66" : "lightgray",
+                        color: product.is_generic ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 9px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Generico
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="active"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.active ? "#000C66" : "lightgray",
+                        color: product.active ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 9px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Activo
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="is_offer"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_offer ? "#000C66" : "lightgray",
+                        color: product.is_offer ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 9px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Oferta
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="is_indexable"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_indexable ? "#000C66" : "lightgray",
+                        color: product.is_indexable ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Indexable
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="is_medicine"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_medicine ? "#000C66" : "lightgray",
+                        color: product.is_medicine ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Medicina
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="is_bioequivalent"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_bioequivalent ? "#000C66" : "lightgray",
+                        color: product.is_bioequivalent ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Bioequivalente
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="outstanding"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.outstanding ? "#000C66" : "lightgray",
+                        color: product.outstanding ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Destacado
+                    </div>
+                  </SoftBox>
+                  <SoftBox>
+                    <div
+                      data-name="is_immediate"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_immediate ? "#000C66" : "lightgray",
+                        color: product.is_immediate ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Inmediato
+                    </div>
+                  </SoftBox>
                 </Grid>
               </Grid>
-              <SoftBox mt={4} mb={1} >
+              <SoftBox mt={4} mb={1}>
                 <SoftButton
                   type="submit"
                   variant="gradient"

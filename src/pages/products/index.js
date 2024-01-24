@@ -37,7 +37,7 @@ function Clientes() {
     dispatch(loadingAction())
     let respData = data.data
     let tempRows = respData.map(r=>{
-      return[r.sku, r.codigoBarra, r.nombre, r.laboratorio, r.stock, `$ ${insertarPuntos(r.precio)}`, `$ ${insertarPuntos(r.precioOferta)}`,`$ ${insertarPuntos(Math.ceil(r.cpp2[r.cpp2.length -1]?.price))}`, r.uid]
+      return[r.sku, r.barcode, r.name, r.laboratorio, r.stock, `$ ${insertarPuntos(r.price)}`, `$ ${insertarPuntos(r.offer_price)}`, r.id]
      
     })
 
@@ -66,7 +66,7 @@ const duplicate = (item) => {
 }
 
 
-  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],edit, onDelete, duplicate);
+  const columns = columnsFunc(["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"],edit, onDelete, duplicate);
 
   return (
     <DashboardLayout>
