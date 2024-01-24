@@ -501,7 +501,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                {/* <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Estado
@@ -522,7 +522,7 @@ function EditProduct() {
                       <option value="Liquido">Liquido</option>
                     </NativeSelect>
                   </SoftBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="stock">
