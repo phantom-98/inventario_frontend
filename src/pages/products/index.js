@@ -59,12 +59,12 @@ function Clientes() {
   };
 
   const onDelete = (item) => {
-    clienteAxios.delete(`/product/${item}`).then(() => {
+    /* clienteAxios.delete(`/product/${item}`).then(() => {
       getData();
-    });
+    }); */
   };
   const duplicate = (item) => {
-    navigate(`/productos/duplicar/${item}`);
+    /* navigate(`/productos/duplicar/${item}`); */
   };
 
   const columns = columnsFunc(

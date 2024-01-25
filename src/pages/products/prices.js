@@ -34,7 +34,7 @@ function ProductPrices() {
   const navigate = useNavigate();
 
   const getData = async () => {
-    const data = await clienteAxios.get("cppLogs/" + id);
+    const data = await clienteAxios.get("priceLogs/" + id);
     let respData = data.data;
     console.log(respData);
     let tempRows = respData.map((r) => {
@@ -48,7 +48,7 @@ function ProductPrices() {
     getData();
   }, []);
 
-  const edit = (item) => {
+  /* const edit = (item) => {
     setPrices({
       uid: item[3],
       qty: item[1],
@@ -56,16 +56,16 @@ function ProductPrices() {
     });
 
     handleOpen();
-  };
+  }; */
 
   const onDelete = (item) => {
-    clienteAxios.delete(`cppLogs/` + item[3]).then((resp) => {
+    clienteAxios.delete(`priceLogs/` + item[3]).then((resp) => {
       console.log(resp.data);
       location.reload();
     });
   };
 
-  const columns = columnsFunc5(["Fecha", "Cantidad", "Costo Neto"], onDelete);
+  const columns = columnsFunc5(["Fecha", "Cantidad", "Precio"], onDelete);
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -76,7 +76,7 @@ function ProductPrices() {
   };
   const onSubmitPrices = async (data) => {
     try {
-      const resp = await clienteAxios.post("cppLogs", {
+      const resp = await clienteAxios.post("priceLogs", {
         price: parseInt(prices.price),
         qty: parseInt(prices.qty),
         product_id: id,
