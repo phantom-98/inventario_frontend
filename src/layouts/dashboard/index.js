@@ -64,7 +64,8 @@ function Dashboard() {
     const [ventasWeb, setventasWeb] = useState({})
     const [dataTemp, setDataTemp] = useState({})
     const [dataTemp2, setDataTemp2] = useState({})
-    
+    const [contribution, setContri] = useState({})
+
     const getData = async()=>{
         const data = await clienteAxios.get('sale/salePerMonth');
       
@@ -76,7 +77,10 @@ function Dashboard() {
         mes = data.data.web[data.data.web.length-1].total
         year = data.data.web.reduce((a,b)=>a + b.total,0)
         setventasWeb({ day, mes, year})
-        
+
+        const data2 = await clienteAxios.get('sale/getContribution');
+        setContri(data2.data)
+        console.log(data2);
     }
 
     const chartData = async() =>{
@@ -163,9 +167,9 @@ function Dashboard() {
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Anuales Pos" }}
-                count={`$ ${insertarPuntos(ventasPos.year)}`}
-                icon={{ color: "info", component: "paid" }}
+                title={{ text: "Margen Contribucion Mes Pos" }}
+                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2): 0} %`}
+                icon={{ color: "info", component: "percent" }}
               />
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
@@ -191,11 +195,11 @@ function Dashboard() {
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Anuales Web" }}
-                count={`$ ${insertarPuntos(ventasWeb.year)}`}
+                title={{ text: "Margen Contribucion Mes Web" }}
+                count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2): 0} %`}
                 icon={{
                   color: "info",
-                  component: "paid",
+                  component: "percent",
                 }}
               />
             </Grid>
