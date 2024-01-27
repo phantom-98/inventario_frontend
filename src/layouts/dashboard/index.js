@@ -27,7 +27,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
+import GradientLineChart from "examples/Charts/LineCharts/DefaultLineChart";
 import VerticalBarChart from "examples/Charts/BarCharts/VerticalBarChart";
 
 // Soft UI Dashboard React base styles
@@ -88,13 +88,21 @@ function Dashboard() {
         let respData = data.data
         
         let dataPos = new Array(12).fill(0);
+        let dataPos2 = new Array(12).fill(0);
+        let dataPos3 = new Array(12).fill(0);
         data.data.pos.forEach(element => {
             dataPos[element.mes] = element.total;
+            dataPos2[element.mes] = element.qty
+            dataPos3[element.mes] = element.total / element.qty
         });
 
         let dataWeb = new Array(12).fill(0);
+        let dataWeb2 = new Array(12).fill(0);
+        let dataWeb3 = new Array(12).fill(0);
         data.data.web.forEach(element => {
             dataWeb[element.mes] = element.total;
+            dataWeb2[element.mes] = element.qty
+            dataWeb3[element.mes] = element.total / element.qty
         });
 
         
@@ -102,6 +110,11 @@ function Dashboard() {
         d.labels =  ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
         d.dataPos = dataPos
         d.dataWeb = dataWeb
+        d.dataPos2 = dataPos2
+        d.dataWeb2 = dataWeb2
+        d.dataPos3 = dataPos3
+        d.dataWeb3 = dataWeb3
+
         
         setDataTemp(d)
 
@@ -208,9 +221,9 @@ function Dashboard() {
         
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={7}>
-            <VerticalBarChart
-                title="Grafico Ventas 2023"
+            <Grid item xs={12} lg={4}>
+            <GradientLineChart
+                title="Grafico en $ Ventas"
                 chart={{
                     labels: dataTemp.labels,
                     datasets: [{
@@ -227,12 +240,51 @@ function Dashboard() {
                 }}
                 />
             </Grid>
-            <Grid item xs={12} lg={5}>
-              <BillingInformation />
-             
+            <Grid item xs={12} lg={4}>
+            <GradientLineChart
+                title="Grafico en Qty Ventas"
+                chart={{
+                    labels: dataTemp.labels,
+                    datasets: [{
+                        label: "Qty Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos2,
+                    },
+                    {
+                        label: "Qty Web",
+                        color: "info",
+                        data: dataTemp.dataWeb2,
+                    }
+                ],
+                }}
+                />
             </Grid>
+            <Grid item xs={12} lg={4}>
+            <GradientLineChart
+                title="Grafico en Promedio Ventas"
+                chart={{
+                    labels: dataTemp.labels,
+                    datasets: [{
+                        label: "Promedio Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos3,
+                    },
+                    {
+                        label: "Promedio Web",
+                        color: "info",
+                        data: dataTemp.dataWeb3,
+                    }
+                ],
+                }}
+                />
+            </Grid>
+    
           </Grid>
         </SoftBox>
+        <Grid item xs={12} lg={5}>
+          <BillingInformation />
+             
+        </Grid>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
             <Projects />
