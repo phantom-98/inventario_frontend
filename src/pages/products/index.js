@@ -41,6 +41,7 @@ function Clientes() {
         r.stock,
         `$ ${insertarPuntos(r.price)}`,
         `$ ${insertarPuntos(r.offer_price)}`,
+        r.cpp ? `$ ${insertarPuntos(r.cpp)}` : 0,
         r.id,
       ];
     });
@@ -68,7 +69,7 @@ function Clientes() {
   };
 
   const columns = columnsFunc(
-    ["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta"],
+    ["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],
     edit,
     onDelete,
     duplicate

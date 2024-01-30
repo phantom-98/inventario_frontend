@@ -13,7 +13,6 @@ import Document from "examples/Icons/Document";
 import Office from "examples/Icons/Office";
 import Shop from "examples/Icons/Shop";
 
-
 import EditClientes from "pages/clientes/edit";
 import EditFacturas from "pages/facturas/edit";
 import EditProduct from "pages/products/edit";
@@ -38,19 +37,21 @@ import CreateVentas from "pages/ventas/create";
 
 import Products from "pages/products";
 import Usuarios from "pages/usuario";
-import SpaceShip from './examples/Icons/SpaceShip';
-import Abastecimiento from './pages/abastecimiento';
-import Clientes from './pages/clientes';
-import Factura from './pages/facturas';
-import Ventas from './pages/ventas';
+import SpaceShip from "./examples/Icons/SpaceShip";
+import Abastecimiento from "./pages/abastecimiento";
+import Clientes from "./pages/clientes";
+import Factura from "./pages/facturas";
+import Ventas from "./pages/ventas";
 
 import Cube from "examples/Icons/Cube";
 import RouteGuard from "pages/guards/RouteGuard";
 import { PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT } from "types";
-import Settings from './examples/Icons/Settings';
+import Settings from "./examples/Icons/Settings";
 
 const routes = [
-  {
+  ,
+  ,
+  /* {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
@@ -58,8 +59,7 @@ const routes = [
     icon: <Shop size="12px" />,
     component: <RouteGuard component={<Dashboard />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]}/>,
     noCollapse: true,
-  },
-  {
+  } */ /* {
     type: "collapse",
     name: "Abastecimiento",
     key: "abastecimiento",
@@ -67,18 +67,30 @@ const routes = [
     icon: <Cube size="12px" />,
     component: <RouteGuard component={<Abastecimiento />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
     noCollapse: true,
-  },
-
-  {
+  } */ {
     type: "collapse",
     name: "Inventario",
     key: "inventario",
     route: "/inventario",
     icon: <SpaceShip size="12px" />,
-    component: <RouteGuard component={<Products />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT,PROFILE_DEVELOPER]} /> ,
+    component: (
+      <RouteGuard
+        component={<Products />}
+        profileTypes={[
+          PROFILE_ADMIN,
+          PROFILE_PHARMACIST,
+          PROFILE_PHARMACY_ASSISTANT,
+          PROFILE_DEVELOPER,
+        ]}
+      />
+    ),
     noCollapse: true,
   },
-  {
+  ,
+  ,
+  ,
+  ,
+  /* {
     type: "collapse",
     name: "Clientes",
     key: "clientes",
@@ -86,8 +98,7 @@ const routes = [
     icon: <CustomerSupport size="12px" />,
     component: <Clientes />,
     noCollapse: true,
-  },
-  {
+  } */ /* {
     type: "collapse",
     name: "Descuentos y Convenios",
     key: "convenios",
@@ -95,8 +106,7 @@ const routes = [
     icon: <Office size="12px" />,
     component: <Clientes />,
     noCollapse: true,
-  },
-  {
+  } */ /* {
     type: "collapse",
     name: "Reportes",
     key: "reports",
@@ -104,8 +114,7 @@ const routes = [
     icon: <Document size="12px" />,
     component: <Billing />,
     noCollapse: true,
-  },
-  {
+  } */ /* {
     type: "collapse",
     name: "Ventas",
     key: "ventas",
@@ -113,18 +122,20 @@ const routes = [
     icon: <Document size="12px" />,
     component: <RouteGuard component={<Ventas />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />,
     noCollapse: true,
-  },
-  {
+  } */ {
     type: "collapse",
     name: "Usuarios",
     key: "usuarios",
     route: "/usuarios",
     icon: <CustomerSupport size="12px" />,
-    component: <RouteGuard component={<Usuarios />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
+    component: (
+      <RouteGuard component={<Usuarios />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
   },
-  
-  {
+
+  ,
+  /* {
     type: "collapse",
     name: "Contabilidad",
     key: "factura",
@@ -132,8 +143,7 @@ const routes = [
     icon: <CreditCard size="12px" />,
     component: <RouteGuard component={<Factura />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
     noCollapse: true,
-  },
-  {
+  } */ {
     type: "nooocollapse",
     name: "Tables",
     key: "tables",
@@ -157,7 +167,9 @@ const routes = [
     key: "profile",
     route: "/sistema",
     icon: <Settings size="12px" />,
-    component: <RouteGuard component={<Profile />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />,
+    component: (
+      <RouteGuard component={<Profile />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
   },
   /*{
@@ -202,7 +214,9 @@ const routes = [
     key: "dashboard",
     route: "/productos/edit/:id",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<EditProduct />} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST]} /> ,
+    component: (
+      <RouteGuard component={<EditProduct />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
   },
 
@@ -216,17 +230,20 @@ const routes = [
     noCollapse: true,
   },
 
-
   {
     type: "nocollapse",
     name: "CreateProduct",
     key: "dashboard",
     route: "/productos/create",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<CreateProduct />} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT]}/> ,
+    component: (
+      <RouteGuard
+        component={<CreateProduct />}
+        profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT]}
+      />
+    ),
     noCollapse: true,
   },
-
 
   {
     type: "nocollapse",
@@ -234,7 +251,9 @@ const routes = [
     key: "dashboard",
     route: "/usuario/edit/:id",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<EditUsuario />} profileTypes={[PROFILE_ADMIN,PROFILE_DEVELOPER]}/>,
+    component: (
+      <RouteGuard component={<EditUsuario />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]} />
+    ),
     noCollapse: true,
   },
   {
@@ -243,11 +262,12 @@ const routes = [
     key: "dashboard",
     route: "/usuarios/create",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<CrearUsuario />}  profileTypes={[PROFILE_ADMIN,PROFILE_DEVELOPER]}/>,
+    component: (
+      <RouteGuard component={<CrearUsuario />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]} />
+    ),
     noCollapse: true,
   },
-  
-  
+
   {
     type: "nocollapse",
     name: "EditClientes",
@@ -263,7 +283,7 @@ const routes = [
     key: "dashboard",
     route: "/clientes/create",
     icon: <Shop size="12px" />,
-    component: <CreateClientes/>,
+    component: <CreateClientes />,
     noCollapse: true,
   },
   {
@@ -272,7 +292,7 @@ const routes = [
     key: "dashboard",
     route: "/orden_de_compra/create",
     icon: <Shop size="12px" />,
-    component: <OrdenDeCompra/>,
+    component: <OrdenDeCompra />,
     noCollapse: true,
   },
   {
@@ -290,7 +310,7 @@ const routes = [
     key: "dashboard",
     route: "/facturas/create",
     icon: <Shop size="12px" />,
-    component: <CreateFacturas/>,
+    component: <CreateFacturas />,
     noCollapse: true,
   },
   {
@@ -308,7 +328,7 @@ const routes = [
     key: "dashboard",
     route: "/promociones/create",
     icon: <Shop size="12px" />,
-    component: <CreatePromociones/>,
+    component: <CreatePromociones />,
     noCollapse: true,
   },
   {
@@ -326,7 +346,7 @@ const routes = [
     key: "dashboard",
     route: "/ventas/create",
     icon: <Shop size="12px" />,
-    component: <CreateVentas/>,
+    component: <CreateVentas />,
     noCollapse: true,
   },
   {
@@ -335,7 +355,12 @@ const routes = [
     key: "dashboard",
     route: "/provider/create",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<CreateProvider/>} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST]}/>,
+    component: (
+      <RouteGuard
+        component={<CreateProvider />}
+        profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]}
+      />
+    ),
     noCollapse: true,
   },
   {
@@ -344,7 +369,9 @@ const routes = [
     key: "dashboard",
     route: "/provider/edit/:id",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<EditProvider/>} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST]}/>,
+    component: (
+      <RouteGuard component={<EditProvider />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
   },
   {
@@ -353,10 +380,14 @@ const routes = [
     key: "dashboard",
     route: "/inventario/precios/:id",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<ProductPrices/>} profileTypes={[PROFILE_ADMIN,PROFILE_PHARMACIST,PROFILE_DEVELOPER]}/>,
+    component: (
+      <RouteGuard
+        component={<ProductPrices />}
+        profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST, PROFILE_DEVELOPER]}
+      />
+    ),
     noCollapse: true,
   },
-  
 ];
 
 export default routes;

@@ -63,14 +63,14 @@ const columnsFunc = (rows, edit, onDelete) => {
             <SoftButton
               variant="text"
               style={color}
-              onClick={(e) => (location.href = `/inventario/precios/${tableMeta.rowData[7]}`)}
+              onClick={(e) => (location.href = `/inventario/precios/${tableMeta.rowData[8]}`)}
             >
               <Tooltip title="Costo Neto">
                 <AttachMoneyIcon />
               </Tooltip>
             </SoftButton>
 
-            <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[7])}>
+            <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[8])}>
               <Tooltip title="Editar">
                 <Icon>edit</Icon>
               </Tooltip>
