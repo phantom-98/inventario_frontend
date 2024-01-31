@@ -39,6 +39,7 @@ function create() {
   const [product, setProduct] = useState({
     active: false,
     consumption_typology: "ABA_ORAL_S_ORD_GRAGEAS",
+    unit_format: "cada comprimido",
     is_bioequivalent: false,
     is_generic: false,
     offer_price: 0,
@@ -420,6 +421,26 @@ function create() {
                       id: "barcode",
                     }}
                   />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="tipologia_consumo">
+                    Formato Unidad
+                  </InputLabel>
+                  <NativeSelect
+                    onChange={(e) => handleChange(e)}
+                    name="unit_format"
+                    sx={{ input: { color: "white", width: "100%" } }}
+                    fullWidth
+                    defaultValue={"cada comprimido"}
+                    inputProps={{
+                      name: "unit_format",
+                      id: "unit_format",
+                    }}
+                  >
+                    <option value="cada comprimido">cada comprimido</option>
+                  </NativeSelect>
                 </SoftBox>
               </Grid>
               <Grid item xs={12} md={6} xl={6}>

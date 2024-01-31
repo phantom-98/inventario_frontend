@@ -38,11 +38,11 @@ import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
 import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
 import Projects from "layouts/dashboard/components/Projects";
 import OrderOverview from "layouts/dashboard/components/OrderOverview";
-import {insertarPuntos, dateFormat} from "../../config/helpers"
+import { insertarPuntos, dateFormat } from "../../config/helpers";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
-import ListHeader from "components/ListHeader"
+import ListHeader from "components/ListHeader";
 import Card from "@mui/material/Card";
 import MUIDataTable from "mui-datatables";
 import { useState, useEffect } from "react";
@@ -51,113 +51,103 @@ import Invoices from "./components/invoices";
 import BillingInformation from "./components/BillingInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { loadingAction, getDataforDashAction } from "actions/helperActions";
-import clienteAxios from 'config/axios';
+import clienteAxios from "config/axios";
 import moment from "moment";
-import HorizontalBarChart from './../../examples/Charts/BarCharts/HorizontalBarChart/index';
+import HorizontalBarChart from "./../../examples/Charts/BarCharts/HorizontalBarChart/index";
 
 function Dashboard() {
-    const dispatch = useDispatch();
-    let helper = useSelector(state => state.helper)
-    const { size } = typography;
-    const moment = require('moment')
-    const [ventasPos, setventasPos] = useState({})
-    const [ventasWeb, setventasWeb] = useState({})
-    const [dataTemp, setDataTemp] = useState({})
-    const [dataTemp2, setDataTemp2] = useState({})
-    const [contribution, setContri] = useState({})
+  const dispatch = useDispatch();
+  let helper = useSelector((state) => state.helper);
+  const { size } = typography;
+  const moment = require("moment");
+  const [ventasPos, setventasPos] = useState({});
+  const [ventasWeb, setventasWeb] = useState({});
+  const [dataTemp, setDataTemp] = useState({});
+  const [dataTemp2, setDataTemp2] = useState({});
+  const [contribution, setContri] = useState({});
 
-    const getData = async()=>{
-        const data = await clienteAxios.get('sale/salePerMonth');
-      
-        let day = data.data.pos[data.data.pos.length-1].totalDay
-        let mes = data.data.pos[data.data.pos.length-1].total
-        let year = data.data.pos.reduce((a,b)=>a + b.total,0)
-        setventasPos({ day,mes, year})
-        day = data.data.web[data.data.web.length-1].totalDayB
-        mes = data.data.web[data.data.web.length-1].total
-        year = data.data.web.reduce((a,b)=>a + b.total,0)
-        setventasWeb({ day, mes, year})
+  const getData = async () => {
+    const data = await clienteAxios.get("sale/salePerMonth");
+    console.log(data.data);
+    let day = data.data.pos[data.data.pos.length - 1].totalDay;
+    let mes = data.data.pos[data.data.pos.length - 1].total;
+    let year = data.data.pos.reduce((a, b) => a + b.total, 0);
+    setventasPos({ day, mes, year });
+    day = data.data.web[data.data.web.length - 1].totalDayB;
+    mes = data.data.web[data.data.web.length - 1].total;
+    year = data.data.web.reduce((a, b) => a + b.total, 0);
+    setventasWeb({ day, mes, year });
 
-        const data2 = await clienteAxios.get('sale/getContribution');
-        setContri(data2.data)
-        console.log(data2);
-    }
+    /* let day = data.data.pos[data.data.pos.length - 1].totalDay;
+    let mes = data.data.pos[data.data.pos.length - 1].total;
+    let year = data.data.pos.reduce((a, b) => a + b.total, 0);
+    setventasPos({ day, mes, year });
+    day = data.data.web[data.data.web.length - 1].totalDayB;
+    mes = data.data.web[data.data.web.length - 1].total;
+    year = data.data.web.reduce((a, b) => a + b.total, 0);
+    setventasWeb({ day, mes, year });
 
-    const chartData = async() =>{
-        const data = await clienteAxios.get('sale/salePerMonth');
-        let respData = data.data
-        
-        let dataPos = new Array(12).fill(0);
-        let dataPos2 = new Array(12).fill(0);
-        let dataPos3 = new Array(12).fill(0);
-        data.data.pos.forEach(element => {
-            dataPos[element.mes] = element.total;
-            dataPos2[element.mes] = element.qty
-            dataPos3[element.mes] = element.total / element.qty
-        });
+    const data2 = await clienteAxios.get("sale/getContribution");
+    setContri(data2.data);
+    console.log(data2); */
+  };
 
-        let dataWeb = new Array(12).fill(0);
-        let dataWeb2 = new Array(12).fill(0);
-        let dataWeb3 = new Array(12).fill(0);
-        data.data.web.forEach(element => {
-            dataWeb[element.mes] = element.total;
-            dataWeb2[element.mes] = element.qty
-            dataWeb3[element.mes] = element.total / element.qty
-        });
+  const chartData = async () => {
+    const data = await clienteAxios.get("sale/salePerMonth");
+    let respData = data.data;
 
-        
-        let d =  {}
-        d.labels =  ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
-        d.dataPos = dataPos
-        d.dataWeb = dataWeb
-        d.dataPos2 = dataPos2
-        d.dataWeb2 = dataWeb2
-        d.dataPos3 = dataPos3
-        d.dataWeb3 = dataWeb3
+    let dataPos = new Array(12).fill(0);
+    let dataPos2 = new Array(12).fill(0);
+    let dataPos3 = new Array(12).fill(0);
+    data.data.pos.forEach((element) => {
+      dataPos[element.mes] = element.total;
+      dataPos2[element.mes] = element.qty;
+      dataPos3[element.mes] = element.total / element.qty;
+    });
 
-        
-        setDataTemp(d)
+    let dataWeb = new Array(12).fill(0);
+    let dataWeb2 = new Array(12).fill(0);
+    let dataWeb3 = new Array(12).fill(0);
+    data.data.web.forEach((element) => {
+      dataWeb[element.mes] = element.total;
+      dataWeb2[element.mes] = element.qty;
+      dataWeb3[element.mes] = element.total / element.qty;
+    });
 
-        
-      }
-     
-   
-      
-      
-      const today = moment(); 
-      const dayOfMonth = today.date(); 
-      const currentDate = moment();
-      
+    let d = {};
+    d.labels = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    d.dataPos = dataPos;
+    d.dataWeb = dataWeb;
+    d.dataPos2 = dataPos2;
+    d.dataWeb2 = dataWeb2;
+    d.dataPos3 = dataPos3;
+    d.dataWeb3 = dataWeb3;
 
+    setDataTemp(d);
+  };
 
-    const specificMonth = moment(currentDate); 
-    const daysInSpecificMonth = specificMonth.daysInMonth();
-      
-     
-    const estimacionPos = Math.ceil(ventasPos.mes/dayOfMonth*daysInSpecificMonth)
-    const estimacionWeb = Math.ceil(ventasWeb.mes/dayOfMonth*daysInSpecificMonth)
-      
-    
+  const today = moment();
+  const dayOfMonth = today.date();
+  const currentDate = moment();
 
-      
-      
-      
-      useEffect(()=>{
-       // dispatch(getDataforDashAction())
-        chartData()
-        getData()
-      },[])
-      
+  const specificMonth = moment(currentDate);
+  const daysInSpecificMonth = specificMonth.daysInMonth();
 
+  const estimacionPos = Math.ceil((ventasPos.mes / dayOfMonth) * daysInSpecificMonth);
+  const estimacionWeb = Math.ceil((ventasWeb.mes / dayOfMonth) * daysInSpecificMonth);
 
+  useEffect(() => {
+    // dispatch(getDataforDashAction())
+    //chartData();
+    getData();
+  }, []);
 
   return (
     <DashboardLayout>
-      
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Grid container spacing={2}>
-            <Grid item xs={6} sm={4} xl={3} >
+            <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Dia Pos" }}
                 count={`$ ${insertarPuntos(ventasPos.day)}`}
@@ -171,7 +161,7 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
+            {/* <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Estimacion cierre mes Pos" }}
                 count={`$ ${insertarPuntos(estimacionPos)}`}
@@ -184,7 +174,7 @@ function Dashboard() {
                 count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2): 0} %`}
                 icon={{ color: "info", component: "percent" }}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Dia Web" }}
@@ -199,7 +189,7 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
+            {/* <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Estimacion cierre mes Web" }}
                 count={`$ ${insertarPuntos(estimacionWeb)}`}
@@ -277,24 +267,21 @@ function Dashboard() {
                 ],
                 }}
                 />
-            </Grid>
-    
+            </Grid> */}
           </Grid>
         </SoftBox>
         <Grid item xs={12} lg={5}>
           <BillingInformation />
-             
         </Grid>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
             <Projects />
           </Grid>
-          <Grid item xs={12} md={6} lg={6} >
+          <Grid item xs={12} md={6} lg={6}>
             <Invoices />
           </Grid>
         </Grid>
       </SoftBox>
-      
     </DashboardLayout>
   );
 }

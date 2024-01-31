@@ -51,15 +51,18 @@ import Settings from "./examples/Icons/Settings";
 const routes = [
   ,
   ,
-  /* {
+  {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
-    component: <RouteGuard component={<Dashboard />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]}/>,
+    component: (
+      <RouteGuard component={<Dashboard />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]} />
+    ),
     noCollapse: true,
-  } */ /* {
+  },
+  /* {
     type: "collapse",
     name: "Abastecimiento",
     key: "abastecimiento",

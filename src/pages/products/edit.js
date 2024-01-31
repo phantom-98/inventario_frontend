@@ -612,6 +612,26 @@ function EditProduct() {
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="tipologia_consumo">
+                      Formato Unidad
+                    </InputLabel>
+                    <NativeSelect
+                      onChange={(e) => handleChange(e)}
+                      name="unit_format"
+                      sx={{ input: { color: "white", width: "100%" } }}
+                      fullWidth
+                      inputProps={{
+                        name: "unit_format",
+                        value: product.unit_format || "cada comprimido",
+                        id: "unit_format",
+                      }}
+                    >
+                      <option value="cada comprimido">cada comprimido</option>
+                    </NativeSelect>
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="cpp">
                       Dias de Proteccion
                     </InputLabel>
