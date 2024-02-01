@@ -129,7 +129,7 @@ function Dashboard() {
 
   useEffect(() => {
     // dispatch(getDataforDashAction())
-    //chartData();
+    chartData();
     getData();
   }, []);
 
@@ -196,72 +196,75 @@ function Dashboard() {
                   component: "percent",
                 }}
               />
-            </Grid>
-          </Grid>
-        </SoftBox>
-        
-        <SoftBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={4}>
-            <GradientLineChart
-                title="Grafico en $ Ventas"
-                chart={{
-                    labels: dataTemp.labels,
-                    datasets: [{
-                        label: "Ventas Pos",
-                        color: "dark",
-                        data: dataTemp.dataPos,
-                    },
-                    {
-                        label: "Ventas Web",
-                        color: "info",
-                        data: dataTemp.dataWeb,
-                    }
-                ],
-                }}
-                />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-            <GradientLineChart
-                title="Grafico en Qty Ventas"
-                chart={{
-                    labels: dataTemp.labels,
-                    datasets: [{
-                        label: "Qty Pos",
-                        color: "dark",
-                        data: dataTemp.dataPos2,
-                    },
-                    {
-                        label: "Qty Web",
-                        color: "info",
-                        data: dataTemp.dataWeb2,
-                    }
-                ],
-                }}
-                />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-            <GradientLineChart
-                title="Grafico en Promedio Ventas"
-                chart={{
-                    labels: dataTemp.labels,
-                    datasets: [{
-                        label: "Promedio Pos",
-                        color: "dark",
-                        data: dataTemp.dataPos3,
-                    },
-                    {
-                        label: "Promedio Web",
-                        color: "info",
-                        data: dataTemp.dataWeb3,
-                    }
-                ],
-                }}
-                />
             </Grid> */}
           </Grid>
         </SoftBox>
-        <Grid item xs={12} lg={5}>
+
+        <SoftBox mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={4}>
+              <GradientLineChart
+                title="Grafico en $ Ventas"
+                chart={{
+                  labels: dataTemp.labels,
+                  datasets: [
+                    {
+                      label: "Ventas Pos",
+                      color: "dark",
+                      data: dataTemp.dataPos,
+                    },
+                    {
+                      label: "Ventas Web",
+                      color: "info",
+                      data: dataTemp.dataWeb,
+                    },
+                  ],
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <GradientLineChart
+                title="Grafico en Qty Ventas"
+                chart={{
+                  labels: dataTemp.labels,
+                  datasets: [
+                    {
+                      label: "Qty Pos",
+                      color: "dark",
+                      data: dataTemp.dataPos2,
+                    },
+                    {
+                      label: "Qty Web",
+                      color: "info",
+                      data: dataTemp.dataWeb2,
+                    },
+                  ],
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <GradientLineChart
+                title="Grafico en Promedio Ventas"
+                chart={{
+                  labels: dataTemp.labels,
+                  datasets: [
+                    {
+                      label: "Promedio Pos",
+                      color: "dark",
+                      data: dataTemp.dataPos3,
+                    },
+                    {
+                      label: "Promedio Web",
+                      color: "info",
+                      data: dataTemp.dataWeb3,
+                    },
+                  ],
+                }}
+              />
+            </Grid>
+          </Grid>
+        </SoftBox>
+        <Grid item xs={12} lg={5} margin={3}>
           <BillingInformation />
         </Grid>
         <Grid container spacing={3}>
