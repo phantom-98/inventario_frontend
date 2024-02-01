@@ -68,7 +68,7 @@ function Dashboard() {
 
   const getData = async () => {
     const data = await clienteAxios.get("sale/salePerMonth");
-    console.log(data.data);
+
     let day = data.data.pos[data.data.pos.length - 1].totalDay;
     let mes = data.data.pos[data.data.pos.length - 1].total;
     let year = data.data.pos.reduce((a, b) => a + b.total, 0);
@@ -78,16 +78,7 @@ function Dashboard() {
     year = data.data.web.reduce((a, b) => a + b.total, 0);
     setventasWeb({ day, mes, year });
 
-    /* let day = data.data.pos[data.data.pos.length - 1].totalDay;
-    let mes = data.data.pos[data.data.pos.length - 1].total;
-    let year = data.data.pos.reduce((a, b) => a + b.total, 0);
-    setventasPos({ day, mes, year });
-    day = data.data.web[data.data.web.length - 1].totalDayB;
-    mes = data.data.web[data.data.web.length - 1].total;
-    year = data.data.web.reduce((a, b) => a + b.total, 0);
-    setventasWeb({ day, mes, year });
-
-    const data2 = await clienteAxios.get("sale/getContribution");
+    /* const data2 = await clienteAxios.get("sale/getContribution");
     setContri(data2.data);
     console.log(data2); */
   };
