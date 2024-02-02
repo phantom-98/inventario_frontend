@@ -65,6 +65,7 @@ function Dashboard() {
     const [dataTemp, setDataTemp] = useState({})
     const [dataTemp2, setDataTemp2] = useState({})
     const [contribution, setContri] = useState({})
+    const [inv, setInv] = useState({})
 
     const getData = async()=>{
         const data = await clienteAxios.get('sale/salePerMonth');
@@ -80,7 +81,11 @@ function Dashboard() {
 
         const data2 = await clienteAxios.get('sale/getContribution');
         setContri(data2.data)
-        console.log(data2);
+
+        const data3 = await clienteAxios.get('sale/getInv');
+      
+        setInv(data3.data)
+        
     }
 
     const chartData = async() =>{
@@ -90,19 +95,21 @@ function Dashboard() {
         let dataPos = new Array(12).fill(0);
         let dataPos2 = new Array(12).fill(0);
         let dataPos3 = new Array(12).fill(0);
-        data.data.pos.forEach(element => {
+        respData.pos.forEach(element => {
             dataPos[element.mes] = element.total;
             dataPos2[element.mes] = element.qty
-            dataPos3[element.mes] = element.total / element.qty
+            let promedio = element.total / element.qty
+            dataPos3[element.mes] = Math.ceil(promedio.toFixed(2))
         });
 
         let dataWeb = new Array(12).fill(0);
         let dataWeb2 = new Array(12).fill(0);
         let dataWeb3 = new Array(12).fill(0);
-        data.data.web.forEach(element => {
+        respData.web.forEach(element => {
             dataWeb[element.mes] = element.total;
             dataWeb2[element.mes] = element.qty
-            dataWeb3[element.mes] = element.total / element.qty
+            let promedio = element.total / element.qty
+            dataWeb3[element.mes] =  Math.ceil(promedio)
         });
 
         
@@ -213,6 +220,26 @@ function Dashboard() {
                 icon={{
                   color: "info",
                   component: "percent",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Inventario $" }}
+                count={`$ ${inv.invmoney ? insertarPuntos(Math.ceil(inv.invmoney)): 0}`}
+                icon={{
+                  color: "info",
+                  component: "paid",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Inventario stok" }}
+                count={`# ${inv.invqty ? inv.invqty: 0}`}
+                icon={{
+                  color: "info",
+                  component: "money",
                 }}
               />
             </Grid>
