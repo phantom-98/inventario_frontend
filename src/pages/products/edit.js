@@ -262,11 +262,18 @@ function EditProduct() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProduct((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const { name, value, type } = e.target;
+    if (type === "number") {
+      setProduct((prevState) => ({
+        ...prevState,
+        [name]: parseInt(value),
+      }));
+    } else {
+      setProduct((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
     console.log(product);
   };
   //TODO set on Redux
