@@ -117,15 +117,18 @@ const routes = [
     icon: <Document size="12px" />,
     component: <Billing />,
     noCollapse: true,
-  } */ /* {
+  } */ {
     type: "collapse",
     name: "Ventas",
     key: "ventas",
     route: "/ventas",
     icon: <Document size="12px" />,
-    component: <RouteGuard component={<Ventas />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />,
+    component: (
+      <RouteGuard component={<Ventas />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
-  } */ {
+  },
+  {
     type: "collapse",
     name: "Usuarios",
     key: "usuarios",
