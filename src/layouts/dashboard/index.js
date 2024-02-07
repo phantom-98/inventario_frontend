@@ -94,21 +94,26 @@ function Dashboard() {
     let dataPos = new Array(12).fill(0);
     let dataPos2 = new Array(12).fill(0);
     let dataPos3 = new Array(12).fill(0);
+    let posQtySales = new Array(12).fill(0);
     respData.pos.forEach((element) => {
+      console.log(element);
       dataPos[element.mes] = element.total;
       dataPos2[element.mes] = element.qty;
       let promedio = element.total / element.qty;
       dataPos3[element.mes] = Math.ceil(promedio.toFixed(2));
+      posQtySales[element.mes] = element.qty;
     });
 
     let dataWeb = new Array(12).fill(0);
     let dataWeb2 = new Array(12).fill(0);
     let dataWeb3 = new Array(12).fill(0);
+    let webQtySales = new Array(12).fill(0);
     respData.web.forEach((element) => {
       dataWeb[element.mes] = element.total;
       dataWeb2[element.mes] = element.qty;
       let promedio = element.total / element.qty;
       dataWeb3[element.mes] = Math.ceil(promedio);
+      webQtySales[element.mes] = element.qty;
     });
 
     let d = {};
@@ -120,9 +125,9 @@ function Dashboard() {
     d.dataPos3 = dataPos3;
     d.dataWeb3 = dataWeb3;
 
-    d.dataTotal = dataPos.map((v, i) => v + dataWeb[i]);
-    d.dataTotal2 = dataPos2.map((v, i) => v + dataWeb2[i]);
-    d.dataTotal3 = dataPos3.map((v, i) => v + dataWeb3[i]);
+    d.dataTotal = dataPos.map((v, i) => (v + dataWeb[i]) / 2);
+    d.dataTotal2 = dataPos2.map((v, i) => (v + dataWeb2[i]) / 2);
+    d.dataTotal3 = dataPos3.map((v, i) => (v + dataWeb3[i]) / 2);
     setDataTemp(d);
   };
 
@@ -151,11 +156,12 @@ function Dashboard() {
           <Grid container spacing={2}>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Dia Pos" }}
-                count={`$ ${insertarPuntos(ventasPos.day)}`}
+                title={{ text: "Ventas Mes Web" }}
+                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
+
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Pos" }}
@@ -163,20 +169,21 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
+
             {/* <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Estimacion cierre mes Pos" }}
-                count={`$ ${insertarPuntos(estimacionPos)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
                 title={{ text: "Margen Contribucion Mes Pos" }}
-                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2): 0} %`}
+                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2) : 0} %`}
                 icon={{ color: "info", component: "percent" }}
               />
             </Grid> */}
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Ventas Dia Pos" }}
+                count={`$ ${insertarPuntos(ventasPos.day)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Dia Web" }}
@@ -186,19 +193,20 @@ function Dashboard() {
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Mes Web" }}
-                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-            {/*<Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Estimacion cierre mes Web" }}
+                title={{ text: "Estimacion cierre Web" }}
                 count={`$ ${insertarPuntos(estimacionWeb)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Estimacion cierre Pos" }}
+                count={`$ ${insertarPuntos(estimacionPos)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+
+            {/*  <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Margen Contribucion Mes Web" }}
                 count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2): 0} %`}
@@ -207,7 +215,7 @@ function Dashboard() {
                   component: "percent",
                 }}
               />
-              </Grid>*/}
+              </Grid> */}
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Inventario $" }}
@@ -233,7 +241,7 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={4} lg={6} style={{ textAlign: "right" }}>
-              Filtros Grafico
+              Filtros
             </Grid>
             <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
               <SoftButton
@@ -273,7 +281,7 @@ function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Pos en $ Ventas"
+                  title="Ventas $ Pos"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -288,7 +296,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Pos en Qty Ventas"
+                  title="Ventas Qty Pos"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -303,7 +311,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Pos en Promedio Ventas"
+                  title="Ticket Promedio Pos"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -325,7 +333,7 @@ function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Web en $ Ventas"
+                  title="Ventas Qty Web"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -340,7 +348,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Web en Qty Ventas"
+                  title="Ventas Qty Web"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -355,7 +363,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Web en Promedio Ventas"
+                  title="Ticket Promedio Web"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -377,7 +385,7 @@ function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Todo en $ Ventas"
+                  title="Ventas $"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -386,13 +394,23 @@ function Dashboard() {
                         color: "success",
                         data: dataTemp.dataTotal,
                       },
+                      {
+                        label: "Ventas Web",
+                        color: "info",
+                        data: dataTemp.dataWeb,
+                      },
+                      {
+                        label: "Ventas Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos,
+                      },
                     ],
                   }}
                 />
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Todo en Qty Ventas"
+                  title="Ventas Qty"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -401,13 +419,23 @@ function Dashboard() {
                         color: "success",
                         data: dataTemp.dataTotal2,
                       },
+                      {
+                        label: "Qty Web",
+                        color: "info",
+                        data: dataTemp.dataWeb2,
+                      },
+                      {
+                        label: "Qty Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos2,
+                      },
                     ],
                   }}
                 />
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Grafico Todo en Promedio Ventas"
+                  title="Ticket Promedio"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
@@ -415,6 +443,16 @@ function Dashboard() {
                         label: "Promedio",
                         color: "success",
                         data: dataTemp.dataTotal3,
+                      },
+                      {
+                        label: "Promedio Web",
+                        color: "info",
+                        data: dataTemp.dataWeb3,
+                      },
+                      {
+                        label: "Promedio Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos3,
                       },
                     ],
                   }}
