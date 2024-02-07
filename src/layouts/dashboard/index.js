@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
-
+import SoftButton from "components/SoftButton";
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
@@ -120,6 +120,9 @@ function Dashboard() {
     d.dataPos3 = dataPos3;
     d.dataWeb3 = dataWeb3;
 
+    d.dataTotal = dataPos.map((v, i) => v + dataWeb[i]);
+    d.dataTotal2 = dataPos2.map((v, i) => v + dataWeb2[i]);
+    d.dataTotal3 = dataPos3.map((v, i) => v + dataWeb3[i]);
     setDataTemp(d);
   };
 
@@ -138,6 +141,8 @@ function Dashboard() {
     chartData();
     getData();
   }, []);
+
+  const [chartFilter, setChartFilter] = useState("Todos");
 
   return (
     <DashboardLayout>
@@ -225,82 +230,216 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
-
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={4}>
-              <GradientLineChart
-                title="Grafico en $ Ventas"
-                chart={{
-                  labels: dataTemp.labels,
-                  datasets: [
-                    {
-                      label: "Ventas Pos",
-                      color: "dark",
-                      data: dataTemp.dataPos,
-                    },
-                    {
-                      label: "Ventas Web",
-                      color: "info",
-                      data: dataTemp.dataWeb,
-                    },
-                  ],
-                }}
-              />
+            <Grid item xs={4} lg={6} style={{ textAlign: "right" }}>
+              Filtros Grafico
             </Grid>
-            <Grid item xs={12} lg={4}>
-              <GradientLineChart
-                title="Grafico en Qty Ventas"
-                chart={{
-                  labels: dataTemp.labels,
-                  datasets: [
-                    {
-                      label: "Qty Pos",
-                      color: "dark",
-                      data: dataTemp.dataPos2,
-                    },
-                    {
-                      label: "Qty Web",
-                      color: "info",
-                      data: dataTemp.dataWeb2,
-                    },
-                  ],
-                }}
-              />
+            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+              <SoftButton
+                variant="outlined"
+                size="small"
+                color="success"
+                onClick={() => setChartFilter("Todos")}
+              >
+                Todos
+              </SoftButton>
             </Grid>
-            <Grid item xs={12} lg={4}>
-              <GradientLineChart
-                title="Grafico en Promedio Ventas"
-                chart={{
-                  labels: dataTemp.labels,
-                  datasets: [
-                    {
-                      label: "Promedio Pos",
-                      color: "dark",
-                      data: dataTemp.dataPos3,
-                    },
-                    {
-                      label: "Promedio Web",
-                      color: "info",
-                      data: dataTemp.dataWeb3,
-                    },
-                  ],
-                }}
-              />
+            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+              <SoftButton
+                variant="outlined"
+                size="small"
+                color="dark"
+                onClick={() => setChartFilter("Pos")}
+              >
+                Pos
+              </SoftButton>
+            </Grid>
+            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+              <SoftButton
+                variant="outlined"
+                size="small"
+                color="info"
+                onClick={() => setChartFilter("Web")}
+              >
+                Web
+              </SoftButton>
             </Grid>
           </Grid>
         </SoftBox>
-        <Grid item xs={12} lg={5} margin={3}>
-          <BillingInformation />
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6}>
-            <Projects />
+
+        {chartFilter == "Pos" && (
+          <SoftBox mb={3}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Pos en $ Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Ventas Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Pos en Qty Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Qty Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos2,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Pos en Promedio Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Promedio Pos",
+                        color: "dark",
+                        data: dataTemp.dataPos3,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </SoftBox>
+        )}
+
+        {chartFilter == "Web" && (
+          <SoftBox mb={3}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Web en $ Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Ventas Web",
+                        color: "info",
+                        data: dataTemp.dataWeb,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Web en Qty Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Qty Web",
+                        color: "info",
+                        data: dataTemp.dataWeb2,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Web en Promedio Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Promedio Web",
+                        color: "info",
+                        data: dataTemp.dataWeb3,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </SoftBox>
+        )}
+
+        {chartFilter == "Todos" && (
+          <SoftBox mb={3}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Todo en $ Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Ventas",
+                        color: "success",
+                        data: dataTemp.dataTotal,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Todo en Qty Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Qty",
+                        color: "success",
+                        data: dataTemp.dataTotal2,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <GradientLineChart
+                  title="Grafico Todo en Promedio Ventas"
+                  chart={{
+                    labels: dataTemp.labels,
+                    datasets: [
+                      {
+                        label: "Promedio",
+                        color: "success",
+                        data: dataTemp.dataTotal3,
+                      },
+                    ],
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </SoftBox>
+        )}
+
+        <SoftBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={12}>
+              <BillingInformation />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <Invoices />
+          <br />
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Projects />
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <Invoices />
+            </Grid>
           </Grid>
-        </Grid>
+        </SoftBox>
       </SoftBox>
     </DashboardLayout>
   );
