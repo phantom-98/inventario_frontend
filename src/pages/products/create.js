@@ -25,7 +25,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
-
+import CustomQuill from "components/RichTextEditor";
 const check = {
   display: "flex",
   justifyContent: "between",
@@ -47,6 +47,7 @@ function create() {
   const [subCategories, setSubCategories] = useState([]);
   const [laboratories, setLaboratories] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  //console.log(value);
   console.log(product);
 
   const getData = async () => {
@@ -91,6 +92,15 @@ function create() {
     }
 
     console.log(product);
+  };
+
+  const handleQuillChange = (name, content) => {
+    // Update the state with the new content
+    setProduct((prevState) => ({
+      ...prevState,
+      [name]: content,
+    }));
+    // You can also use editor.getContents() or editor.getText() to get the content
   };
 
   const handleCheckChange = (e) => {
@@ -154,6 +164,46 @@ function create() {
               </Grid>
               <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="codigoBarra">
+                    Codigo de Barras
+                  </InputLabel>
+                  <TextField
+                    name="barcode"
+                    onChange={(e) => handleChange(e)}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "barcode",
+                      id: "barcode",
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+
+              <Grid item xs={12} md={3} xl={3}>
+                <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="cpp">
+                    Dias de Proteccion
+                  </InputLabel>
+                  <TextField
+                    name="days_protection"
+                    type="number"
+                    onChange={(e) => handleChange(e)}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    variant="standard"
+                    style={{ paddingTop: "0.15rem" }}
+                    inputProps={{
+                      name: "days_protection",
+                      id: "days_protection",
+                    }}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={3} xl={3}>
+                <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="uncontrolled-native">
                     Subcategoría
                   </InputLabel>
@@ -179,7 +229,7 @@ function create() {
                 </SoftBox>
               </Grid>
 
-              <Grid item xs={12} md={6} xl={6}>
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="laboratorio">
                     Laboratorio
@@ -205,26 +255,8 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="nombre">
-                    Compuesto
-                  </InputLabel>
-                  <TextField
-                    name="compound"
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    onChange={(e) => handleChange(e)}
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "compound",
-                      id: "compound",
-                    }}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="tipologia_consumo">
                     Tipologia De Consumo
@@ -282,7 +314,7 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="tipologia_consumo">
                     Tipo de receta
@@ -292,6 +324,7 @@ function create() {
                     name="recipe_type"
                     sx={{ input: { color: "white", width: "100%" } }}
                     fullWidth
+                    required
                     defaultValue={"ninguna"}
                     inputProps={{
                       name: "recipe_type",
@@ -309,7 +342,7 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="tipologia_consumo">
                     Estado
@@ -319,6 +352,7 @@ function create() {
                     name="state_of_matter"
                     sx={{ input: { color: "white", width: "100%" } }}
                     fullWidth
+                    required
                     defaultValue={"ninguna"}
                     inputProps={{
                       name: "state_of_matter",
@@ -331,16 +365,18 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+
+              <Grid item xs={12} md={4} xl={4}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="stock">
-                    Cantidad De Productos Disponible
+                    Stock Disponible
                   </InputLabel>
                   <TextField
                     name="stock"
                     type="number"
                     onChange={(e) => handleChange(e)}
                     fullWidth
+                    required
                     InputLabelProps={{ shrink: true }}
                     variant="standard"
                     inputProps={{
@@ -350,7 +386,7 @@ function create() {
                   />
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+              <Grid item xs={12} md={4} xl={4}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="formato">
                     Formato
@@ -404,26 +440,7 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="codigoBarra">
-                    Codigo de Barras
-                  </InputLabel>
-                  <TextField
-                    name="barcode"
-                    onChange={(e) => handleChange(e)}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "barcode",
-                      id: "barcode",
-                    }}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+              <Grid item xs={12} md={4} xl={4}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="tipologia_consumo">
                     Formato Unidad
@@ -443,26 +460,7 @@ function create() {
                   </NativeSelect>
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="cpp">
-                    Dias de Proteccion
-                  </InputLabel>
-                  <TextField
-                    name="days_protection"
-                    type="number"
-                    onChange={(e) => handleChange(e)}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "days_protection",
-                      id: "days_protection",
-                    }}
-                  />
-                </SoftBox>
-              </Grid>
+
               <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="precio">
@@ -473,6 +471,7 @@ function create() {
                     type="number"
                     onChange={(e) => handleChange(e)}
                     fullWidth
+                    required
                     InputLabelProps={{ shrink: true }}
                     variant="standard"
                     style={{ paddingTop: "0.15rem" }}
@@ -544,7 +543,7 @@ function create() {
                   />
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={6} xl={6}>
+              {/* <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="controlLegal">
                     Control Legal
@@ -592,64 +591,39 @@ function create() {
                     </option>
                   </NativeSelect>
                 </SoftBox>
-              </Grid>
+              </Grid> */}
+
               <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Descripcion
+                </InputLabel>
                 <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                    Descripcion
-                  </InputLabel>
-                  <TextField
-                    name="description"
-                    onChange={(e) => handleChange(e)}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "description",
-                      id: "description",
-                    }}
-                  />
+                  <CustomQuill name="description" onChange={handleQuillChange} />
                 </SoftBox>
               </Grid>
 
               <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Ficha Tecnica
+                </InputLabel>
                 <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                    Tabla de Datos
-                  </InputLabel>
-                  <TextField
-                    name="data_sheet"
-                    onChange={(e) => handleChange(e)}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ paddingTop: "0.15rem" }}
-                    inputProps={{
-                      name: "data_sheet",
-                      id: "data_sheet",
-                    }}
-                  />
+                  <CustomQuill name="data_sheet" onChange={handleQuillChange} />
                 </SoftBox>
               </Grid>
               <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Composicion
+                </InputLabel>
                 <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                    Beneficios
-                  </InputLabel>
-                  <TextArea
-                    name="benefits"
-                    onChange={(e) => handleChange(e)}
-                    fullWidth
-                    minRows={3}
-                    InputLabelProps={{ shrink: true }}
-                    variant="standard"
-                    style={{ padding: "0.2rem", width: "100%", fontSize: "0.875rem" }}
-                    inputProps={{
-                      name: "benefits",
-                      id: "benefits",
-                    }}
-                  />
+                  <CustomQuill name="compound" onChange={handleQuillChange} />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Beneficios
+                </InputLabel>
+                <SoftBox mb={2}>
+                  <CustomQuill name="benefits" onChange={handleQuillChange} />
                 </SoftBox>
               </Grid>
               <Grid item style={check} xs={12} md={6} xl={6}>
@@ -804,12 +778,18 @@ function create() {
                   </div>
                 </SoftBox>
               </Grid>
+              <Grid item xs={12} md={3} xl={3} />
+              <SoftBox mt={4} mb={1}>
+                <SoftButton
+                  type="submit"
+                  variant="gradient"
+                  color="dark"
+                  style={{ float: "right" }}
+                >
+                  Guardar
+                </SoftButton>
+              </SoftBox>
             </Grid>
-            <SoftBox mt={4} mb={1}>
-              <SoftButton type="submit" variant="gradient" color="dark" style={{ float: "right" }}>
-                Guardar
-              </SoftButton>
-            </SoftBox>
           </SoftBox>
         </SoftBox>
       </SoftBox>

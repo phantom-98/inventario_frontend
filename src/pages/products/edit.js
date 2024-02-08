@@ -35,7 +35,7 @@ import { getCpp, getCpp2 } from "../../config/helpers";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
 import { TextareaAutosize } from "@mui/material";
-
+import CustomQuill from "components/RichTextEditor";
 const check = {
   display: "flex",
   justifyContent: "between",
@@ -86,7 +86,14 @@ function EditProduct() {
   const [canSave, setCanSave] = useState(true);
   const [priceValidationError, setpriceValidationError] = useState(false);
   const [offerPriceValidationError, setofferPriceValidationError] = useState(false);
-
+  const handleQuillChange = (name, content) => {
+    // Update the state with the new content
+    setProduct((prevState) => ({
+      ...prevState,
+      [name]: content,
+    }));
+    // You can also use editor.getContents() or editor.getText() to get the content
+  };
   const handleMargenChange = (e, type) => {
     const percentage = parseFloat(e.target.value);
     if (!product.cpp) {
@@ -348,6 +355,43 @@ function EditProduct() {
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="codigoBarra">
+                      Codigo de Barras
+                    </InputLabel>
+                    <TextField
+                      name="barcode"
+                      value={product.barcode || ""}
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={3} xl={3}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="cpp">
+                      Dias de Proteccion
+                    </InputLabel>
+                    <TextField
+                      name="days_protection"
+                      type="number"
+                      onChange={(e) => handleChange(e)}
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      value={product.days_protection || ""}
+                      variant="standard"
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "days_protection",
+                        id: "days_protection",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={3} xl={3}>
+                  <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="subcategory">
                       Subcategoría
                     </InputLabel>
@@ -372,7 +416,7 @@ function EditProduct() {
                     </FormControl>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={3} xl={3}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="laboratorio">
                       Laboratorio
@@ -398,27 +442,7 @@ function EditProduct() {
                     </FormControl>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="nombre">
-                      Compuesto
-                    </InputLabel>
-                    <TextField
-                      name="compound"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      onChange={(e) => handleChange(e)}
-                      style={{ paddingTop: "0.15rem" }}
-                      inputProps={{
-                        name: "compound",
-                        value: product.compound || "",
-                        id: "compound",
-                      }}
-                    />
-                  </SoftBox>
-                </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={3} xl={3}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Tipologia De Consumo
@@ -481,7 +505,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={3} xl={3}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Tipo de receta
@@ -508,7 +532,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={3} xl={3}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Estado
@@ -530,10 +554,10 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="stock">
-                      Cantidad De Productos Disponible
+                      Stock Disponible
                     </InputLabel>
                     <TextField
                       type="number"
@@ -547,7 +571,7 @@ function EditProduct() {
                     />
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="formato">
                       Formato
@@ -601,23 +625,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="codigoBarra">
-                      Codigo de Barras
-                    </InputLabel>
-                    <TextField
-                      name="barcode"
-                      value={product.barcode || ""}
-                      onChange={(e) => handleChange(e)}
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      style={{ paddingTop: "0.15rem" }}
-                    />
-                  </SoftBox>
-                </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Formato Unidad
@@ -635,27 +643,6 @@ function EditProduct() {
                     >
                       <option value="cada comprimido">cada comprimido</option>
                     </NativeSelect>
-                  </SoftBox>
-                </Grid>
-                <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="cpp">
-                      Dias de Proteccion
-                    </InputLabel>
-                    <TextField
-                      name="days_protection"
-                      type="number"
-                      onChange={(e) => handleChange(e)}
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      value={product.days_protection || ""}
-                      variant="standard"
-                      style={{ paddingTop: "0.15rem" }}
-                      inputProps={{
-                        name: "days_protection",
-                        id: "days_protection",
-                      }}
-                    />
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
@@ -776,7 +763,8 @@ function EditProduct() {
                     />
                   </SoftBox>
                 </Grid>
-                <Grid item md={6} xl={6}>
+
+                {/* <Grid item md={6} xl={6}>
                   <Box sx={{ minWidth: "100%" }}>
                     <InputLabel variant="standard" htmlFor="uncontrolled-native">
                       Control Legal
@@ -826,8 +814,8 @@ function EditProduct() {
                       </option>
                     </NativeSelect>
                   </SoftBox>
-                </Grid>
-                <Grid item xs={12} md={6} xl={6}>
+                </Grid> */}
+                {/* <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="fechaVencimiento">
                       Descripcion
@@ -846,9 +834,21 @@ function EditProduct() {
                       }}
                     />
                   </SoftBox>
+                </Grid> */}
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Descripcion
+                  </InputLabel>
+                  <SoftBox mb={2}>
+                    <CustomQuill
+                      name="description"
+                      value={product.description}
+                      onChange={handleQuillChange}
+                    />
+                  </SoftBox>
                 </Grid>
 
-                <Grid item xs={12} md={6} xl={6}>
+                {/* <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="fechaVencimiento">
                       Tabla de Datos
@@ -867,8 +867,64 @@ function EditProduct() {
                       }}
                     />
                   </SoftBox>
+                </Grid> */}
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Ficha Tecnica
+                  </InputLabel>
+                  <SoftBox mb={2}>
+                    <CustomQuill
+                      name="data_sheet"
+                      value={product.data_sheet}
+                      onChange={handleQuillChange}
+                    />
+                  </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Composicion
+                  </InputLabel>
+                  <SoftBox mb={2}>
+                    <CustomQuill
+                      name="benefits"
+                      value={product.compound}
+                      onChange={handleQuillChange}
+                    />
+                  </SoftBox>
+                </Grid>
+                {/* <Grid item xs={12} md={6} xl={6}>
+                  <SoftBox mb={2}>
+                    <InputLabel variant="standard" htmlFor="nombre">
+                      Composicion
+                    </InputLabel>
+                    <TextField
+                      name="compound"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingTop: "0.15rem" }}
+                      inputProps={{
+                        name: "compound",
+                        value: product.compound || "",
+                        id: "compound",
+                      }}
+                    />
+                  </SoftBox>
+                </Grid> */}
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Beneficios
+                  </InputLabel>
+                  <SoftBox mb={2}>
+                    <CustomQuill
+                      name="benefits"
+                      value={product.benefits}
+                      onChange={handleQuillChange}
+                    />
+                  </SoftBox>
+                </Grid>
+                {/* <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="fechaVencimiento">
                       Beneficios
@@ -888,7 +944,7 @@ function EditProduct() {
                       }}
                     />
                   </SoftBox>
-                </Grid>
+                </Grid> */}
                 <Grid item style={check} xs={12} md={6} xl={6}>
                   {/* <SoftBox>
                     <div
