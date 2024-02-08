@@ -886,8 +886,8 @@ function EditProduct() {
                   </InputLabel>
                   <SoftBox mb={2}>
                     <CustomQuill
-                      name="benefits"
-                      value={product.compound}
+                      name="compound"
+                      value={product.compound || ""}
                       onChange={handleQuillChange}
                     />
                   </SoftBox>
