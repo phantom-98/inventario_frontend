@@ -79,8 +79,8 @@ function Dashboard() {
     year = data.data.web.reduce((a, b) => a + b.total, 0);
     setventasWeb({ day, mes, year });
 
-    /* const data2 = await clienteAxios.get('sale/getContribution');
-        setContri(data2.data) */
+    const data2 = await clienteAxios.get("sale/getContribution");
+    setContri(data2.data);
 
     const data3 = await clienteAxios.get("sale/getInv");
 
@@ -156,12 +156,11 @@ function Dashboard() {
           <Grid container spacing={2}>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Mes Web" }}
-                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
+                title={{ text: "Ventas Dia Pos" }}
+                count={`$ ${insertarPuntos(ventasPos.day)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Ventas Mes Pos" }}
@@ -169,19 +168,18 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-
-            {/* <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Margen Contribucion Mes Pos" }}
-                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2) : 0} %`}
-                icon={{ color: "info", component: "percent" }}
-              />
-            </Grid> */}
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Ventas Dia Pos" }}
-                count={`$ ${insertarPuntos(ventasPos.day)}`}
+                title={{ text: "Estimacion cierre Pos" }}
+                count={`$ ${insertarPuntos(estimacionPos)}`}
                 icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Margen Mes Pos" }}
+                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2) : 0} %`}
+                icon={{ color: "info", component: "percent" }}
               />
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
@@ -193,46 +191,26 @@ function Dashboard() {
             </Grid>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
+                title={{ text: "Ventas Mes Web" }}
+                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
+                icon={{ color: "info", component: "paid" }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
                 title={{ text: "Estimacion cierre Web" }}
                 count={`$ ${insertarPuntos(estimacionWeb)}`}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
+
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Estimacion cierre Pos" }}
-                count={`$ ${insertarPuntos(estimacionPos)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-
-            {/*  <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Margen Contribucion Mes Web" }}
-                count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2): 0} %`}
+                title={{ text: "Margen Mes Web" }}
+                count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2) : 0} %`}
                 icon={{
                   color: "info",
                   component: "percent",
-                }}
-              />
-              </Grid> */}
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Inventario $" }}
-                count={`$ ${inv.invmoney ? insertarPuntos(Math.ceil(inv.invmoney)) : 0}`}
-                icon={{
-                  color: "info",
-                  component: "paid",
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Inventario stok" }}
-                count={`# ${inv.invqty ? inv.invqty : 0}`}
-                icon={{
-                  color: "info",
-                  component: "money",
                 }}
               />
             </Grid>
@@ -461,7 +439,30 @@ function Dashboard() {
             </Grid>
           </SoftBox>
         )}
-
+        <SoftBox mb={3}>
+          <Grid container style={{ display: "flex", justifyContent: "center" }} gap={5}>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Inventario $" }}
+                count={`$ ${inv.invmoney ? insertarPuntos(Math.ceil(inv.invmoney)) : 0}`}
+                icon={{
+                  color: "info",
+                  component: "paid",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "Inventario stok" }}
+                count={`# ${inv.invqty ? inv.invqty : 0}`}
+                icon={{
+                  color: "info",
+                  component: "money",
+                }}
+              />
+            </Grid>
+          </Grid>
+        </SoftBox>
         <SoftBox>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={12}>
