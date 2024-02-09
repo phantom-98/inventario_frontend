@@ -30,7 +30,7 @@ import breakpoints from "assets/theme/base/breakpoints";
 import curved0 from "assets/images/curved-images/curved0.jpg";
 import PropTypes from "prop-types";
 
-function Header({setShowCard}) {
+function Header({ setShowCard }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -53,7 +53,13 @@ function Header({setShowCard}) {
   return (
     <SoftBox position="relative">
       <DashboardNavbar absolute light />
-      <SoftBox display="flex" alignItems="center" position="relative" minHeight="8.75rem" borderRadius="xl"sx={{
+      <SoftBox
+        display="flex"
+        alignItems="center"
+        position="relative"
+        minHeight="8.75rem"
+        borderRadius="xl"
+        sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
             `${linearGradient(
               rgba(gradients.info.main, 0.6),
@@ -65,7 +71,11 @@ function Header({setShowCard}) {
         }}
       />
       <Card
-        sx={{ backdropFilter: `saturate(200%) blur(30px)`, backgroundColor: ({ functions: { rgba }, palette: { white } }) => rgba(white.main, 0.8), boxShadow: ({ boxShadows: { navbarBoxShadow } }) => navbarBoxShadow, position: "relative",
+        sx={{
+          backdropFilter: `saturate(200%) blur(30px)`,
+          backgroundColor: ({ functions: { rgba }, palette: { white } }) => rgba(white.main, 0.8),
+          boxShadow: ({ boxShadows: { navbarBoxShadow } }) => navbarBoxShadow,
+          position: "relative",
           mt: -8,
           mx: 3,
           py: 2,
@@ -73,10 +83,6 @@ function Header({setShowCard}) {
         }}
       >
         <Grid container spacing={1} alignItems="center">
-          
-        
-
-
           <Grid item xs={12} md={12} sx={{ ml: "auto" }}>
             <AppBar position="static">
               <Tabs
@@ -85,11 +91,19 @@ function Header({setShowCard}) {
                 onChange={handleSetTabValue}
                 sx={{ background: "transparent" }}
               >
-                <Tab label="Rop" icon={<Settings />}  onClick={()=>setShowCard("ROP")} />
+                {/* <Tab label="Rop" icon={<Settings />}  onClick={()=>setShowCard("ROP")} />
                 <Tab label="Orden de Compra" icon={<Cube />} onClick={()=>setShowCard("orderCompra")} />
-                <Tab label="Consolidado Recepcion" icon={<Document />}  onClick={()=>setShowCard("consolid")} />
-                <Tab label="Listado Recepcion" icon={<Document />}  onClick={()=>setShowCard("recepcion")} />
-                <Tab label="Proovedores" icon={<Settings />}  onClick={()=>setShowCard("provider")} />
+                <Tab label="Consolidado Recepcion" icon={<Document />}  onClick={()=>setShowCard("consolid")} /> */}
+                <Tab
+                  label="Listado Recepcion"
+                  icon={<Document />}
+                  onClick={() => setShowCard("recepcion")}
+                />
+                <Tab
+                  label="Proovedores"
+                  icon={<Settings />}
+                  onClick={() => setShowCard("provider")}
+                />
               </Tabs>
             </AppBar>
           </Grid>

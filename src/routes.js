@@ -62,15 +62,21 @@ const routes = [
     ),
     noCollapse: true,
   },
-  /* {
+  {
     type: "collapse",
     name: "Abastecimiento",
     key: "abastecimiento",
     route: "/abastecimiento",
     icon: <Cube size="12px" />,
-    component: <RouteGuard component={<Abastecimiento />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
+    component: (
+      <RouteGuard
+        component={<Abastecimiento />}
+        profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]}
+      />
+    ),
     noCollapse: true,
-  } */ {
+  },
+  {
     type: "collapse",
     name: "Inventario",
     key: "inventario",
@@ -89,10 +95,6 @@ const routes = [
     ),
     noCollapse: true,
   },
-  ,
-  ,
-  ,
-  ,
   /* {
     type: "collapse",
     name: "Clientes",
@@ -141,15 +143,18 @@ const routes = [
   },
 
   ,
-  /* {
+  {
     type: "collapse",
     name: "Contabilidad",
     key: "factura",
     route: "/contabilidad",
     icon: <CreditCard size="12px" />,
-    component: <RouteGuard component={<Factura />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} /> ,
+    component: (
+      <RouteGuard component={<Factura />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
     noCollapse: true,
-  } */ {
+  },
+  {
     type: "nooocollapse",
     name: "Tables",
     key: "tables",
