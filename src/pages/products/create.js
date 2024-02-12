@@ -26,6 +26,9 @@ import Checkbox from "@mui/material/Checkbox";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
 import CustomQuill from "components/RichTextEditor";
+import MyDropzone from "components/DropZone";
+import axios from "axios";
+import { Icon } from "@mui/material";
 const check = {
   display: "flex",
   justifyContent: "between",
@@ -36,6 +39,7 @@ const check = {
 
 function create() {
   const navigate = useNavigate();
+
   const [product, setProduct] = useState({
     active: false,
     consumption_typology: "ABA_ORAL_S_ORD_GRAGEAS",
@@ -44,11 +48,12 @@ function create() {
     is_generic: false,
     offer_price: 0,
   });
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [laboratories, setLaboratories] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   //console.log(value);
-  console.log(product);
+  console.log(uploadedFiles);
 
   const getData = async () => {
     const subCategories = await clienteAxios.get("subcategory");
@@ -62,12 +67,27 @@ function create() {
   useEffect(() => {
     getData();
   }, []);
+  const customImgHanlder = (files) => {
+    const mappedFiles = files.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    );
 
+    // Update state with the new files
+    setUploadedFiles(mappedFiles);
+  };
   const onSubmit = (e) => {
     e.preventDefault();
+    const bodyFormData = new FormData();
+    for (const key in product) {
+      bodyFormData.append(key, product[key]);
+    }
 
+    bodyFormData.append("file", uploadedFiles[0] ?? null);
+    //axios.post("http://localhost:4000/v1/product", bodyFormData).then((resp) => console.log("yes"));
     clienteAxios
-      .post("product", product)
+      .post("product", bodyFormData)
       .then((resp) => {
         succesSwal();
         navigate(`/inventario`);
@@ -114,6 +134,7 @@ function create() {
       [name]: !product[name],
     }));
   };
+  const clearImg = () => setUploadedFiles([]);
 
   return (
     <DashboardLayout>
@@ -142,6 +163,7 @@ function create() {
                   />
                 </SoftBox>
               </Grid>
+
               <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="nombre">
@@ -181,7 +203,17 @@ function create() {
                   />
                 </SoftBox>
               </Grid>
-
+              <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Imagen
+                  <Icon onClick={clearImg} style={{ marginLeft: "5px", cursor: "pointer" }}>
+                    delete
+                  </Icon>
+                </InputLabel>
+                <SoftBox mb={2}>
+                  <MyDropzone files={uploadedFiles} onChange={customImgHanlder} />
+                </SoftBox>
+              </Grid>
               <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="cpp">
@@ -366,7 +398,7 @@ function create() {
                 </SoftBox>
               </Grid>
 
-              <Grid item xs={12} md={4} xl={4}>
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="stock">
                     Stock Disponible
@@ -386,7 +418,7 @@ function create() {
                   />
                 </SoftBox>
               </Grid>
-              <Grid item xs={12} md={4} xl={4}>
+              <Grid item xs={12} md={3} xl={3}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="formato">
                     Formato
@@ -437,26 +469,6 @@ function create() {
                     <option value="FORMAT_180">180</option>
                     <option value="FORMAT_200">200</option>
                     <option value="FORMAT_250">250</option>
-                  </NativeSelect>
-                </SoftBox>
-              </Grid>
-              <Grid item xs={12} md={4} xl={4}>
-                <SoftBox mb={2}>
-                  <InputLabel variant="standard" htmlFor="tipologia_consumo">
-                    Formato Unidad
-                  </InputLabel>
-                  <NativeSelect
-                    onChange={(e) => handleChange(e)}
-                    name="unit_format"
-                    sx={{ input: { color: "white", width: "100%" } }}
-                    fullWidth
-                    defaultValue={"cada comprimido"}
-                    inputProps={{
-                      name: "unit_format",
-                      id: "unit_format",
-                    }}
-                  >
-                    <option value="cada comprimido">cada comprimido</option>
                   </NativeSelect>
                 </SoftBox>
               </Grid>
@@ -525,6 +537,26 @@ function create() {
               </Grid>
               <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
+                  <InputLabel variant="standard" htmlFor="tipologia_consumo">
+                    Formato Unidad
+                  </InputLabel>
+                  <NativeSelect
+                    onChange={(e) => handleChange(e)}
+                    name="unit_format"
+                    sx={{ input: { color: "white", width: "100%" } }}
+                    fullWidth
+                    defaultValue={"cada comprimido"}
+                    inputProps={{
+                      name: "unit_format",
+                      id: "unit_format",
+                    }}
+                  >
+                    <option value="cada comprimido">cada comprimido</option>
+                  </NativeSelect>
+                </SoftBox>
+              </Grid>
+              {/* <Grid item xs={12} md={6} xl={6}>
+                <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="fechaVencimiento">
                     Fecha Vencimiento
                   </InputLabel>
@@ -542,7 +574,7 @@ function create() {
                     }}
                   />
                 </SoftBox>
-              </Grid>
+              </Grid> */}
               {/* <Grid item xs={12} md={6} xl={6}>
                 <SoftBox mb={2}>
                   <InputLabel variant="standard" htmlFor="controlLegal">
