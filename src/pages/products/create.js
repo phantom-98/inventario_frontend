@@ -75,16 +75,40 @@ function create() {
     );
 
     // Update state with the new files
-    setUploadedFiles(mappedFiles);
+    setUploadedFiles([...uploadedFiles, ...files]);
   };
+
+  const moveFileRight = (dragIndex, event) => {
+    // Prevent the Dropzone's onClick from being triggered
+    event.stopPropagation();
+
+    const dragFile = uploadedFiles[dragIndex];
+    const updatedFiles = [...uploadedFiles];
+    updatedFiles.splice(dragIndex, 1); // Remove the file from its original position
+    updatedFiles.splice(dragIndex + 1, 0, dragFile); // Insert the file at its new position
+    setUploadedFiles(updatedFiles); // Update the state with the new files array
+  };
+  const moveFileLeft = (dragIndex, event) => {
+    // Prevent the Dropzone's onClick from being triggered
+    event.stopPropagation();
+
+    const dragFile = uploadedFiles[dragIndex];
+    const updatedFiles = [...uploadedFiles];
+    updatedFiles.splice(dragIndex, 1); // Remove the file from its original position
+    updatedFiles.splice(dragIndex - 1, 0, dragFile); // Insert the file at its new position
+    setUploadedFiles(updatedFiles); // Update the state with the new files array
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const bodyFormData = new FormData();
     for (const key in product) {
       bodyFormData.append(key, product[key]);
     }
-
-    bodyFormData.append("file", uploadedFiles[0] ?? null);
+    for (let index = 0; index < uploadedFiles.length; index++) {
+      bodyFormData.append("files", uploadedFiles[index]);
+    }
+    //bodyFormData.append("files", uploadedFiles ?? null);
     //axios.post("http://localhost:4000/v1/product", bodyFormData).then((resp) => console.log("yes"));
     clienteAxios
       .post("product", bodyFormData)
@@ -211,7 +235,12 @@ function create() {
                   </Icon>
                 </InputLabel>
                 <SoftBox mb={2}>
-                  <MyDropzone files={uploadedFiles} onChange={customImgHanlder} />
+                  <MyDropzone
+                    files={uploadedFiles}
+                    onChange={customImgHanlder}
+                    moveFileLeft={moveFileLeft}
+                    moveFileRight={moveFileRight}
+                  />
                 </SoftBox>
               </Grid>
               <Grid item xs={12} md={3} xl={3}>
