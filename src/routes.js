@@ -57,9 +57,7 @@ const routes = [
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
-    component: (
-      <RouteGuard component={<Dashboard />} profileTypes={[PROFILE_ADMIN, PROFILE_DEVELOPER]} />
-    ),
+    component: <Dashboard />,
     noCollapse: true,
   },
   {

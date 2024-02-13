@@ -28,11 +28,7 @@ function SignIn() {
     }
     const userRes = await loginUser({ email, password });
     if (userRes && userRes.token) {
-      if (userRes.user.profile.type === "ADMIN") {
-        location.href = "/dashboard";
-      } else {
-        location.href = "/inventario";
-      }
+      location.href = "/dashboard";
     } else {
       Swal.fire({
         icon: "error",

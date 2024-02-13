@@ -54,6 +54,9 @@ import { loadingAction, getDataforDashAction } from "actions/helperActions";
 import clienteAxios from "config/axios";
 import moment from "moment";
 import HorizontalBarChart from "./../../examples/Charts/BarCharts/HorizontalBarChart/index";
+import checkUserPermissions from "pages/guards/guardProfileHelper";
+import { PROFILE_ADMIN } from "types";
+import { PROFILE_PHARMACIST } from "types";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -66,7 +69,8 @@ function Dashboard() {
   const [dataTemp2, setDataTemp2] = useState({});
   const [contribution, setContri] = useState({});
   const [inv, setInv] = useState({});
-
+  const profile = JSON.parse(localStorage.getItem("user")).profile.type;
+  console.log(profile);
   const getData = async () => {
     const data = await clienteAxios.get("sale/salePerMonth");
 
@@ -147,7 +151,7 @@ function Dashboard() {
     getData();
   }, []);
 
-  const [chartFilter, setChartFilter] = useState("Todos");
+  const [chartFilter, setChartFilter] = useState(profile === PROFILE_ADMIN ? "Todos" : "Pos");
 
   return (
     <DashboardLayout>
@@ -175,84 +179,91 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Margen Mes Pos" }}
-                count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2) : 0} %`}
-                icon={{ color: "info", component: "percent" }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Ventas Dia Web" }}
-                count={`$ ${insertarPuntos(ventasWeb.day)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Ventas Mes Web" }}
-                count={`$ ${insertarPuntos(ventasWeb.mes)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Estimacion cierre Web" }}
-                count={`$ ${insertarPuntos(estimacionWeb)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
 
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Margen Mes Web" }}
-                count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2) : 0} %`}
-                icon={{
-                  color: "info",
-                  component: "percent",
-                }}
-              />
-            </Grid>
+            {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+              <>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Margen Mes Pos" }}
+                    count={` ${contribution.contriPos ? contribution.contriPos.toFixed(2) : 0} %`}
+                    icon={{ color: "info", component: "percent" }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Ventas Dia Web" }}
+                    count={`$ ${insertarPuntos(ventasWeb.day)}`}
+                    icon={{ color: "info", component: "paid" }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Ventas Mes Web" }}
+                    count={`$ ${insertarPuntos(ventasWeb.mes)}`}
+                    icon={{ color: "info", component: "paid" }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Estimacion cierre Web" }}
+                    count={`$ ${insertarPuntos(estimacionWeb)}`}
+                    icon={{ color: "info", component: "paid" }}
+                  />
+                </Grid>
+
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Margen Mes Web" }}
+                    count={`${contribution.contriWeb ? contribution.contriWeb.toFixed(2) : 0} %`}
+                    icon={{
+                      color: "info",
+                      component: "percent",
+                    }}
+                  />
+                </Grid>
+              </>
+            ) : null}
           </Grid>
         </SoftBox>
-        <SoftBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={4} lg={6} style={{ textAlign: "right" }}>
-              Filtros
+        {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+          <SoftBox mb={3}>
+            <Grid container spacing={3}>
+              <Grid item xs={4} lg={6} style={{ textAlign: "right" }}>
+                Filtros
+              </Grid>
+              <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+                <SoftButton
+                  variant="outlined"
+                  size="small"
+                  color="success"
+                  onClick={() => setChartFilter("Todos")}
+                >
+                  Todos
+                </SoftButton>
+              </Grid>
+              <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+                <SoftButton
+                  variant="outlined"
+                  size="small"
+                  color="dark"
+                  onClick={() => setChartFilter("Pos")}
+                >
+                  Pos
+                </SoftButton>
+              </Grid>
+              <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
+                <SoftButton
+                  variant="outlined"
+                  size="small"
+                  color="info"
+                  onClick={() => setChartFilter("Web")}
+                >
+                  Web
+                </SoftButton>
+              </Grid>
             </Grid>
-            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
-              <SoftButton
-                variant="outlined"
-                size="small"
-                color="success"
-                onClick={() => setChartFilter("Todos")}
-              >
-                Todos
-              </SoftButton>
-            </Grid>
-            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
-              <SoftButton
-                variant="outlined"
-                size="small"
-                color="dark"
-                onClick={() => setChartFilter("Pos")}
-              >
-                Pos
-              </SoftButton>
-            </Grid>
-            <Grid item xs={4} lg={2} style={{ textAlign: "right" }}>
-              <SoftButton
-                variant="outlined"
-                size="small"
-                color="info"
-                onClick={() => setChartFilter("Web")}
-              >
-                Web
-              </SoftButton>
-            </Grid>
-          </Grid>
-        </SoftBox>
+          </SoftBox>
+        ) : null}
 
         {chartFilter == "Pos" && (
           <SoftBox mb={3}>
@@ -439,44 +450,52 @@ function Dashboard() {
             </Grid>
           </SoftBox>
         )}
-        <SoftBox mb={3}>
-          <Grid container style={{ display: "flex", justifyContent: "center" }} gap={5}>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Inventario $" }}
-                count={`$ ${inv.invmoney ? insertarPuntos(Math.ceil(inv.invmoney)) : 0}`}
-                icon={{
-                  color: "info",
-                  component: "paid",
-                }}
-              />
+        {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+          <SoftBox mb={3}>
+            <Grid container style={{ display: "flex", justifyContent: "center" }} gap={5}>
+              <Grid item xs={6} sm={4} xl={3}>
+                <MiniStatisticsCard
+                  title={{ text: "Inventario $" }}
+                  count={`$ ${inv.invmoney ? insertarPuntos(Math.ceil(inv.invmoney)) : 0}`}
+                  icon={{
+                    color: "info",
+                    component: "paid",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} xl={3}>
+                <MiniStatisticsCard
+                  title={{ text: "Inventario stok" }}
+                  count={`# ${inv.invqty ? inv.invqty : 0}`}
+                  icon={{
+                    color: "info",
+                    component: "money",
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Inventario stok" }}
-                count={`# ${inv.invqty ? inv.invqty : 0}`}
-                icon={{
-                  color: "info",
-                  component: "money",
-                }}
-              />
-            </Grid>
-          </Grid>
-        </SoftBox>
+          </SoftBox>
+        ) : null}
+
         <SoftBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={12}>
-              <BillingInformation />
+          {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={12}>
+                <BillingInformation />
+              </Grid>
             </Grid>
-          </Grid>
+          ) : null}
+
           <br />
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Projects />
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Invoices />
-            </Grid>
+            {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+              <Grid item xs={12} md={6} lg={6}>
+                <Invoices />
+              </Grid>
+            ) : null}
           </Grid>
         </SoftBox>
       </SoftBox>
