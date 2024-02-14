@@ -50,7 +50,7 @@ const color = {
   color: "#17c1e8",
 };
 
-const columnsFunc = (rows, edit, onDelete) => {
+const columnsFunc = (rows, edit, onDelete, images) => {
   let actionTemp = {
     name: "Action",
     options: {
@@ -75,6 +75,11 @@ const columnsFunc = (rows, edit, onDelete) => {
                 <Icon>edit</Icon>
               </Tooltip>
             </SoftButton>
+            <SoftButton variant="text" style={color} onClick={(e) => images(tableMeta.rowData[8])}>
+              <Tooltip title="Imagenes">
+                <Icon>images</Icon>
+              </Tooltip>
+            </SoftButton>
             <SoftButton
               variant="text"
               style={color}
@@ -84,7 +89,7 @@ const columnsFunc = (rows, edit, onDelete) => {
                 <Icon>delete</Icon>
               </Tooltip>
             </SoftButton>
-            <SoftButton
+            {/* <SoftButton
               variant="text"
               style={color}
               onClick={(e) => (location.href = `/productos/duplicar/${tableMeta.rowData[0]}`)}
@@ -92,7 +97,7 @@ const columnsFunc = (rows, edit, onDelete) => {
               <Tooltip title="Duplicar">
                 <DifferenceIcon />
               </Tooltip>
-            </SoftButton>
+            </SoftButton> */}
           </>
         );
       },

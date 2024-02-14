@@ -64,15 +64,15 @@ function Clientes() {
       getData();
     }); */
   };
-  const duplicate = (item) => {
-    /* navigate(`/productos/duplicar/${item}`); */
+  const images = (item) => {
+    navigate(`/productos/images/${item}`);
   };
 
   const columns = columnsFunc(
     ["Sku", "Codigo de Barra", "Nombre", "Laboratorio", "Stock", "Precio", "Precio Oferta", "CPP"],
     edit,
     onDelete,
-    duplicate
+    images
   );
 
   return (

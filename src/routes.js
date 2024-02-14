@@ -47,6 +47,7 @@ import Cube from "examples/Icons/Cube";
 import RouteGuard from "pages/guards/RouteGuard";
 import { PROFILE_PHARMACIST, PROFILE_PHARMACY_ASSISTANT } from "types";
 import Settings from "./examples/Icons/Settings";
+import ProductImages from "pages/products/images";
 
 const routes = [
   ,
@@ -225,6 +226,20 @@ const routes = [
     icon: <Shop size="12px" />,
     component: (
       <RouteGuard component={<EditProduct />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+    ),
+    noCollapse: true,
+  },
+  {
+    type: "nocollapse",
+    name: "EditImages",
+    key: "dashboard",
+    route: "/productos/images/:id",
+    icon: <Shop size="12px" />,
+    component: (
+      <RouteGuard
+        component={<ProductImages />}
+        profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]}
+      />
     ),
     noCollapse: true,
   },
