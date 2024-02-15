@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import PropTypes from "prop-types";
 import { Icon } from "@mui/material";
-function MyDropzone({ files, onChange, moveFileLeft, moveFileRight }) {
+function MyDropzone({ files, onChange, moveFileLeft = null, moveFileRight = null }) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -29,22 +29,24 @@ function MyDropzone({ files, onChange, moveFileLeft, moveFileRight }) {
       {files.map((element, i) => (
         <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <img src={element.preview} style={{ width: "100px" }} alt="Preview" />
-          <div style={{ position: "relative" }}>
-            <Icon
-              onClick={(e) => {
-                moveFileLeft(i, e);
-              }}
-            >
-              chevron_left
-            </Icon>
-            <Icon
-              onClick={(e) => {
-                moveFileRight(i, e);
-              }}
-            >
-              chevron_right
-            </Icon>
-          </div>
+          {moveFileLeft && moveFileRight && (
+            <div style={{ position: "relative" }}>
+              <Icon
+                onClick={(e) => {
+                  moveFileLeft(i, e);
+                }}
+              >
+                chevron_left
+              </Icon>
+              <Icon
+                onClick={(e) => {
+                  moveFileRight(i, e);
+                }}
+              >
+                chevron_right
+              </Icon>
+            </div>
+          )}
         </div>
       ))}
       {files.length == 0 && <div>Arrastre o seleccione archivos</div>}
