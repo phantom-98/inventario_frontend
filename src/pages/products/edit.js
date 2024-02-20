@@ -34,7 +34,7 @@ import { insertarPuntos, dateFormat, replaceDigits } from "../../config/helpers"
 import { getCpp, getCpp2 } from "../../config/helpers";
 import { laboratories } from "../../config/labs.js";
 import { subcat } from "../../config/subcat.js";
-import { TextareaAutosize } from "@mui/material";
+import { MenuItem, Select, TextareaAutosize } from "@mui/material";
 import CustomQuill from "components/RichTextEditor";
 const check = {
   display: "flex",
@@ -83,9 +83,11 @@ function EditProduct() {
   const [prices, setPrices] = useState({});
   const [subCategories, setSubCategories] = useState([]);
   const [laboratories, setLaboratories] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [canSave, setCanSave] = useState(true);
   const [priceValidationError, setpriceValidationError] = useState(false);
   const [offerPriceValidationError, setofferPriceValidationError] = useState(false);
+  const [openDropDown, setOpenDropDown] = useState(false);
   const handleQuillChange = (name, content) => {
     // Update the state with the new content
     setProduct((prevState) => ({
@@ -178,26 +180,24 @@ function EditProduct() {
         [type]: price,
       }));
     }
-
-    console.log(product);
   };
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const columns = ["Fecha", "Cantidad", "Precio"];
   const [rows, setRows] = useState([]);
 
   const getData = async () => {
     const data = await clienteAxios.get("product/sku/" + id);
     let respData = data.data;
-    console.log(respData);
     const subCategories = await clienteAxios.get("subcategory");
     let catData = subCategories.data;
     const labs = await clienteAxios.get("laboratory");
     let labsData = labs.data;
+    const locations = await clienteAxios.get("location");
+    let prodsLocation = locations.data;
     if (respData.cpp) {
       respData.price_margin = Math.round(
         ((respData.price / (1 + 0.19) - respData.cpp) / (respData.price / (1 + 0.19))) * 100
@@ -219,6 +219,7 @@ function EditProduct() {
     setProduct(respData);
     setSubCategories(catData);
     setLaboratories(labsData);
+    setLocations(prodsLocation);
   };
 
   useEffect(() => {
@@ -307,6 +308,14 @@ function EditProduct() {
   const options = {
     filterType: "checkbox",
   };
+  const handleSelectChange = (e) => {
+    // Update the state with the new content
+    const aux = e.target.value;
+    setProduct((prevState) => ({
+      ...prevState,
+      location_product: [...aux],
+    }));
+  };
 
   return (
     <DashboardLayout>
@@ -335,6 +344,27 @@ function EditProduct() {
                       onChange={(e) => handleChange(e)}
                       style={{ paddingTop: "0.15rem" }}
                     />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Ubicacion
+                  </InputLabel>
+                  <SoftBox mb={2} onClick={() => setOpenDropDown(!openDropDown)}>
+                    <Select
+                      id="Ubicacion"
+                      value={product.location_product || []}
+                      onChange={handleSelectChange}
+                      multiple
+                      open={openDropDown}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {locations.map((e) => (
+                        <MenuItem value={e.id} key={e.id}>
+                          {e.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={6} xl={6}>

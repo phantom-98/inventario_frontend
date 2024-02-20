@@ -28,7 +28,7 @@ import { subcat } from "../../config/subcat.js";
 import CustomQuill from "components/RichTextEditor";
 import MyDropzone from "components/DropZone";
 import axios from "axios";
-import { Icon } from "@mui/material";
+import { Chip, Icon, MenuItem, OutlinedInput, Select } from "@mui/material";
 const check = {
   display: "flex",
   justifyContent: "between",
@@ -47,21 +47,26 @@ function create() {
     is_bioequivalent: false,
     is_generic: false,
     offer_price: 0,
+    location_product: [],
   });
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [laboratories, setLaboratories] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [open, setOpen] = useState(false);
   //console.log(value);
-  console.log(uploadedFiles);
-
+  //console.log(product.location_product);
   const getData = async () => {
     const subCategories = await clienteAxios.get("subcategory");
     let catData = subCategories.data;
     const labs = await clienteAxios.get("laboratory");
     let labsData = labs.data;
+    const locations = await clienteAxios.get("location");
+    let prodsLocation = locations.data;
     setSubCategories(catData);
     setLaboratories(labsData);
+    setLocations(prodsLocation);
   };
 
   useEffect(() => {
@@ -146,6 +151,24 @@ function create() {
     }));
     // You can also use editor.getContents() or editor.getText() to get the content
   };
+  const getNameForLocation = (id) => {
+    const exists = locations.find((obj) => {
+      return obj.id === id;
+    });
+
+    if (exists) return exists.name;
+    return "";
+  };
+  const handleSelectChange = (e) => {
+    // Update the state with the new content
+
+    e.stopPropagation();
+    const aux = e.target.value;
+    setProduct((prevState) => ({
+      ...prevState,
+      ["location_product"]: aux,
+    }));
+  };
 
   const handleCheckChange = (e) => {
     //setIsChecked(e.target.checked);
@@ -185,6 +208,26 @@ function create() {
                     required
                     onChange={(e) => handleChange(e)}
                   />
+                </SoftBox>
+              </Grid>
+              <Grid item xs={12} md={6} xl={6}>
+                <InputLabel variant="standard" htmlFor="Sku">
+                  Ubicacion
+                </InputLabel>
+                <SoftBox mb={2} onClick={() => setOpen(!open)}>
+                  <Select
+                    open={open}
+                    multiple
+                    style={{ cursor: "pointer" }}
+                    value={product.location_product}
+                    onChange={handleSelectChange}
+                  >
+                    {locations.map((e) => (
+                      <MenuItem key={e.id} value={e.id}>
+                        {e.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </SoftBox>
               </Grid>
 
