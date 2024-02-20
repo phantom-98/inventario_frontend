@@ -14,7 +14,21 @@ function ListHeader({ url, label, buttonText, mode }) {
   let extraButtons = "";
 
   if (mode == "excelModal") {
-    extraButtons = <NestedModal />;
+    extraButtons = (
+      <>
+        <NestedModal />
+        <SoftButton
+          variant="outlined"
+          onClick={() =>
+            (location.href = `${process.env.REACT_APP_INVENTARIO_API_URL}product/downLoadInventory`)
+          }
+          color="info"
+          size="small"
+        >
+          Descargar Inventario
+        </SoftButton>
+      </>
+    );
   } else if (mode == "rop") {
     extraButtons = (
       <>
