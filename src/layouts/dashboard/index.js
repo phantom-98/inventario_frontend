@@ -424,7 +424,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={12} lg={4}>
                 <GradientLineChart
-                  title="Ticket Promedios"
+                  title="Tickets Promedio"
                   chart={{
                     labels: dataTemp.labels,
                     datasets: [
