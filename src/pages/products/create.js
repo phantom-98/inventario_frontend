@@ -881,6 +881,21 @@ function create() {
                     Inmediato
                   </div>
                 </SoftBox>
+                <SoftBox>
+                  <div
+                    data-name="is_cenabast"
+                    onClick={(e) => handleCheckChange(e)}
+                    style={{
+                      backgroundColor: product.is_cenabast ? "#000C66" : "lightgray",
+                      color: product.is_cenabast ? "white" : "",
+                      borderRadius: "15px",
+                      padding: "0 7px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Cenabast
+                  </div>
+                </SoftBox>
               </Grid>
               <Grid item xs={12} md={3} xl={3} />
               <SoftBox mt={4} mb={1}>
