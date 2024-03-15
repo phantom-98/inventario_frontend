@@ -72,28 +72,29 @@ function Dashboard() {
   const profile = JSON.parse(localStorage.getItem("user")).profile.type;
   console.log(profile);
   const getData = async () => {
-    const data = await clienteAxios.get("sale/salePerMonth");
-
-    let day = data.data.pos[data.data.pos.length - 1].totalDay;
-    let mes = data.data.pos[data.data.pos.length - 1].total;
-    let year = data.data.pos.reduce((a, b) => a + b.total, 0);
+    const data = await clienteAxios.get("dash");
+    const monthData = data.data.salePerMonth;
+    console.log(monthData);
+    let day = monthData.pos[monthData.pos.length - 1].totalDay;
+    let mes = monthData.pos[monthData.pos.length - 1].total;
+    let year = monthData.pos.reduce((a, b) => a + b.total, 0);
     setventasPos({ day, mes, year });
-    day = data.data.web[data.data.web.length - 1].totalDayB;
-    mes = data.data.web[data.data.web.length - 1].total;
-    year = data.data.web.reduce((a, b) => a + b.total, 0);
+    day = monthData.web[monthData.web.length - 1].totalDayB;
+    mes = monthData.web[monthData.web.length - 1].total;
+    year = monthData.web.reduce((a, b) => a + b.total, 0);
     setventasWeb({ day, mes, year });
 
-    const data2 = await clienteAxios.get("sale/getContribution");
-    setContri(data2.data);
+    const data2 = data.data.contribution;
+    setContri(data2);
 
-    const data3 = await clienteAxios.get("sale/getInv");
+    const data3 = data.data.inventory;
 
-    setInv(data3.data);
+    setInv(data3);
   };
 
   const chartData = async () => {
-    const data = await clienteAxios.get("sale/salePerMonth");
-    let respData = data.data;
+    const data = await clienteAxios.get("dash");
+    let respData = data.data.salePerMonth;
 
     let dataPos = new Array(12).fill(0);
     let dataPos2 = new Array(12).fill(0);
@@ -151,12 +152,24 @@ function Dashboard() {
     getData();
   }, []);
 
+  const updateDash = async () => {
+    await clienteAxios.get("dash/update");
+    chartData();
+    getData();
+  };
+
   const [chartFilter, setChartFilter] = useState(profile === PROFILE_ADMIN ? "Todos" : "Pos");
 
   return (
     <DashboardLayout>
       <SoftBox py={3}>
         <SoftBox mb={3}>
+          <Grid item xs={4} lg={6} style={{ textAlign: "right", paddingBottom: "10px" }}>
+            <SoftButton variant="outlined" color="dark" onClick={updateDash}>
+              <Icon sx={{ fontSize: 40 }}>refresh</Icon>
+            </SoftButton>
+          </Grid>
+
           <Grid container spacing={2}>
             <Grid item xs={6} sm={4} xl={3}>
               <MiniStatisticsCard
