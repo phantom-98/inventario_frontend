@@ -108,7 +108,13 @@ function create() {
     e.preventDefault();
     const bodyFormData = new FormData();
     for (const key in product) {
-      bodyFormData.append(key, product[key]);
+      if (Array.isArray(product[key])) {
+        product[key].forEach((item) => {
+          bodyFormData.append(key, item);
+        });
+      } else {
+        bodyFormData.append(key, product[key]);
+      }
     }
     for (let index = 0; index < uploadedFiles.length; index++) {
       bodyFormData.append("files", uploadedFiles[index]);
