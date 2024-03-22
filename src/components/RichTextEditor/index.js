@@ -9,7 +9,7 @@ function CustomQuill({ name, value, onChange, theme = "snow" }) {
   };
   const modules = {
     toolbar: [
-      [{ header: [2, false] }],
+      [{ header: [1, 2, 3, false] }],
       ["bold", "italic"],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link"],

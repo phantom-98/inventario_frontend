@@ -1,55 +1,56 @@
-.alert{
-    font-size: 10px;
-    padding: 5px 10px;
-    float: right;
+.alert {
+  font-size: 10px;
+  padding: 5px 10px;
+  float: right;
 }
-thead{
-    display: contents!important;
+.ql-expanded {
+  z-index: 99; /* Adjust as necessary */
 }
-.MuiFormLabel-root{
-    z-index: 9;
-    margin-left: 10px;
-    font-size: 1.0rem!important;
+thead {
+  display: contents !important;
 }
-
-.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.MuiTablePagination-toolbar.tss-1dccma1-MUIDataTablePagination-toolbar.css-1e7c2qr-MuiToolbar-root-MuiTablePagination-toolbar{
-    width: 250px;
-}
-
-.tss-djbknv-MUIDataTablePagination-navContainer{
-    display: block!important;
+.MuiFormLabel-root {
+  z-index: 9;
+  margin-left: 10px;
+  font-size: 1rem !important;
 }
 
-select{
-    margin-top: 18px;
+.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.MuiTablePagination-toolbar.tss-1dccma1-MUIDataTablePagination-toolbar.css-1e7c2qr-MuiToolbar-root-MuiTablePagination-toolbar {
+  width: 250px;
 }
-td{
-    font-size:12px!important;
-    padding: 0.3rem 0.5rem!important;
+
+.tss-djbknv-MUIDataTablePagination-navContainer {
+  display: block !important;
+}
+
+select {
+  margin-top: 18px;
+}
+td {
+  font-size: 12px !important;
+  padding: 0.3rem 0.5rem !important;
 }
 th {
-    padding: 5px!important;
+  padding: 5px !important;
 }
-th button{
-    padding: 10px!important;
+th button {
+  padding: 10px !important;
 }
 
-.selectWM{
-    margin-top: 0px;
+.selectWM {
+  margin-top: 0px;
 }
-#facturaCard label{
-    top:-5px
+#facturaCard label {
+  top: -5px;
 }
-#facturaCard label+.css-11dh2is-MuiInputBase-root-MuiInput-root{
-    margin-top: 0px!important;
+#facturaCard label + .css-11dh2is-MuiInputBase-root-MuiInput-root {
+  margin-top: 0px !important;
 }
-.textc{
-    font-size: 12px!important;
-   
+.textc {
+  font-size: 12px !important;
 }
-@media(max-width:1250px){
-    .textc{
-
-        font-size: 9px !important;
-    }
+@media (max-width: 1250px) {
+  .textc {
+    font-size: 9px !important;
+  }
 }
