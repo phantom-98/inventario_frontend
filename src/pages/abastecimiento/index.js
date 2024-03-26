@@ -33,6 +33,7 @@ import TableFooter from "@mui/material/TableFooter";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
 function Abastecimiento() {
   const [tabValue, setTabValue] = useState(1);
@@ -45,7 +46,7 @@ function Abastecimiento() {
   const [rows3, setRows3] = useState([]);
   const [rowsFactura, setrowsFactura] = useState([]);
   const [rowsProduct, setrowsProduct] = useState([]);
-  const [showCard, setShowCard] = useState("recepcion");
+  const [showCard, setShowCard] = useState("ROP");
   const [showCard2, setShowCard2] = useState("list");
 
   function convertToNumber(value) {
@@ -183,19 +184,33 @@ function Abastecimiento() {
   };
   const getProduct = async () => {
     dispatch(loadingAction());
-    const data = await clienteAxios.get("product/");
+    const data = await clienteAxios.get("product/getForRop");
+
     dispatch(loadingAction());
+    //let respData = data.data;
     let respData = data.data;
+    /* respData.forEach((obj) => {
+      if (prodQty.hasOwnProperty(obj.sku)) {
+        // If the id exists in idQtyMap, add a new property to the object
+        obj.qty = prodQty[obj.sku];
+        const rec = obj.stock - obj.qty;
+        if (rec < 0) {
+          obj.rec = rec * -1;
+        } else {
+          obj.rec = 0;
+        }
+      }
+    });
+    respData.sort((a, b) => (b.qty ?? 0) - (a.qty ?? 0)); */
     let tempRows = respData.map((r) => {
       return [
         r.sku,
         r.barcode,
         r.name,
-        r.laboratories?.name,
+        r.laboratories?.name || "",
         r.stock,
-        r.puntoreorden,
-        r.nivelLlenado,
-        r.id,
+        r.qty ?? 0,
+        r.rec ?? 0,
       ];
     });
 
@@ -203,7 +218,7 @@ function Abastecimiento() {
   };
 
   useEffect(() => {
-    //getProduct();
+    getProduct();
     getFacturas();
     //getData();
     getProvider();
@@ -247,7 +262,15 @@ function Abastecimiento() {
     "Monto",
     "Mes Vencimiento",
   ];
-  const columnsRop = ["Sku", "codigo de barras", "Nombre", "laboratorio", "stock"];
+  const columnsRop = [
+    "Sku",
+    "codigo de barras",
+    "Nombre",
+    "laboratorio",
+    "stock",
+    "last",
+    "recommended",
+  ];
 
   columns.push({
     name: "Estado",
@@ -338,7 +361,7 @@ function Abastecimiento() {
     },
   });
 
-  columnsRop.push({
+  /*   columnsRop.push({
     name: "Rop",
     options: {
       filter: true,
@@ -409,7 +432,7 @@ function Abastecimiento() {
         );
       },
     },
-  });
+  }); */
   columnsRop.push({
     name: "",
     options: {

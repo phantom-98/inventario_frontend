@@ -35,7 +35,9 @@ function ListHeader({ url, label, buttonText, mode }) {
         <NestedModalRop />
         <SoftButton
           variant="outlined"
-          onClick={() => (location.href = "http://206.189.239.87:4000/v1/product/downloadRop")}
+          onClick={() =>
+            (location.href = `${process.env.REACT_APP_INVENTARIO_API_URL}product/downloadRop`)
+          }
           color="info"
           size="small"
         >
