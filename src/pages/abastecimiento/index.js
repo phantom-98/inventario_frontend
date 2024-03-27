@@ -211,6 +211,7 @@ function Abastecimiento() {
         r.stock,
         r.qty ?? 0,
         r.rec ?? 0,
+        r.is_requested,
       ];
     });
 
@@ -243,6 +244,16 @@ function Abastecimiento() {
       .put(`/factura/changeStatus/${id}`)
       .then((r) => {
         getFacturas();
+        dispatch(loadingAction());
+      })
+      .catch((e) => console.log(e));
+  };
+  const changeOrderStatus = (id) => {
+    dispatch(loadingAction());
+    clienteAxios
+      .put(`/product/request/${id}`)
+      .then((r) => {
+        getProduct();
         dispatch(loadingAction());
       })
       .catch((e) => console.log(e));
@@ -434,13 +445,26 @@ function Abastecimiento() {
     },
   }); */
   columnsRop.push({
-    name: "",
+    name: "Estado",
     options: {
       filter: true,
       sort: true,
       empty: false,
       customBodyRender: (value, tableMeta, updateValue) => {
-        return <></>;
+        let status = tableMeta.rowData[7] ? "PEDIDO" : "PEDIR";
+        let color = tableMeta.rowData[7] ? "success" : "error";
+        return (
+          <>
+            <SoftButton
+              variant="outlined"
+              size="small"
+              color={color}
+              onClick={(e) => changeOrderStatus(tableMeta.rowData[0])}
+            >
+              {status}
+            </SoftButton>
+          </>
+        );
       },
     },
   });

@@ -584,7 +584,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={4} xl={4}>
+                <Grid item xs={12} md={3} xl={3}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="stock">
                       Stock Disponible
@@ -599,6 +599,23 @@ function EditProduct() {
                       onChange={(e) => handleChange(e)}
                       style={{ paddingTop: "0.15rem" }}
                     />
+                  </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={3} xl={3} style={{ display: "flex", alignItems: "center" }}>
+                  <SoftBox>
+                    <div
+                      data-name="is_requested"
+                      onClick={(e) => handleCheckChange(e)}
+                      style={{
+                        backgroundColor: product.is_requested ? "#009000" : "lightgray",
+                        color: product.is_requested ? "white" : "",
+                        borderRadius: "15px",
+                        padding: "0 7px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Pedido
+                    </div>
                   </SoftBox>
                 </Grid>
                 <Grid item xs={12} md={4} xl={4}>
@@ -794,77 +811,6 @@ function EditProduct() {
                   </SoftBox>
                 </Grid>
 
-                {/* <Grid item md={6} xl={6}>
-                  <Box sx={{ minWidth: "100%" }}>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                      Control Legal
-                    </InputLabel>
-                    <FormControl fullWidth>
-                      <NativeSelect
-                        onChange={(e) => handleChange(e)}
-                        name="controlLegal"
-                        fullWidth
-                        defaultValue={"ninguna"}
-                        inputProps={{
-                          name: "controlLegal",
-                          value: product.controlLegal || "ninguna",
-                          id: "uncontrolled-native",
-                        }}
-                      >
-                        <option value={"ninguna"}>Ninguna</option>
-                        <option value={"sicotropico"}>Sicotropico</option>
-                        <option value={"estupefaciente"}>Estupefacientes</option>
-                      </NativeSelect>
-                    </FormControl>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                      Impuesto Extra
-                    </InputLabel>
-                    <NativeSelect
-                      name="impuestoExtra"
-                      onChange={(e) => handleChange(e)}
-                      sx={{ input: { color: "white", width: "100%" } }}
-                      fullWidth
-                      defaultValue={"ninguna"}
-                      inputProps={{
-                        name: "impuestoExtra",
-                        value: product.impuestoExtra || "ninguna",
-                        id: "uncontrolled-native",
-                      }}
-                    >
-                      <option value={"ninguna"}>Ninguna</option>
-                      <option value={"10"}>
-                        Bebidas analcoholicas y minerales con edulcorante 10%
-                      </option>
-                      <option value={"18"}>
-                        Bebidas analcoholicas y minerales con elevado contenido de azucares 18%
-                      </option>
-                    </NativeSelect>
-                  </SoftBox>
-                </Grid> */}
-                {/* <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                      Descripcion
-                    </InputLabel>
-                    <TextField
-                      name="description"
-                      onChange={(e) => handleChange(e)}
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      value={product.description || ""}
-                      style={{ paddingTop: "0.15rem" }}
-                      inputProps={{
-                        name: "description",
-                        id: "description",
-                      }}
-                    />
-                  </SoftBox>
-                </Grid> */}
                 <Grid item xs={12} md={6} xl={6}>
                   <InputLabel variant="standard" htmlFor="Sku">
                     Descripcion
@@ -878,26 +824,6 @@ function EditProduct() {
                   </SoftBox>
                 </Grid>
 
-                {/* <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                      Tabla de Datos
-                    </InputLabel>
-                    <TextField
-                      name="data_sheet"
-                      onChange={(e) => handleChange(e)}
-                      fullWidth
-                      value={product.data_sheet || ""}
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      style={{ paddingTop: "0.15rem" }}
-                      inputProps={{
-                        name: "data_sheet",
-                        id: "data_sheet",
-                      }}
-                    />
-                  </SoftBox>
-                </Grid> */}
                 <Grid item xs={12} md={6} xl={6}>
                   <InputLabel variant="standard" htmlFor="Sku">
                     Ficha Tecnica
@@ -922,26 +848,7 @@ function EditProduct() {
                     />
                   </SoftBox>
                 </Grid>
-                {/* <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="nombre">
-                      Composicion
-                    </InputLabel>
-                    <TextField
-                      name="compound"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      onChange={(e) => handleChange(e)}
-                      style={{ paddingTop: "0.15rem" }}
-                      inputProps={{
-                        name: "compound",
-                        value: product.compound || "",
-                        id: "compound",
-                      }}
-                    />
-                  </SoftBox>
-                </Grid> */}
+
                 <Grid item xs={12} md={6} xl={6}>
                   <InputLabel variant="standard" htmlFor="Sku">
                     Beneficios
@@ -954,58 +861,8 @@ function EditProduct() {
                     />
                   </SoftBox>
                 </Grid>
-                {/* <Grid item xs={12} md={6} xl={6}>
-                  <SoftBox mb={2}>
-                    <InputLabel variant="standard" htmlFor="fechaVencimiento">
-                      Beneficios
-                    </InputLabel>
-                    <TextareaAutosize
-                      name="benefits"
-                      onChange={(e) => handleChange(e)}
-                      fullWidth
-                      value={product.benefits || ""}
-                      minRows={3}
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      style={{ padding: "0.2rem", width: "100%", fontSize: "0.875rem" }}
-                      inputProps={{
-                        name: "benefits",
-                        id: "benefits",
-                      }}
-                    />
-                  </SoftBox>
-                </Grid> */}
+
                 <Grid item style={check} xs={12} md={6} xl={6}>
-                  {/* <SoftBox>
-                    <div
-                      data-name="petitorioMin"
-                      onClick={(e) => handleCheckChange(e)}
-                      style={{
-                        backgroundColor: product.petitorioMin ? "#000C66" : "lightgray",
-                        color: product.petitorioMin ? "white" : "",
-                        borderRadius: "15px",
-                        padding: "0 9px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Pet. Minimo
-                    </div>
-                  </SoftBox>
-                  <SoftBox>
-                    <div
-                      data-name="refrigerado"
-                      onClick={(e) => handleCheckChange(e)}
-                      style={{
-                        backgroundColor: product.refrigerado ? "#000C66" : "lightgray",
-                        color: product.refrigerado ? "white" : "",
-                        borderRadius: "15px",
-                        padding: "0 9px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Refrigerado
-                    </div>
-                  </SoftBox> */}
                   <SoftBox>
                     <div
                       data-name="is_generic"
