@@ -535,7 +535,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={3} xl={3}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Tipo de receta
@@ -562,7 +562,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={3} xl={3}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Estado
@@ -584,7 +584,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={3} xl={3}>
+                <Grid item xs={12} md={4} xl={4}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="stock">
                       Stock Disponible
@@ -601,24 +601,7 @@ function EditProduct() {
                     />
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={3} xl={3} style={{ display: "flex", alignItems: "center" }}>
-                  <SoftBox>
-                    <div
-                      data-name="is_requested"
-                      onClick={(e) => handleCheckChange(e)}
-                      style={{
-                        backgroundColor: product.is_requested ? "#009000" : "lightgray",
-                        color: product.is_requested ? "white" : "",
-                        borderRadius: "15px",
-                        padding: "0 7px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Pedido
-                    </div>
-                  </SoftBox>
-                </Grid>
-                <Grid item xs={12} md={4} xl={4}>
+                <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="formato">
                       Formato
@@ -672,7 +655,7 @@ function EditProduct() {
                     </NativeSelect>
                   </SoftBox>
                 </Grid>
-                <Grid item xs={12} md={4} xl={4}>
+                <Grid item xs={12} md={6} xl={6}>
                   <SoftBox mb={2}>
                     <InputLabel variant="standard" htmlFor="tipologia_consumo">
                       Formato Unidad
