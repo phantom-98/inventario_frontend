@@ -103,7 +103,7 @@ function Abastecimiento() {
     const myrows = [];
     for (let index = 0; index < rows.length; index++) {
       const element = rows[index];
-      myrows.push(rowsProduct[element.index]);
+      myrows.push(rowsProduct[element.dataIndex]);
     }
     await clienteAxios.post("product/bulkRequest", { products: myrows });
     getProduct();
