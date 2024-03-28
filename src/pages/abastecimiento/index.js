@@ -52,6 +52,62 @@ function Abastecimiento() {
   function convertToNumber(value) {
     return Number(value.replace(/[$,]/g, ""));
   }
+  const muiOptions2 = {
+    filterType: "checkbox",
+    textLabels: {
+      body: {
+        noMatch: "Sorry, no matching records found",
+        toolTip: "Sort",
+        columnHeaderTooltip: (column) => `Sort for ${column.label}`,
+      },
+      pagination: {
+        next: "Siguiente",
+        previous: "Anterior",
+        rowsPerPage: "Filas por Pagina:",
+        displayRows: "de",
+      },
+      toolbar: {
+        search: "Search",
+        downloadCsv: "Download CSV",
+        print: "Print",
+        viewColumns: "View Columns",
+        filterTable: "Filter Table",
+      },
+      filter: {
+        all: "All",
+        title: "FILTERS",
+        reset: "RESET",
+      },
+      viewColumns: {
+        title: "Show Columns",
+        titleAria: "Show/Hide Table Columns",
+      },
+    },
+    customToolbarSelect: (selectedRows) => (
+      <SoftButton
+        style={{ marginRight: "20px" }}
+        variant="outlined"
+        size="small"
+        color="success"
+        onClick={(e) => {
+          handleBulkRequest(selectedRows);
+        }}
+      >
+        Pedir
+      </SoftButton>
+    ),
+  };
+
+  const handleBulkRequest = async (selectedRows) => {
+    const rows = selectedRows.data;
+    const myrows = [];
+    for (let index = 0; index < rows.length; index++) {
+      const element = rows[index];
+      myrows.push(rowsProduct[element.index]);
+    }
+    await clienteAxios.post("product/bulkRequest", { products: myrows });
+    getProduct();
+  };
 
   // Ordenar el array por la última columna (convertida a número)
 
@@ -579,7 +635,7 @@ function Abastecimiento() {
       <Card>
         <ListHeader url="/product/downloadRop" label="Rop" buttonText="Descargar" mode="rop" />
         <SoftBox>
-          <MUIDataTable data={rowsProduct} columns={columnsRop} options={muiOptions} />
+          <MUIDataTable data={rowsProduct} columns={columnsRop} options={muiOptions2} />
         </SoftBox>
       </Card>
     );
