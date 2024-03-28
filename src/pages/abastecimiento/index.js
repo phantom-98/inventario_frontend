@@ -96,6 +96,7 @@ function Abastecimiento() {
         Pedir
       </SoftButton>
     ),
+    selectableRowsOnClick: true,
   };
 
   const handleBulkRequest = async (selectedRows) => {
@@ -515,7 +516,10 @@ function Abastecimiento() {
               variant="outlined"
               size="small"
               color={color}
-              onClick={(e) => changeOrderStatus(tableMeta.rowData[0])}
+              onClick={(e) => {
+                e.stopPropagation();
+                changeOrderStatus(tableMeta.rowData[0]);
+              }}
             >
               {status}
             </SoftButton>
