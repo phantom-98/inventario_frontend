@@ -178,22 +178,26 @@ function Dashboard() {
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Ventas Mes Pos" }}
-                count={`$ ${insertarPuntos(ventasPos.mes)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Estimacion cierre Pos" }}
-                count={`$ ${insertarPuntos(estimacionPos)}`}
-                icon={{ color: "info", component: "paid" }}
-              />
-            </Grid>
+            {checkUserPermissions(profile, [PROFILE_ADMIN]) ? (
+              <>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Ventas Mes Pos" }}
+                    count={`$ ${insertarPuntos(ventasPos.mes)}`}
+                    icon={{ color: "info", component: "paid" }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} xl={3}>
+                  <MiniStatisticsCard
+                    title={{ text: "Estimacion cierre Pos" }}
+                    count={`$ ${insertarPuntos(estimacionPos)}`}
+                    icon={{ color: "info", component: "paid" }}
+                  />
+                </Grid>
+              </>
+            ) : null}
 
-            {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+            {checkUserPermissions(profile, [PROFILE_ADMIN]) ? (
               <>
                 <Grid item xs={6} sm={4} xl={3}>
                   <MiniStatisticsCard
@@ -238,7 +242,7 @@ function Dashboard() {
             ) : null}
           </Grid>
         </SoftBox>
-        {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+        {checkUserPermissions(profile, [PROFILE_ADMIN]) ? (
           <SoftBox mb={3}>
             <Grid container spacing={3}>
               <Grid item xs={4} lg={6} style={{ textAlign: "right" }}>
@@ -278,7 +282,7 @@ function Dashboard() {
           </SoftBox>
         ) : null}
 
-        {chartFilter == "Pos" && (
+        {chartFilter == "Pos" && checkUserPermissions(profile, [PROFILE_ADMIN]) && (
           <SoftBox mb={3}>
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
@@ -330,7 +334,7 @@ function Dashboard() {
           </SoftBox>
         )}
 
-        {chartFilter == "Web" && (
+        {chartFilter == "Web" && checkUserPermissions(profile, [PROFILE_ADMIN]) && (
           <SoftBox mb={3}>
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
@@ -382,7 +386,7 @@ function Dashboard() {
           </SoftBox>
         )}
 
-        {chartFilter == "Todos" && (
+        {chartFilter == "Todos" && checkUserPermissions(profile, [PROFILE_ADMIN]) && (
           <SoftBox mb={3}>
             <Grid container spacing={3}>
               <Grid item xs={12} lg={4}>
@@ -491,7 +495,7 @@ function Dashboard() {
         ) : null}
 
         <SoftBox>
-          {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+          {checkUserPermissions(profile, [PROFILE_ADMIN]) ? (
             <Grid container spacing={3}>
               <Grid item xs={12} lg={12}>
                 <BillingInformation />
@@ -504,7 +508,7 @@ function Dashboard() {
             <Grid item xs={12} md={6} lg={6}>
               <Projects />
             </Grid>
-            {checkUserPermissions(profile, [PROFILE_ADMIN, PROFILE_PHARMACIST]) ? (
+            {checkUserPermissions(profile, [PROFILE_ADMIN]) ? (
               <Grid item xs={12} md={6} lg={6}>
                 <Invoices />
               </Grid>
