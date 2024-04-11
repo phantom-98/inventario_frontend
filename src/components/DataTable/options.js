@@ -227,4 +227,44 @@ const columnsFunc5 = (rows, onDelete) => {
   rows.push(actionTemp);
   return rows;
 };
-export { muiOptions, columnsFunc, columnsFunc2, columnsFunc3, columnsFunc4, columnsFunc5 };
+const columnsFunc6 = (rows, edit, index, onDelete) => {
+  let actionTemp = {
+    name: "Action",
+    options: {
+      filter: false,
+      sort: false,
+      customBodyRender: (value, tableMeta, updateValue) => {
+        return (
+          <>
+            <SoftButton variant="text" style={color} onClick={(e) => edit(tableMeta.rowData[5])}>
+              <Tooltip title="editar">
+                <Icon>edit</Icon>
+              </Tooltip>
+            </SoftButton>
+            <SoftButton
+              variant="text"
+              style={color}
+              onClick={(e) => onDelete(tableMeta.rowData[5])}
+            >
+              <Tooltip title="eliminar">
+                <Icon>delete</Icon>
+              </Tooltip>
+            </SoftButton>
+          </>
+        );
+      },
+    },
+  };
+
+  rows.push(actionTemp);
+  return rows;
+};
+export {
+  muiOptions,
+  columnsFunc,
+  columnsFunc2,
+  columnsFunc3,
+  columnsFunc4,
+  columnsFunc5,
+  columnsFunc6,
+};

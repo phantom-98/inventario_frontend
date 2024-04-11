@@ -21,6 +21,7 @@ import Modal from "@mui/material/Modal";
 import tableData from "./../tiendas/storeTableData";
 import Tooltip from "@mui/material/Tooltip";
 import moment from "moment";
+import { columnsFunc6 } from "components/DataTable/options";
 
 const style = {
   position: "absolute",
@@ -248,7 +249,7 @@ function Ventas() {
       },
     },
   });
-  const columnsF = columnsFunc4(["Fecha", "Tipo de Pago", "Productos", "Total", "Rut"], view);
+  const columnsF = columnsFunc6(["Fecha", "Tipo de Pago", "Productos", "Total", "Rut"], view);
   columnsF.push({
     name: "Ver",
     options: {
