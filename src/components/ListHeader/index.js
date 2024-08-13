@@ -139,7 +139,7 @@ function ListHeader({ url, label, buttonText, mode }) {
     <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
       <SoftTypography variant="h6">{label}</SoftTypography>
       {extraButtons}
-      {mode == "rop" ? (
+      {mode == "rop" || buttonText=="" ? (
         <></>
       ) : mode !== "AbasRecep" ? (
         <SoftButton variant="outlined" onClick={() => navigate(url)} color="info" size="small">

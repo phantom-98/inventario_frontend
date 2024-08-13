@@ -42,6 +42,9 @@ import Abastecimiento from "./pages/abastecimiento";
 import Clientes from "./pages/clientes";
 import Factura from "./pages/facturas";
 import Ventas from "./pages/ventas";
+import Logs from "./pages/logs";
+
+
 
 import Cube from "examples/Icons/Cube";
 import RouteGuard from "pages/guards/RouteGuard";
@@ -118,7 +121,19 @@ const routes = [
     icon: <Document size="12px" />,
     component: <Billing />,
     noCollapse: true,
-  } */ {
+  } */ 
+    {
+      type: "collapse",
+      name: "Logs",
+      key: "logs",
+      route: "/logs",
+      icon: <Office size="12px" />,
+      component: (
+        <RouteGuard component={<Logs />} profileTypes={[PROFILE_ADMIN, PROFILE_PHARMACIST]} />
+      ),
+      noCollapse: true,
+    },
+    {
     type: "collapse",
     name: "Ventas",
     key: "ventas",
