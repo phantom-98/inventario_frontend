@@ -9,6 +9,7 @@ import clienteAxios from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { succesSwal, errorSwal } from "config/helpers.js";
 import { loadingAction } from "actions/helperActions";
+import DatePiker from "components/DatePicker/datePiker";
 
 const style = {
   position: "absolute",
@@ -56,29 +57,13 @@ const BotonCargar = {
   marginTop: 10,
 };
 
-export default function NestedModal() {
+export default function NestedModalStock() {
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleFileUpload = (event) => {
-    handleClose();
-    dispatch(loadingAction());
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-
-    clienteAxios
-      .post("product/import", formData, { headers: { "Content-Type": "multipart/form-data" } })
-      .then((resp) => {
-        console.log(resp);
-        dispatch(loadingAction());
-        succesSwal();
-      })
-      .catch((e) => {
-        dispatch(loadingAction());
-        console.log(e);
-      });
+  const handleSubmit = () => {
+    location.href = `${process.env.REACT_APP_INVENTARIO_API_URL}product/downloadStockDate?startAt=${valueAt.startAt}&endAt=${valueAt.endAt}`
   };
 
   const handleOpen = () => {
@@ -93,12 +78,22 @@ export default function NestedModal() {
     setOpen(false);
   };
 
+  const [valueAt, setValueAt] = useState({startAt:"2024-08-01", endAt:"2024-08-30"})
+
+  const onDateChange = (e)=>{
+    setValueAt(prevFormData => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value
+    }));
+  }
+
   return (
     <div>
-      {/* <Button style={BotonCargar} onClick={(e) =>handleSync()}> Sincronizar </Button> */}
+   
       <Button style={BotonExel} onClick={handleOpen}>
-        <strong>Carga Masiva</strong>
+        <strong>Stock Fecha</strong>
       </Button>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -107,19 +102,18 @@ export default function NestedModal() {
       >
         <Box sx={{ ...style, width: 700, height: 280 }}>
           <h2 style={TitleModal} id="parent-modal-title">
-            Carga un Excel
+           Escoge Rango de Fecha para el Archivo
           </h2>
           <br />
-          <input
-            type="file"
-            className="form-control"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <div style={{}}>
+
+          <DatePiker value={valueAt} handleDateChange={onDateChange}/>
+          </div>
           <br />
           <div style={Botones}>
-            <Button style={BotonCargar} onClick={(e) => handleFileUpload(e)}>
+            <Button style={BotonCargar} onClick={() => handleSubmit()}>
               {" "}
-              Cargar{" "}
+              Descargar{" "}
             </Button>
           </div>
         </Box>

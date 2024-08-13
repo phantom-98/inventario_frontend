@@ -3,6 +3,7 @@ import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import { useNavigate } from "react-router-dom";
+import NestedModalStock from "components/modal/modalStock";
 import NestedModal from "components/modal/modalExel";
 import NestedModalRop from "components/modal/modalExelRop";
 import DatePiker from "components/DatePicker/datePiker";
@@ -16,6 +17,7 @@ function ListHeader({ url, label, buttonText, mode }) {
   if (mode == "excelModal") {
     extraButtons = (
       <>
+      <NestedModalStock/>
         <NestedModal />
         <SoftButton
           variant="outlined"
