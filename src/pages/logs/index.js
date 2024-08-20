@@ -28,7 +28,7 @@ function Logs() {
     
     let tempRows = respData.map((r) => {
       let user = users.find(u=> u.id == r.userId)
-      return [`${user.first_name} ${user.last_name}`, r.action, dateFormat(r.timestamp), r.prevData, r.newData];
+      return [`${user.first_name} ${user.last_name}`, r.action, dateFormat(r.timestamp), r.newData, r.prevData];
     });
     setRows(tempRows);
   };
@@ -44,7 +44,7 @@ function Logs() {
     }); */
     errorSwal("No se pueden eliminar usuarios, solo desactivar");
   };
-  const columns = ["Usuario", "Accion", "Fecha","PrevData", "NewData"];
+  const columns = ["Usuario", "Accion", "Fecha","Dato Actualizado", "Dato Antiguo"];
   return (
     <DashboardLayout>
       <SoftBox py={3}>
