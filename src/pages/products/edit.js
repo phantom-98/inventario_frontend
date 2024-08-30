@@ -246,6 +246,7 @@ function EditProduct() {
 
   const onSubmit = (data) => {
     //handleOpen()
+    console.log(product)
     const { price_margin, offer_price_margin, ...auxProduct } = product;
     clienteAxios
       .put("product/sku/" + id, auxProduct)
@@ -843,6 +844,34 @@ function EditProduct() {
                       onChange={handleQuillChange}
                     />
                   </SoftBox>
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Meta titulo
+                  </InputLabel>
+                  <TextField
+                      name="meta_title"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      value={product.meta_title || ""}
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingTop: "0.15rem" }}
+                    />
+               </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <InputLabel variant="standard" htmlFor="Sku">
+                    Meta Descripcion
+                  </InputLabel>
+                  <TextField
+                      name="meta_description"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="standard"
+                      value={product.meta_description || ""}
+                      onChange={(e) => handleChange(e)}
+                      style={{ paddingTop: "0.15rem" }}
+                    />
                 </Grid>
 
                 <Grid item style={check} xs={12} md={6} xl={6}>
