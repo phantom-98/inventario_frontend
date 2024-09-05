@@ -850,6 +850,7 @@ function EditProduct() {
                     Meta titulo
                   </InputLabel>
                   <TextField
+                  type="textarea"
                       name="meta_title"
                       fullWidth
                       InputLabelProps={{ shrink: true }}
@@ -864,6 +865,7 @@ function EditProduct() {
                     Meta Descripcion
                   </InputLabel>
                   <TextField
+                  type="textarea"
                       name="meta_description"
                       fullWidth
                       InputLabelProps={{ shrink: true }}
