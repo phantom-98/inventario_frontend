@@ -849,31 +849,25 @@ function EditProduct() {
                   <InputLabel variant="standard" htmlFor="Sku">
                     Meta titulo
                   </InputLabel>
-                  <TextField
-                  type="textarea"
-                      name="meta_title"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      value={product.meta_title || ""}
-                      onChange={(e) => handleChange(e)}
-                      style={{ paddingTop: "0.15rem" }}
-                    />
+                  <TextareaAutosize
+                  name="meta_title"
+                  minRows={3}  // Controla el tamaño mínimo del textarea
+                  value={product.meta_title || ""}
+                  onChange={(e) => handleChange(e)}
+                  style={{ width: '100%', paddingTop: '0.15rem' }}
+                  />
                </Grid>
                 <Grid item xs={12} md={6} xl={6}>
                   <InputLabel variant="standard" htmlFor="Sku">
                     Meta Descripcion
                   </InputLabel>
-                  <TextField
-                  type="textarea"
-                      name="meta_description"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      variant="standard"
-                      value={product.meta_description || ""}
-                      onChange={(e) => handleChange(e)}
-                      style={{ paddingTop: "0.15rem" }}
-                    />
+                  <TextareaAutosize
+                  name="meta_description"
+                  minRows={3}  // Controla el tamaño mínimo del textarea
+                  value={product.meta_description || ""}
+                  onChange={(e) => handleChange(e)}
+                  style={{ width: '100%', paddingTop: '0.15rem' }}
+                  />
                 </Grid>
 
                 <Grid item style={check} xs={12} md={6} xl={6}>
