@@ -67,8 +67,14 @@ function Dashboard() {
   const [ventasWeb, setventasWeb] = useState({});
   const [dataTemp, setDataTemp] = useState({});
   const [dataTemp2, setDataTemp2] = useState({});
-  const [contribution, setContri] = useState({});
-  const [inv, setInv] = useState({});
+  const [contribution, setContri] = useState({
+    contriPos:0,
+    contriWeb:0
+  });
+  const [inv, setInv] = useState({
+    invmoney:0,
+    invqty:0
+  });
   const profile = JSON.parse(localStorage.getItem("user")).profile.type;
   console.log(profile);
   const getData = async () => {
@@ -83,13 +89,17 @@ function Dashboard() {
     mes = monthData.web[monthData.web.length - 1].total;
     year = monthData.web.reduce((a, b) => a + b.total, 0);
     setventasWeb({ day, mes, year });
+    if(data.data.contribution){
+      const data2 = data.data.contribution;
+      setContri(data2);
+    }
 
-    const data2 = data.data.contribution;
-    setContri(data2);
+    if(data.data.inventory){
+      const data3 = data.data.inventory;
+      setInv(data3);
+    }
 
-    const data3 = data.data.inventory;
 
-    setInv(data3);
   };
 
   const chartData = async () => {
