@@ -271,6 +271,7 @@ function EditProduct() {
   };
 
   const handleChange = (e) => {
+    console.log(e)
     const { name, value, type } = e.target;
     if (type === "number") {
       setProduct((prevState) => ({

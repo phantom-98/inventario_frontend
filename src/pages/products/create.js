@@ -124,8 +124,15 @@ function create() {
     clienteAxios
       .post("product", bodyFormData)
       .then((resp) => {
-        succesSwal();
-        navigate(`/inventario`);
+        console.log(resp.data.status)
+        if(resp.data.status == false){
+          errorSwal('Producto no creado');
+
+        }else{
+          succesSwal();
+          navigate(`/inventario`);
+        }
+        
       })
       .catch((e) => {
         errorSwal(e.response.data.msg);
@@ -736,6 +743,7 @@ function create() {
                   <CustomQuill name="benefits" onChange={handleQuillChange} />
                 </SoftBox>
               </Grid>
+              
               <Grid item style={check} xs={12} md={6} xl={6}>
                 {/* <SoftBox>
                   <div
